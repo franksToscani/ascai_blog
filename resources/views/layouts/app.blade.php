@@ -22,8 +22,15 @@
                 <a href="{{ route('chi-siamo') }}" class="hover:text-sky-200">Chi siamo</a>
                 <a href="{{ route('eventi.index') }}" class="hover:text-sky-200">Eventi</a>
                 <a href="{{ route('news.index') }}" class="hover:text-sky-200">News</a>
+                <a href="{{ route('galleria') }}" class="hover:text-sky-200">Galleria</a>
+
                 <a href="{{ route('associati') }}" class="hover:text-sky-200">Associati</a>
                 <a href="{{ route('contatti') }}" class="hover:text-sky-200">Contatti</a>
+
+                <a href="{{ route('admin.dashboard') }}" class="hover:text-sky-200 text-xs border border-sky-200 px-2 py-1 rounded">
+                    Area admin
+                </a>
+
             </div>
         </div>
     </nav>

@@ -93,18 +93,30 @@
 </section>
 
 
-    {{-- MINI GALLERIA (placeholder per Sprint 4) --}}
-    <section>
-        <h2 class="text-xl font-semibold mb-3">Galleria foto</h2>
-        <p class="text-sm text-slate-600 mb-3">
-            Una piccola selezione di momenti dell’associazione.
-        </p>
+   {{-- MINI GALLERIA --}}
+<section>
+    <div class="flex items-center justify-between mb-3">
+        <h2 class="text-xl font-semibold">Galleria foto</h2>
+        <a href="{{ route('galleria') }}" class="text-sm text-sky-700 hover:underline">
+            Vedi tutta la galleria →
+        </a>
+    </div>
 
+    @if ($galleryPhotos->isEmpty())
+        <p class="text-sm text-slate-600">
+            Presto saranno disponibili le foto delle attività dell’associazione.
+        </p>
+    @else
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div class="aspect-square bg-slate-200 rounded-lg"></div>
-            <div class="aspect-square bg-slate-200 rounded-lg"></div>
-            <div class="aspect-square bg-slate-200 rounded-lg"></div>
-            <div class="aspect-square bg-slate-200 rounded-lg"></div>
+            @foreach ($galleryPhotos as $photo)
+                <div class="aspect-square bg-slate-200 rounded-lg overflow-hidden">
+                    <img src="{{ asset('storage/' . $photo->image_path) }}"
+                        alt="{{ $photo->title ?? 'Foto galleria' }}"
+                        class="w-full h-full object-cover">
+                </div>
+            @endforeach
         </div>
-    </section>
+    @endif
+</section>
+
 @endsection

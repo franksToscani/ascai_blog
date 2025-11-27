@@ -5,6 +5,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\GalleryPhotoController;
+use App\Http\Controllers\AdminDashboardController;
 
 // Sito pubblico
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -34,3 +36,14 @@ Route::get('/admin/messaggi/{contact_message}', [ContactMessageController::class
 
 
 Route::resource('posts', PostController::class);
+
+
+// Pagina pubblica galleria
+Route::get('/galleria', [GalleryPhotoController::class, 'index'])->name('galleria');
+
+// Admin galleria (per ora senza auth, dopo la spostiamo in /admin protetto)
+Route::get('/admin/galleria', [GalleryPhotoController::class, 'adminIndex'])->name('admin.gallery.index');
+Route::get('/admin/galleria/crea', [GalleryPhotoController::class, 'create'])->name('admin.gallery.create');
+Route::post('/admin/galleria', [GalleryPhotoController::class, 'store'])->name('admin.gallery.store');
+
+Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
