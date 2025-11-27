@@ -3,14 +3,19 @@
 @section('title', 'Eventi - Associazione No-Profit')
 
 @section('content')
+
+{{-- link per creare un nuovo evento, visibile solo agli admin --}}
     <div class="flex items-center justify-between mb-4">
         <h1 class="text-2xl font-bold">Eventi</h1>
-
-        {{-- Link per creare evento (per ora "admin manuale") --}}
-        <a href="{{ route('events.create') }}" class="text-sm bg-sky-700 text-white px-3 py-1 rounded">
-            Nuovo evento
-        </a>
+        @auth
+            @if(auth()->user()->is_admin)
+                <a href="{{ route('admin.events.create') }}" class="text-sm bg-sky-700 text-white px-3 py-1 rounded">
+                    Nuovo evento
+                </a>
+            @endif
+        @endauth
     </div>
+
 
     {{-- Prossimi eventi --}}
     <section class="mb-6">

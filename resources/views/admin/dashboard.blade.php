@@ -42,7 +42,7 @@
 
     {{-- Azioni rapide --}}
     <div class="grid md:grid-cols-3 gap-4 mb-6">
-        <a href="{{ route('posts.create') }}" class="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between">
+        <a href="{{ route('admin.posts.create') }}" class="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between">
             <div>
                 <h2 class="font-semibold mb-1">Nuova news</h2>
                 <p class="text-xs text-slate-500 mb-2">
@@ -52,7 +52,7 @@
             <span class="text-sm text-sky-700 font-semibold">Crea news →</span>
         </a>
 
-        <a href="{{ route('events.create') }}" class="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between">
+        <a href="{{ route('admin.events.create') }}" class="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between">
             <div>
                 <h2 class="font-semibold mb-1">Nuovo evento</h2>
                 <p class="text-xs text-slate-500 mb-2">
@@ -72,6 +72,7 @@
             <span class="text-sm text-sky-700 font-semibold">Carica foto →</span>
         </a>
     </div>
+
 
     {{-- Colonne: ultimi eventi e ultimi messaggi --}}
     <div class="grid md:grid-cols-2 gap-4">
