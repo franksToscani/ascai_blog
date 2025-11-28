@@ -1,7 +1,7 @@
 @php
     use Illuminate\Support\Str;
 @endphp
-@extends('layouts.app')
+@extends('layouts.public')
 
 @section('content')
     <h1 class="text-2xl font-bold mb-4">Ultimi post</h1>
