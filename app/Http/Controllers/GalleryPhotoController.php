@@ -74,7 +74,7 @@ class GalleryPhotoController extends Controller
      */
     public function edit(GalleryPhoto $galleryPhoto)
     {
-        //
+        return view('admin.gallery.edit', compact('galleryPhoto'));
     }
 
     /**
@@ -82,7 +82,28 @@ class GalleryPhotoController extends Controller
      */
     public function update(Request $request, GalleryPhoto $galleryPhoto)
     {
-        //
+        $validated = $request->validate([
+            'image'      => 'nullable|image|max:4096',
+            'title'      => 'nullable|max:255',
+            'caption'    => 'nullable|max:255',
+            'is_visible' => 'nullable|boolean',
+        ]);
+
+        // Se caricata nuova immagine, elimina la vecchia e salva la nuova
+        if ($request->file('image')) {
+            \Storage::disk('public')->delete($galleryPhoto->image_path);
+            $path = $request->file('image')->store('gallery', 'public');
+            $galleryPhoto->image_path = $path;
+        }
+
+        $galleryPhoto->update([
+            'title'      => $validated['title'] ?? $galleryPhoto->title,
+            'caption'    => $validated['caption'] ?? $galleryPhoto->caption,
+            'is_visible' => $request->has('is_visible'),
+        ]);
+
+        return redirect()->route('admin.gallery.index')
+            ->with('success', 'Foto aggiornata con successo!');
     }
 
     /**
@@ -90,6 +111,12 @@ class GalleryPhotoController extends Controller
      */
     public function destroy(GalleryPhoto $galleryPhoto)
     {
-        //
+        // Elimina file di storage
+        \Storage::disk('public')->delete($galleryPhoto->image_path);
+        
+        $galleryPhoto->delete();
+
+        return redirect()->route('admin.gallery.index')
+            ->with('success', 'Foto eliminata dalla galleria!');
     }
 }

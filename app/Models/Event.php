@@ -13,11 +13,13 @@ class Event extends Model
         'ends_at',
         'location',
         'is_public',
+        'status',
     ];
 
     protected $casts = [
         'starts_at' => 'datetime',
         'ends_at'   => 'datetime',
         'is_public' => 'boolean',
+        'status'    => 'string',
     ];
 }

@@ -14,12 +14,24 @@
     @else
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             @foreach ($photos as $photo)
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden relative group">
                     <div class="aspect-square bg-slate-100">
                         <img src="{{ asset('storage/' . $photo->image_path) }}"
                             alt="{{ $photo->title ?? 'Foto galleria' }}"
                             class="w-full h-full object-cover">
                     </div>
+                    @auth
+                        @if(auth()->user()->is_admin)
+                            <div class="absolute top-0 right-0 bg-black bg-opacity-70 text-white text-xs p-1 rounded-bl flex gap-1 opacity-0 group-hover:opacity-100 transition">
+                                <a href="{{ route('admin.gallery.edit', $photo) }}" class="hover:underline">Modifica</a>
+                                <form action="{{ route('admin.gallery.destroy', $photo) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="hover:underline" onclick="return confirm('Eliminare questa foto?')">Elimina</button>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth
                     @if ($photo->title || $photo->caption)
                         <div class="p-2">
                             @if ($photo->title)

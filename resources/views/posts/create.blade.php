@@ -28,6 +28,14 @@
                     class="w-full border border-slate-300 rounded px-3 py-2">{{ old('content') }}</textarea>
         </div>
 
+        <div>
+            <label class="block text-sm font-medium mb-1">Stato</label>
+            <select name="status" class="w-full border border-slate-300 rounded px-3 py-2">
+                <option value="draft" {{ old('status', 'draft') === 'draft' ? 'selected' : '' }}>Bozza</option>
+                <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Pubblicato</option>
+            </select>
+        </div>
+
         <button type="submit"
                 class="bg-sky-700 text-white px-4 py-2 rounded text-sm font-semibold">
             Salva

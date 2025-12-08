@@ -26,9 +26,9 @@ Route::post('/contatti', [ContactMessageController::class, 'store'])->name('cont
 Route::get('/eventi', [EventController::class, 'index'])->name('eventi.index');
 Route::get('/eventi/{event}', [EventController::class, 'show'])->name('eventi.show');
 
-// News pubbliche
-Route::get('/news', [PostController::class, 'index'])->name('news.index');
-Route::get('/news/{post}', [PostController::class, 'show'])->name('news.show');
+// News pubbliche (perco' mantenendo lo slug /news)
+Route::get('/news', [PostController::class, 'index'])->name('posts.index');
+Route::get('/news/{post}', [PostController::class, 'show'])->name('posts.show');
 
 // Galleria pubblica
 Route::get('/galleria', [GalleryPhotoController::class, 'index'])->name('galleria');

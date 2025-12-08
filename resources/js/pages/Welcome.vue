@@ -57,10 +57,16 @@ withDefaults(
                 <div
                     class="flex-1 rounded-br-lg rounded-bl-lg bg-white p-6 pb-12 text-[13px] leading-[20px] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] lg:rounded-tl-lg lg:rounded-br-none lg:p-20 dark:bg-[#161615] dark:text-[#EDEDEC] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"
                 >
-                    <h1 class="mb-1 font-medium">Let's get started</h1>
+                    <div class="mb-6 flex items-center gap-4">
+                        <img src="/images/logoAscai.png" alt="ASCAI Bologna Logo" class="h-16 w-auto">
+                        <div>
+                            <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">ASCAI Bologna</h1>
+                            <p class="text-sm text-[#706f6c] dark:text-[#A1A09A]">Associazione Camerun Ascai Italia</p>
+                        </div>
+                    </div>
+                    <h2 class="mb-1 font-medium">Benvenuti</h2>
                     <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
-                        Laravel has an incredibly rich ecosystem. <br />We
-                        suggest starting with the following.
+                        Scopri le nostre notizie, gli eventi e la nostra galleria fotografica. <br />Rimani aggiornato sulla vita dell'associazione.
                     </p>
                     <ul class="mb-4 flex flex-col lg:mb-6">
                         <li

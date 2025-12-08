@@ -68,7 +68,7 @@
     <section class="mb-10">
         <div class="flex items-center justify-between mb-3">
             <h2 class="text-xl font-semibold">Ultime news</h2>
-            <a href="{{ route('news.index') }}" class="text-sm text-sky-700 hover:underline">
+                <a href="{{ route('posts.index') }}" class="text-sm text-sky-700 hover:underline">
                 Vai al blog →
             </a>
         </div>
@@ -82,7 +82,7 @@
                 @foreach ($latestPosts as $post)
                     <article class="bg-white rounded-xl shadow-sm p-4">
                         <h3 class="font-semibold mb-1">
-                            <a href="{{ route('news.show', $post) }}" class="text-sky-700 hover:underline">
+                                <a href="{{ route('posts.show', $post) }}" class="text-sky-700 hover:underline">
                                 {{ $post->title }}
                             </a>
                         </h3>

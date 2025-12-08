@@ -8,6 +8,11 @@ class Post extends Model
 {
     protected $fillable = [
         'title', 
-        'content'
+        'content',
+        'status',
+    ];
+
+    protected $casts = [
+        'status' => 'string',
     ];
 }

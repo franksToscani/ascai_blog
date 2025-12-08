@@ -3,14 +3,14 @@
 @section('title', 'Dashboard amministrativa')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Dashboard amministrativa</h1>
+    <h1 class="text-2xl font-bold mb-4">Dashboard admin</h1>
 
     {{-- Widget numerici --}}
     <div class="grid md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-xl shadow-sm p-4">
             <p class="text-xs text-slate-500 mb-1">News pubblicate</p>
             <p class="text-2xl font-bold mb-2">{{ $stats['posts_count'] }}</p>
-            <a href="{{ route('news.index') }}" class="text-xs text-sky-700 hover:underline">
+            <a href="{{ route('posts.index') }}" class="text-xs text-sky-700 hover:underline">
                 Vai alle news →
             </a>
         </div>

@@ -12,11 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('gallery_photos', function (Blueprint $table) {
-              // Aggiungiamo solo se mancano (ma SQLite non supporta IF NOT EXISTS, quindi confidiamo che non ci siano)
-            $table->string('title')->nullable()->after('id');
-            $table->string('caption')->nullable()->after('title');
-            $table->timestamp('published_at')->nullable()->after('image_path');
-            $table->boolean('is_visible')->default(true)->after('published_at');
+            // Aggiungiamo solo i campi che non esistono
+            if (!Schema::hasColumn('gallery_photos', 'title')) {
+                $table->string('title')->nullable()->after('id');
+            }
+            if (!Schema::hasColumn('gallery_photos', 'caption')) {
+                $table->string('caption')->nullable()->after('title');
+            }
+            if (!Schema::hasColumn('gallery_photos', 'published_at')) {
+                $table->timestamp('published_at')->nullable()->after('image_path');
+            }
+            if (!Schema::hasColumn('gallery_photos', 'is_visible')) {
+                $table->boolean('is_visible')->default(true)->after('published_at');
+            }
         });
     }
 

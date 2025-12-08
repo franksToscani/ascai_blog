@@ -27,11 +27,25 @@
             <div class="space-y-3">
                 @foreach ($upcomingEvents as $event)
                     <article class="bg-white rounded-lg shadow-sm p-4">
-                        <h3 class="font-semibold text-lg mb-1">
-                            <a href="{{ route('eventi.show', $event) }}" class="text-sky-700 hover:underline">
-                                {{ $event->title }}
-                            </a>
-                        </h3>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-semibold text-lg">
+                                <a href="{{ route('eventi.show', $event) }}" class="text-sky-700 hover:underline">
+                                    {{ $event->title }}
+                                </a>
+                            </h3>
+                            @auth
+                                @if(auth()->user()->is_admin)
+                                    <div class="flex items-center gap-2 text-xs whitespace-nowrap ml-2">
+                                        <a href="{{ route('admin.events.edit', $event) }}" class="text-blue-600 hover:underline">Modifica</a>
+                                        <form action="{{ route('admin.events.destroy', $event) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline" onclick="return confirm('Eliminare questo evento?')">Elimina</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
+                        </div>
                         <p class="text-xs text-slate-500 mb-1">
                             {{ $event->starts_at->format('d/m/Y H:i') }}
                             @if ($event->location)
@@ -57,8 +71,8 @@
             <div class="space-y-2">
                 @foreach ($pastEvents as $event)
                     <article class="bg-white rounded-lg shadow-sm p-3">
-                        <div class="flex justify-between items-center">
-                            <div>
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
                                 <h3 class="font-medium">
                                     <a href="{{ route('eventi.show', $event) }}" class="text-sky-700 hover:underline">
                                         {{ $event->title }}
@@ -68,6 +82,18 @@
                                     {{ $event->starts_at->format('d/m/Y H:i') }}
                                 </p>
                             </div>
+                            @auth
+                                @if(auth()->user()->is_admin)
+                                    <div class="flex items-center gap-2 text-xs whitespace-nowrap ml-2">
+                                        <a href="{{ route('admin.events.edit', $event) }}" class="text-blue-600 hover:underline">Modifica</a>
+                                        <form action="{{ route('admin.events.destroy', $event) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline" onclick="return confirm('Eliminare questo evento?')">Elimina</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
                         </div>
                     </article>
                 @endforeach

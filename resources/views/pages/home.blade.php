@@ -6,9 +6,15 @@
     {{-- HERO --}}
     <section class="mb-8 bg-white rounded-xl shadow-sm p-6 flex flex-col md:flex-row gap-6">
         <div class="flex-1">
-            <h1 class="text-3xl font-bold mb-3">Benvenuti nell’associazione</h1>
+            <div class="flex items-center gap-4 mb-4">
+                <img src="{{ asset('images/logoAscai.png') }}" alt="ASCAI Bologna Logo" class="h-20 w-auto">
+                <div>
+                    <h1 class="text-3xl font-bold">ASCAI Bologna</h1>
+                    <p class="text-slate-500 text-sm">Associazione Camerun Ascai Italia</p>
+                </div>
+            </div>
             <p class="text-slate-600 mb-4">
-                Siamo un’associazione no-profit impegnata in <span class="font-semibold">[inserisci missione]</span>
+                Siamo un'associazione no-profit impegnata in <span class="font-semibold">[inserisci missione]</span>
                 sul territorio di [città/zona]. Organizziamo eventi, attività e progetti per la comunità.
             </p>
             <a href="{{ route('chi-siamo') }}" class="inline-block bg-sky-700 text-white px-4 py-2 rounded text-sm font-semibold">
@@ -27,7 +33,7 @@
     <section class="mb-8">
         <div class="flex items-center justify-between mb-3">
             <h2 class="text-xl font-semibold">Ultime news</h2>
-            <a href="{{ route('news.index') }}" class="text-sm text-sky-700 hover:underline">
+                <a href="{{ route('posts.index') }}" class="text-sm text-sky-700 hover:underline">
                 Vedi tutte le news →
             </a>
         </div>
@@ -39,8 +45,8 @@
                 @foreach ($latestPosts as $post)
                     <article class="bg-white rounded-lg shadow-sm p-4">
                         <h3 class="font-semibold mb-1">
-                            <a href="{{ route('news.show', $post) }}" class="text-sky-700 hover:underline">
-                                {{ $post->title }}
+                            <a href="{{ route('posts.show', $post) }}" class="text-sky-700 hover:underline">
+                                    {{ $post->title }}
                             </a>
                         </h3>
                         <p class="text-xs text-slate-500 mb-2">

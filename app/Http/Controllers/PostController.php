@@ -10,9 +10,16 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::latest()->get();
+        // Admin area: show all posts
+        if ($request->routeIs('admin.posts.*')) {
+            $posts = Post::latest()->get();
+            return view('admin.posts.index', compact('posts'));
+        }
+
+        // Public: only published posts
+        $posts = Post::where('status', 'published')->latest()->get();
 
         return view('posts.index', compact('posts'));
     }
@@ -33,11 +40,12 @@ class PostController extends Controller
         $validated = $request->validate([
             'title'   => 'required|max:255',
             'content' => 'required',
+            'status'  => 'required|in:draft,published',
         ]);
 
         Post::create($validated);
 
-        return redirect()->route('posts.index')
+        return redirect()->route('admin.posts.index')
             ->with('success', 'Post creato con successo!');
     }
 
@@ -46,6 +54,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        // Public: only show published posts
+        abort_unless($post->status === 'published', 404);
+
         return view('posts.show', compact('post'));
     }
 
@@ -54,7 +65,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -62,7 +73,16 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validated = $request->validate([
+            'title'   => 'required|max:255',
+            'content' => 'required',
+            'status'  => 'required|in:draft,published',
+        ]);
+
+        $post->update($validated);
+
+        return redirect()->route('admin.posts.index')
+            ->with('success', 'Post aggiornato con successo!');
     }
 
     /**
@@ -70,6 +90,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('admin.posts.index')
+            ->with('success', 'Post eliminato con successo!');
     }
 }

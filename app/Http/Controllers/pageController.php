@@ -12,9 +12,10 @@ class PageController extends Controller
 {
     public function home()
 {
-    $latestPosts = Post::latest()->take(3)->get();
+    $latestPosts = Post::where('status', 'published')->latest()->take(3)->get();
 
     $upcomingEvents = Event::where('is_public', true)
+        ->where('status', 'published')
         ->where('starts_at', '>=', now())
         ->orderBy('starts_at')
         ->take(3)

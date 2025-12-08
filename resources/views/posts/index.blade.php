@@ -20,16 +20,36 @@
 
 
     @if ($posts->isEmpty())
-        <p class="text-slate-600">Non ci sono ancora post. <a href="{{ route('posts.create') }}" class="text-sky-700 underline">Crea il primo</a>.</p>
+        <p class="text-slate-600">Non ci sono ancora post.
+            @auth
+                @if(auth()->user()->is_admin)
+                    <a href="{{ route('admin.posts.create') }}" class="text-sky-700 underline">Crea il primo</a>
+                @endif
+            @endauth
+        </p>
     @else
         <div class="space-y-4">
             @foreach ($posts as $post)
                 <article class="bg-white p-4 rounded shadow-sm">
-                    <h2 class="text-xl font-semibold mb-1">
-                        <a href="{{ route('posts.show', $post) }}" class="text-sky-700 hover:underline">
-                            {{ $post->title }}
-                        </a>
-                    </h2>
+                    <div class="flex items-start justify-between mb-2">
+                        <h2 class="text-xl font-semibold">
+                            <a href="{{ route('posts.show', $post) }}" class="text-sky-700 hover:underline">
+                                {{ $post->title }}
+                            </a>
+                        </h2>
+                        @auth
+                            @if(auth()->user()->is_admin)
+                                <div class="flex items-center gap-2 text-xs">
+                                    <a href="{{ route('admin.posts.edit', $post) }}" class="text-blue-600 hover:underline">Modifica</a>
+                                    <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:underline" onclick="return confirm('Eliminare questo post?')">Elimina</button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
+                    </div>
                     <p class="text-sm text-slate-500 mb-2">
                         Pubblicato il {{ $post->created_at->format('d/m/Y H:i') }}
                     </p>
