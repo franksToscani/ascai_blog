@@ -54,5 +54,10 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Paginazione --}}
+        <div class="mt-6">
+            {{ $posts->links() }}
+        </div>
     @endif
 @endsection

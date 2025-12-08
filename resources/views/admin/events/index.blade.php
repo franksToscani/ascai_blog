@@ -55,5 +55,10 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Paginazione --}}
+        <div class="mt-6">
+            {{ $events->links() }}
+        </div>
     @endif
 @endsection

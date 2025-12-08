@@ -12,14 +12,14 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        // Admin area: show all posts
+        // Admin area: show all posts with pagination
         if ($request->routeIs('admin.posts.*')) {
-            $posts = Post::latest()->get();
+            $posts = Post::latest()->paginate(15);
             return view('admin.posts.index', compact('posts'));
         }
 
-        // Public: only published posts
-        $posts = Post::where('status', 'published')->latest()->get();
+        // Public: only published posts with pagination
+        $posts = Post::where('status', 'published')->latest()->paginate(15);
 
         return view('posts.index', compact('posts'));
     }

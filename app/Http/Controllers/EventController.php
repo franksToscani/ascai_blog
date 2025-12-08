@@ -11,7 +11,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         if ($request->routeIs('admin.events.*')) {
-            $events = Event::orderByDesc('starts_at')->get();
+            $events = Event::orderByDesc('starts_at')->paginate(15);
 
             return view('admin.events.index', compact('events'));
         }
@@ -20,14 +20,13 @@ class EventController extends Controller
             ->where('status', 'published')
             ->where('starts_at', '>=', now())
             ->orderBy('starts_at')
-            ->get();
+            ->paginate(15, ['*'], 'upcoming');
 
         $pastEvents = Event::where('is_public', true)
             ->where('status', 'published')
             ->where('starts_at', '<', now())
             ->orderByDesc('starts_at')
-            ->take(10)
-            ->get();
+            ->paginate(10, ['*'], 'past');
 
         return view('events.index', compact('upcomingEvents', 'pastEvents'));
     }

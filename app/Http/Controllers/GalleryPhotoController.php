@@ -17,7 +17,7 @@ class GalleryPhotoController extends Controller
         $photos = GalleryPhoto::where('is_visible', true)
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
-            ->get();
+            ->paginate(12);
 
         return view('gallery.index', compact('photos'));
     }
@@ -26,7 +26,7 @@ class GalleryPhotoController extends Controller
        // Lista "admin" delle foto
     public function adminIndex()
     {
-        $photos = GalleryPhoto::orderByDesc('created_at')->get();
+        $photos = GalleryPhoto::orderByDesc('created_at')->paginate(12);
 
         return view('admin.gallery.index', compact('photos'));
     }

@@ -47,5 +47,10 @@
                 </div>
             @endforeach
         </div>
+
+        {{-- Paginazione --}}
+        <div class="mt-6">
+            {{ $photos->links() }}
+        </div>
     @endif
 @endsection

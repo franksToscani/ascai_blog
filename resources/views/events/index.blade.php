@@ -58,6 +58,11 @@
                     </article>
                 @endforeach
             </div>
+
+            {{-- Paginazione prossimi eventi --}}
+            <div class="mt-4">
+                {{ $upcomingEvents->links() }}
+            </div>
         @endif
     </section>
 
@@ -97,6 +102,11 @@
                         </div>
                     </article>
                 @endforeach
+            </div>
+
+            {{-- Paginazione eventi passati --}}
+            <div class="mt-4">
+                {{ $pastEvents->links() }}
             </div>
         @endif
     </section>
