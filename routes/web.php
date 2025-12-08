@@ -63,6 +63,9 @@ Route::middleware(['auth', 'admin'])
         // Dashboard admin
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+        // Audit log
+        Route::get('audit-log', [AdminDashboardController::class, 'auditLog'])->name('audit-log');
+
         // Gestione NEWS (Post) - solo da admin
         Route::resource('posts', PostController::class)->except(['show']);
 

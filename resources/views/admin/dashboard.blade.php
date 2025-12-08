@@ -10,7 +10,7 @@
         <div class="bg-white rounded-xl shadow-sm p-4">
             <p class="text-xs text-slate-500 mb-1">News pubblicate</p>
             <p class="text-2xl font-bold mb-2">{{ $stats['posts_count'] }}</p>
-            <a href="{{ route('posts.index') }}" class="text-xs text-sky-700 hover:underline">
+            <a href="{{ route('admin.posts.index') }}" class="text-xs text-sky-700 hover:underline">
                 Vai alle news →
             </a>
         </div>
@@ -18,7 +18,7 @@
         <div class="bg-white rounded-xl shadow-sm p-4">
             <p class="text-xs text-slate-500 mb-1">Eventi</p>
             <p class="text-2xl font-bold mb-2">{{ $stats['events_count'] }}</p>
-            <a href="{{ route('eventi.index') }}" class="text-xs text-sky-700 hover:underline">
+            <a href="{{ route('admin.events.index') }}" class="text-xs text-sky-700 hover:underline">
                 Vai agli eventi →
             </a>
         </div>
@@ -38,6 +38,13 @@
                 Vedi messaggi →
             </a>
         </div>
+    </div>
+
+    {{-- Link al registro di audit --}}
+    <div class="mb-6">
+        <a href="{{ route('admin.audit-log') }}" class="inline-block bg-slate-800 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-slate-900">
+            📋 Visualizza registro di audit
+        </a>
     </div>
 
     {{-- Azioni rapide --}}
