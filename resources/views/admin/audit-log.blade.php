@@ -147,7 +147,7 @@
                             <td class="px-4 py-2 text-center">
                                 @if($log->old_values || $log->new_values)
                                     <button type="button"
-                                        onclick="toggleDetails({{ $log->id }})"
+                                        onclick="toggleDetails('{{ $log->id }}')"
                                         class="text-sky-700 hover:underline text-xs font-semibold">
                                         Mostra
                                     </button>
