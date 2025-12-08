@@ -27,6 +27,7 @@
                     <div class="aspect-video bg-slate-100">
                         <img src="{{ asset('storage/' . $photo->image_path) }}"
                             alt="{{ $photo->title ?? 'Foto' }}"
+                            loading="lazy"
                             class="w-full h-full object-cover">
                     </div>
                     <div class="p-3">

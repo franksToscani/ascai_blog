@@ -11,21 +11,49 @@ class EventController extends Controller
     public function index(Request $request)
     {
         if ($request->routeIs('admin.events.*')) {
-            $events = Event::orderByDesc('starts_at')->paginate(15);
+            $query = Event::query();
+
+            // Ricerca per titolo
+            if ($request->filled('search')) {
+                $search = $request->search;
+                $query->where('title', 'like', "%{$search}%")
+                      ->orWhere('description', 'like', "%{$search}%");
+            }
+
+            $events = $query->orderByDesc('starts_at')->paginate(15);
 
             return view('admin.events.index', compact('events'));
         }
 
-        $upcomingEvents = Event::where('is_public', true)
+        // Ricerca per titolo su eventi pubblici
+        $upcomingQuery = Event::where('is_public', true)
             ->where('status', 'published')
-            ->where('starts_at', '>=', now())
-            ->orderBy('starts_at')
+            ->where('starts_at', '>=', now());
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $upcomingQuery->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $upcomingEvents = $upcomingQuery->orderBy('starts_at')
             ->paginate(15, ['*'], 'upcoming');
 
-        $pastEvents = Event::where('is_public', true)
+        $pastQuery = Event::where('is_public', true)
             ->where('status', 'published')
-            ->where('starts_at', '<', now())
-            ->orderByDesc('starts_at')
+            ->where('starts_at', '<', now());
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $pastQuery->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $pastEvents = $pastQuery->orderByDesc('starts_at')
             ->paginate(10, ['*'], 'past');
 
         return view('events.index', compact('upcomingEvents', 'pastEvents'));

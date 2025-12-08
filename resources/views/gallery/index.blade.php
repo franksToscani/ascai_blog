@@ -18,6 +18,7 @@
                     <div class="aspect-square bg-slate-100">
                         <img src="{{ asset('storage/' . $photo->image_path) }}"
                             alt="{{ $photo->title ?? 'Foto galleria' }}"
+                            loading="lazy"
                             class="w-full h-full object-cover">
                     </div>
                     @auth

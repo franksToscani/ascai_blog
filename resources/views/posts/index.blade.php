@@ -18,6 +18,20 @@
     @endauth
 </div>
 
+    {{-- Ricerca --}}
+    <form method="GET" action="{{ route('posts.index') }}" class="mb-4 flex gap-2">
+        <input type="text" name="search" placeholder="Cerca post..." value="{{ request('search') }}"
+            class="flex-1 border border-slate-300 rounded px-3 py-2 text-sm">
+        <button type="submit" class="bg-sky-700 text-white px-4 py-2 rounded text-sm font-semibold">
+            Cerca
+        </button>
+        @if(request('search'))
+            <a href="{{ route('posts.index') }}" class="bg-slate-300 text-slate-800 px-4 py-2 rounded text-sm">
+                Reset
+            </a>
+        @endif
+    </form>
+
 
     @if ($posts->isEmpty())
         <p class="text-slate-600">Non ci sono ancora post.

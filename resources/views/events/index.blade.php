@@ -16,6 +16,20 @@
         @endauth
     </div>
 
+    {{-- Ricerca --}}
+    <form method="GET" action="{{ route('eventi.index') }}" class="mb-4 flex gap-2">
+        <input type="text" name="search" placeholder="Cerca eventi..." value="{{ request('search') }}"
+            class="flex-1 border border-slate-300 rounded px-3 py-2 text-sm">
+        <button type="submit" class="bg-sky-700 text-white px-4 py-2 rounded text-sm font-semibold">
+            Cerca
+        </button>
+        @if(request('search'))
+            <a href="{{ route('eventi.index') }}" class="bg-slate-300 text-slate-800 px-4 py-2 rounded text-sm">
+                Reset
+            </a>
+        @endif
+    </form>
+
 
     {{-- Prossimi eventi --}}
     <section class="mb-6">

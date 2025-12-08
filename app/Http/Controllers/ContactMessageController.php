@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Models\User;
+use App\Mail\NewContactMessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Mail;
 
 class ContactMessageController extends Controller
 {
@@ -36,7 +38,13 @@ class ContactMessageController extends Controller
         ]);
 
         // Salva il messaggio
-        ContactMessage::create($validated);
+        $contactMessage = ContactMessage::create($validated);
+
+        // Invia email agli admin
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Mail::to($admin->email)->send(new NewContactMessageNotification($contactMessage));
+        }
 
         // Incrementa il contatore
         Cache::put($key, $count + 1, $window);

@@ -12,14 +12,25 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        $query = Post::query();
+
+        // Ricerca per titolo o contenuto
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%");
+            });
+        }
+
         // Admin area: show all posts with pagination
         if ($request->routeIs('admin.posts.*')) {
-            $posts = Post::latest()->paginate(15);
+            $posts = $query->latest()->paginate(15);
             return view('admin.posts.index', compact('posts'));
         }
 
         // Public: only published posts with pagination
-        $posts = Post::where('status', 'published')->latest()->paginate(15);
+        $posts = $query->where('status', 'published')->latest()->paginate(15);
 
         return view('posts.index', compact('posts'));
     }
