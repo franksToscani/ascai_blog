@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\HasSlug;
 
 class Event extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasSlug;
 
      protected $fillable = [
         'title',
+        'slug',
         'description',
         'starts_at',
         'ends_at',
@@ -25,4 +27,12 @@ class Event extends Model
         'is_public' => 'boolean',
         'status'    => 'string',
     ];
+
+    /**
+     * Usa lo slug come chiave di routing
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

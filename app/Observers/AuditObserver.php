@@ -66,10 +66,10 @@ class AuditObserver
                 'ip_address' => Request::ip(),
                 'user_agent' => Request::userAgent(),
                 'created_at' => now(),
+            ]);
         } catch (\Exception $e) {
             // Log dell'errore di audit (non bloccare l'operazione principale)
             Log::error('Audit log error: ' . $e->getMessage());
-        }
         }
     }
 }
