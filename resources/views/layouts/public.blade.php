@@ -12,8 +12,9 @@
     {{-- NAVBAR PUBBLICA --}}
     <header class="bg-white shadow-sm">
         <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-            <a href="{{ route('home') }}" class="text-lg font-semibold text-sky-700">
-                AS.CA.I Bologna
+            <a href="{{ route('home') }}" class="flex items-center gap-2 text-lg font-semibold text-sky-700">
+                <img src="{{ asset('images/logoAscai.png') }}" alt="Logo ASCAI Bologna" class="h-8 w-auto">
+                <span>AS.CA.I Bologna</span>
             </a>
 
             <nav class="hidden md:flex items-center gap-4 text-sm">

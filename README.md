@@ -28,6 +28,34 @@ Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai It
 - 🔄 **RESTful API** - Endpoint CRUD per tutte le risorse
 - 📋 **Database Robusto** - Enum status, soft/hard relationships, seeding automatico
 
+## 🧭 Scelte architetturali: Blade vs Vue/Inertia (SPA)
+
+| Approccio | Pro | Contro | Quando usarlo |
+| --- | --- | --- | --- |
+| **Blade (SSR)** | SEO immediato, first-load veloce, semplicità, costi bassi, funziona anche senza JS | Reload pagina, interattività limitata | Siti di contenuto, blog/news, landing, admin semplice |
+| **Vue 3 + Inertia (SPA)** | UX fluida senza reload, UI complesse, riuso API | Bundle JS iniziale, SEO più complesso (serve SSR/pre-render), maggiore complessità | Dashboard ricche, real-time, app-like |
+
+🎯 Due Approcci Diversi
+1️⃣ Laravel + Blade (Traditional Server-Side Rendering)
+
+Browser → Request → Laravel → Blade Template → HTML → Browser
+Blade = Template engine PHP di Laravel
+Il server genera HTML per ogni richiesta
+Ogni click = reload della pagina
+Nessun JavaScript framework richiesto (o jQuery opzionale)
+2️⃣ Laravel + Vue 3 + Inertia (Modern SPA)
+
+Browser → Request → Laravel → Inertia → Vue Component → Client-side Render
+Vue gestisce tutto il frontend
+Il server invia JSON/props a Vue
+Nessun reload della pagina (SPA)
+File .blade.php NON servono (tranne app.blade.php come shell)
+
+### Scelta per ASCAI Bologna
+- Sito **content-driven** (news, eventi, galleria) con SEO importante ⇒ priorità a **Blade SSR**
+- Viste pubbliche e admin in Blade; Inertia/Vue resta dove serve (auth/settings)
+- Per micro-interazioni: **Alpine.js**; per interattività più ricca senza SPA completa: **Livewire**
+
 ## 📋 Prerequisiti
 
 - **PHP** 8.2 o superiore

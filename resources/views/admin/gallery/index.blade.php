@@ -46,6 +46,14 @@
                                 • <span class="text-rose-600">Nascosta</span>
                             @endif
                         </p>
+                        <div class="flex items-center gap-2 mt-3 text-xs">
+                            <a href="{{ route('admin.gallery.edit', $photo) }}" class="px-2 py-1 bg-sky-100 text-sky-700 rounded hover:bg-sky-200">Modifica</a>
+                            <form action="{{ route('admin.gallery.destroy', $photo) }}" method="POST" onsubmit="return confirm('Eliminare questa foto?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="px-2 py-1 bg-rose-100 text-rose-700 rounded hover:bg-rose-200">Elimina</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             @endforeach

@@ -75,6 +75,9 @@ Route::middleware(['auth', 'admin'])
         Route::get('galleria', [GalleryPhotoController::class, 'adminIndex'])->name('gallery.index');
         Route::get('galleria/crea', [GalleryPhotoController::class, 'create'])->name('gallery.create');
         Route::post('galleria', [GalleryPhotoController::class, 'store'])->name('gallery.store');
+        Route::get('galleria/{galleryPhoto}/modifica', [GalleryPhotoController::class, 'edit'])->name('gallery.edit');
+        Route::put('galleria/{galleryPhoto}', [GalleryPhotoController::class, 'update'])->name('gallery.update');
+        Route::delete('galleria/{galleryPhoto}', [GalleryPhotoController::class, 'destroy'])->name('gallery.destroy');
     });
 
 // Rotte auth generate da Breeze (login, register, ecc.)

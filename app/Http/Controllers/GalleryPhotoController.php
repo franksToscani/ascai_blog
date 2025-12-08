@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GalleryPhoto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class GalleryPhotoController extends Controller
 {
@@ -91,7 +92,7 @@ class GalleryPhotoController extends Controller
 
         // Se caricata nuova immagine, elimina la vecchia e salva la nuova
         if ($request->file('image')) {
-            \Storage::disk('public')->delete($galleryPhoto->image_path);
+            Storage::disk('public')->delete($galleryPhoto->image_path);
             $path = $request->file('image')->store('gallery', 'public');
             $galleryPhoto->image_path = $path;
         }
@@ -112,7 +113,7 @@ class GalleryPhotoController extends Controller
     public function destroy(GalleryPhoto $galleryPhoto)
     {
         // Elimina file di storage
-        \Storage::disk('public')->delete($galleryPhoto->image_path);
+        Storage::disk('public')->delete($galleryPhoto->image_path);
         
         $galleryPhoto->delete();
 
