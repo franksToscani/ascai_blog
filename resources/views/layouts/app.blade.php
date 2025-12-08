@@ -14,8 +14,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+    <body class="font-sans antialiased flex flex-col min-h-screen">
+        <div class="flex-1 bg-gray-100">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -37,7 +37,9 @@
                     @yield('content')
                 @endisset
             </main>
-
         </div>
+
+        <!-- Footer -->
+        @include('layouts.footer')
     </body>
 </html>

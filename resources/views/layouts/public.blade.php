@@ -6,31 +6,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="antialiased bg-gray-50 text-gray-800">
+<body class="antialiased bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
-    {{-- NAVBAR PUBBLICA --}}
-    <header class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-            <a href="{{ route('home') }}" class="flex items-center gap-2 text-lg font-semibold text-sky-700">
-                <img src="{{ asset('images/logoAscai.png') }}" alt="Logo ASCAI Bologna" class="h-8 w-auto">
-                <span>AS.CA.I Bologna</span>
-            </a>
+    {{-- NAVBAR PUBBLICA MODERNA --}}
+    <header x-data="{ mobileMenuOpen: false, scrolled: false }" 
+            x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 })"
+            :class="scrolled ? 'shadow-lg' : 'shadow-md'"
+            class="sticky top-0 z-50 bg-white transition-shadow duration-300">
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo e Brand -->
+                <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <img src="{{ asset('images/logoAscai.png') }}" alt="Logo ASCAI Bologna" class="h-12 w-auto transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-sky-400 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold text-slate-800 group-hover:text-sky-600 transition-colors">ASCAI Bologna</span>
+                        <p class="text-xs text-slate-500 hidden sm:block">Associazione dei Camerunesi</p>
+                    </div>
+                </a>
 
-            <nav class="hidden md:flex items-center gap-4 text-sm">
-                <a href="{{ route('home') }}" class="hover:text-sky-600">Home</a>
-                <a href="{{ route('chi-siamo') }}" class="hover:text-sky-600">Chi siamo</a>
-                <a href="{{ route('associati') }}" class="hover:text-sky-600">Associati</a>
-                <a href="{{ route('eventi.index') }}" class="hover:text-sky-600">Eventi</a>
-                <a href="{{ route('posts.index') }}" class="hover:text-sky-600">News</a>
-                <a href="{{ route('galleria') }}" class="hover:text-sky-600">Galleria</a>
-                <a href="{{ route('contatti') }}" class="hover:text-sky-600">Contatti</a>
-            </nav>
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center gap-1">
+                    <a href="{{ route('home') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all duration-200 {{ request()->routeIs('home') ? 'text-sky-600 bg-sky-50' : '' }}">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            Home
+                        </div>
+                    </a>
+                    <a href="{{ route('chi-siamo') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all duration-200 {{ request()->routeIs('chi-siamo') ? 'text-sky-600 bg-sky-50' : '' }}">
+                        Chi siamo
+                    </a>
+                    <a href="{{ route('associati') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all duration-200 {{ request()->routeIs('associati') ? 'text-sky-600 bg-sky-50' : '' }}">
+                        Associati
+                    </a>
+                    <a href="{{ route('eventi.index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-green-600 hover:bg-green-50 transition-all duration-200 {{ request()->routeIs('eventi.*') ? 'text-green-600 bg-green-50' : '' }}">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            Eventi
+                        </div>
+                    </a>
+                    <a href="{{ route('posts.index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all duration-200 {{ request()->routeIs('posts.*') ? 'text-sky-600 bg-sky-50' : '' }}">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            News
+                        </div>
+                    </a>
+                    <a href="{{ route('galleria') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 {{ request()->routeIs('galleria') ? 'text-purple-600 bg-purple-50' : '' }}">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            Galleria
+                        </div>
+                    </a>
+                    <a href="{{ route('contatti') }}" class="ml-2 px-5 py-2 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 shadow-md hover:shadow-lg transition-all duration-200 {{ request()->routeIs('contatti') ? 'ring-2 ring-sky-300' : '' }}">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            Contatti
+                        </div>
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-lg text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition-colors">
+                    <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div x-show="mobileMenuOpen" 
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 -translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 -translate-y-2"
+                    class="lg:hidden pb-4"
+                    style="display: none;">
+                <nav class="flex flex-col gap-1 pt-2">
+                    <a href="{{ route('home') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all {{ request()->routeIs('home') ? 'text-sky-600 bg-sky-50' : '' }}">
+                        Home
+                    </a>
+                    <a href="{{ route('chi-siamo') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all {{ request()->routeIs('chi-siamo') ? 'text-sky-600 bg-sky-50' : '' }}">
+                        Chi siamo
+                    </a>
+                    <a href="{{ route('associati') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all {{ request()->routeIs('associati') ? 'text-sky-600 bg-sky-50' : '' }}">
+                        Associati
+                    </a>
+                    <a href="{{ route('eventi.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:text-green-600 hover:bg-green-50 transition-all {{ request()->routeIs('eventi.*') ? 'text-green-600 bg-green-50' : '' }}">
+                        Eventi
+                    </a>
+                    <a href="{{ route('posts.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all {{ request()->routeIs('posts.*') ? 'text-sky-600 bg-sky-50' : '' }}">
+                        News
+                    </a>
+                    <a href="{{ route('galleria') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:text-purple-600 hover:bg-purple-50 transition-all {{ request()->routeIs('galleria') ? 'text-purple-600 bg-purple-50' : '' }}">
+                        Galleria
+                    </a>
+                    <a href="{{ route('contatti') }}" class="px-4 py-3 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 shadow-md text-center {{ request()->routeIs('contatti') ? 'ring-2 ring-sky-300' : '' }}">
+                        Contatti
+                    </a>
+                </nav>
+            </div>
         </div>
     </header>
 
     {{-- CONTENUTO --}}
-    <main class="max-w-7xl mx-auto px-6 py-10">
+    <main class="max-w-7xl mx-auto px-6 py-10 flex-1">
         @if(session('success'))
             <div class="mb-6 bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded">
                 {{ session('success') }}
@@ -41,17 +140,7 @@
     </main>
 
     {{-- FOOTER --}}
-    <footer class="bg-gray-100 py-6 mt-10">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
-        <p>
-            © {{ date('Y') }} AS.CA.I Bologna – Tutti i diritti riservati.
-        </p>
-
-        <a href="{{ route('login') }}" class="text-xs text-gray-500 hover:text-sky-700">
-            Accesso amministratori
-        </a>
-    </div>
-</footer>
+    @include('layouts.footer')
 
 </body>
 </html>

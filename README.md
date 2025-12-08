@@ -5,12 +5,14 @@ Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai It
 ## ✨ Caratteristiche Principali
 
 ### 🌍 Frontend Pubblico
+- 🎨 **Hero Carousel** - Slider dinamico con 3 slide auto-rotate, navigazione frecce e dot indicators, transizioni fluide
+- 🧭 **Navigation Moderna** - Sticky header con Alpine.js, menu mobile responsive, icone SVG, stati attivi
+- 👣 **Footer Completo** - Logo ASCAI, info contatti, social media icons (Facebook, Instagram, TikTok, X, WhatsApp), link admin
 - **Homepage** con logo ASCAI e sezioni home, chi siamo, associati
 - 📝 **News/Blog** - Lettura articoli con sistema draft/published, ricerca e filtri
 - 📅 **Eventi** - Visualizzazione prossimi e passati con ubicazione, ricerca e filtri
 - 🎨 **Galleria Fotografica** - Grid responsive con foto organizzate, lazy loading nativo
 - 💬 **Modulo Contatti** - Raccolta messaggi con ottimizzazione mobile, rate limiting 5 msg/24h per IP
-- 🧭 **Navigazione Intuitiva** - Logo rimanda sempre alla home
 - 📧 **Notifiche Email** - Admins ricevono email automatiche su nuovi messaggi di contatto
 
 ### 🛡️ Area Amministrativa
@@ -26,6 +28,7 @@ Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai It
 ### 🏗️ Architettura Tecnica
 - 🛡️ **Sistema Ruoli** - Gestione admin con accesso privilegiato (is_admin flag)
 - 📱 **Responsive Design** - Mobile-first con Tailwind CSS
+- ⚡ **Alpine.js** - Micro-framework per interattività (carousel autoplay, mobile menu, transitions)
 - 🎨 **Logo Personalizzato** - Branding ASCAI integrato
 - 🔄 **RESTful API** - Endpoint CRUD per tutte le risorse
 - 📋 **Database Robusto** - Enum status, soft/hard relationships, seeding automatico
@@ -544,6 +547,31 @@ php artisan tinker
 - [x] CRUD Eventi con is_public e status (EventController)
 - [x] CRUD Galleria con upload/delete immagini (GalleryPhotoController)
 - [x] Modulo Contatti con raccolta messaggi (ContactMessageController)
+
+### ✅ Dicembre 2025 - UI/UX Enhancements
+- [x] **Hero Carousel** - Slider dinamico homepage con Alpine.js
+  - 3 slide auto-rotate (5s intervalli)
+  - Navigazione frecce prev/next con hover effects
+  - Dot indicators per navigazione diretta
+  - Transizioni fluide con fade e translate
+  - Responsive: 2-colonne desktop, stack mobile
+  - Gradient backgrounds personalizzabili (ready per immagini)
+  - Altezza ottimizzata 380px con border-radius professionale
+- [x] **Navigation Moderna** - Sticky header responsive
+  - Alpine.js mobile menu con hamburger toggle
+  - Icone SVG per ogni sezione (Home, Eventi, News, Galleria)
+  - Active states dinamici con `request()->routeIs()`
+  - Shadow dinamico on scroll
+  - Logo con hover glow effect
+  - CTA button gradient per Contatti
+- [x] **Footer Completo** - Unified footer per tutto il sito
+  - Logo ASCAI header con brand name
+  - 2-colonne layout: "Dove siamo" + "Contatti"
+  - Social media icons: Facebook, Instagram, TikTok, X, WhatsApp
+  - Brand-specific hover colors (blu Facebook, gradient Instagram, etc.)
+  - Link admin area nel copyright
+  - Gradient slate background con pattern SVG
+  - Applicato a layouts.app e layouts.public
 
 ### ✅ Dicembre 2025 - Security & UX Polish (Priority 1-3)
 - [x] **URL SEO** - Implementazione slug route model binding (posts e events accessible via /posts/{slug})
