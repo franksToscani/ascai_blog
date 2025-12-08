@@ -20,7 +20,9 @@ Route::get('/associati', [PageController::class, 'associati'])->name('associati'
 
 // Contatti pubblici
 Route::get('/contatti', [PageController::class, 'contatti'])->name('contatti');
-Route::post('/contatti', [ContactMessageController::class, 'store'])->name('contatti.store');
+Route::post('/contatti', [ContactMessageController::class, 'store'])
+    ->name('contatti.store')
+    ->middleware('throttle:5,1440'); // 5 messaggi ogni 24 ore (1440 minuti)
 
 // Eventi pubblici
 Route::get('/eventi', [EventController::class, 'index'])->name('eventi.index');

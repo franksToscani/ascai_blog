@@ -4,12 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\RateLimiter;
 
 class ContactMessageController extends Controller
 {
-    // Salva i messaggi dal form contatti
+    // Salva i messaggi dal form contatti con rate limiting
     public function store(Request $request)
     {
+        // Rate limiting: max 5 messaggi per IP ogni 24 ore
+        $ip = $request->ip();
+        $key = 'contact_form_' . $ip;
+        $limit = 5;
+        $window = 86400; // 24 ore in secondi
+
+        // Incrementa il contatore
+        $count = Cache::get($key, 0);
+
+        if ($count >= $limit) {
+            return back()
+                ->with('error', 'Hai raggiunto il limite massimo di messaggi (5) nelle ultime 24 ore. Riprova più tardi.')
+                ->withInput();
+        }
+
+        // Valida il form
         $validated = $request->validate([
             'name'    => 'required|max:255',
             'email'   => 'required|email',
@@ -17,7 +35,11 @@ class ContactMessageController extends Controller
             'message' => 'required|min:5',
         ]);
 
+        // Salva il messaggio
         ContactMessage::create($validated);
+
+        // Incrementa il contatore
+        Cache::put($key, $count + 1, $window);
 
         return back()->with('success', 'Messaggio inviato con successo!');
     }
