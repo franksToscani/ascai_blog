@@ -6,11 +6,12 @@ Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai It
 
 ### 🌍 Frontend Pubblico
 - **Homepage** con logo ASCAI e sezioni home, chi siamo, associati
-- 📝 **News/Blog** - Lettura articoli con sistema draft/published
-- 📅 **Eventi** - Visualizzazione prossimi e passati con ubicazione
-- 🎨 **Galleria Fotografica** - Grid responsive con foto organizzate
-- 💬 **Modulo Contatti** - Raccolta messaggi da visitatori
+- 📝 **News/Blog** - Lettura articoli con sistema draft/published, ricerca e filtri
+- 📅 **Eventi** - Visualizzazione prossimi e passati con ubicazione, ricerca e filtri
+- 🎨 **Galleria Fotografica** - Grid responsive con foto organizzate, lazy loading nativo
+- 💬 **Modulo Contatti** - Raccolta messaggi con ottimizzazione mobile, rate limiting 5 msg/24h per IP
 - 🧭 **Navigazione Intuitiva** - Logo rimanda sempre alla home
+- 📧 **Notifiche Email** - Admins ricevono email automatiche su nuovi messaggi di contatto
 
 ### 🛡️ Area Amministrativa
 - 🔐 **Autenticazione** - Login, registrazione, 2FA, recupero password (Laravel Fortify)
@@ -18,8 +19,9 @@ Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai It
 - 📅 **Gestione Eventi** - CRUD con status public/private e published/draft
 - 🎨 **Gestione Galleria** - CRUD completo foto con upload, modifica, eliminazione
 - 💬 **Messaggi Contatti** - Visualizzazione e gestione messaggi ricevuti
-- 🎯 **Dashboard Admin** - Pannello di controllo con riepilogo statistiche
+- 🎯 **Dashboard Admin** - Pannello di controllo con riepilogo statistiche, audit log filtering
 - 🔴 **Azioni Inline** - Modifica/Elimina direttamente dalle pagine pubbliche (per admin)
+- 📊 **Audit Log** - Tracciamento completo di tutte le modifiche (creazione, modifica, eliminazione) con filtri avanzati
 
 ### 🏗️ Architettura Tecnica
 - 🛡️ **Sistema Ruoli** - Gestione admin con accesso privilegiato (is_admin flag)
@@ -121,55 +123,65 @@ Accedi a: `http://localhost:8000`
 ascai_blog/
 ├── app/Http/Controllers/
 │   ├── PageController.php           # Home, chi siamo, contatti
-│   ├── PostController.php           # CRUD news (draft/published)
-│   ├── EventController.php          # CRUD eventi (public/private, draft/published)
+│   ├── PostController.php           # CRUD news (draft/published), ricerca
+│   ├── EventController.php          # CRUD eventi (public/private, draft/published), ricerca
 │   ├── GalleryPhotoController.php   # CRUD galleria foto
-│   ├── ContactMessageController.php # Messaggi contatti
-│   └── AdminDashboardController.php # Dashboard admin
+│   ├── ContactMessageController.php # Messaggi contatti, rate limiting, email notifications
+│   └── AdminDashboardController.php # Dashboard admin, audit log filtering
 │
 ├── app/Models/
 │   ├── User.php              # Users (is_admin, 2FA)
-│   ├── Post.php              # Posts (status: draft/published)
-│   ├── Event.php             # Events (status, is_public)
-│   ├── GalleryPhoto.php       # Foto (is_visible, published_at)
-│   └── ContactMessage.php     # Messaggi contatti
+│   ├── Post.php              # Posts (status: draft/published, slug, searchable)
+│   ├── Event.php             # Events (status, is_public, slug, searchable)
+│   ├── GalleryPhoto.php       # Foto (is_visible, published_at, lazy loadable)
+│   ├── ContactMessage.php     # Messaggi contatti (rate limited)
+│   └── AuditLog.php          # Audit trail di tutte le modifiche
+│
+├── app/Mail/
+│   └── NewContactMessageNotification.php  # Email su nuovi messaggi
 │
 ├── database/migrations/
 │   ├── posts_table              # status enum: draft/published
 │   ├── events_table             # status enum, is_public boolean
 │   ├── gallery_photos_table      # is_visible, published_at
-│   ├── contact_messages_table    # Messaggi
+│   ├── contact_messages_table    # Messaggi, read_at timestamp
+│   ├── audit_logs_table          # Tracciamento modifiche
 │   └── users_table              # is_admin boolean, 2FA fields
 │
 ├── database/seeders/
-│   └── DatabaseSeeder.php    # Test data: 2 users, 7 posts, 7 events, 8 photos
+│   └── DatabaseSeeder.php    # Test data: 2 admin users, 1 user, 7 posts, 7 events, 8 photos
 │
 ├── resources/views/
 │   ├── pages/
 │   │   ├── home.blade.php              # Homepage con logo ASCAI
 │   │   ├── chi-siamo.blade.php
 │   │   ├── associati.blade.php
-│   │   ├── contatti.blade.php
-│   │   ├── posts/index.blade.php       # Posts pubblici + modifica/elimina admin
+│   │   ├── contatti.blade.php          # Modulo contatti ottimizzato mobile
+│   │   ├── posts/index.blade.php       # Posts pubblici + ricerca + modifica/elimina admin
 │   │   ├── posts/show.blade.php
-│   │   ├── events/index.blade.php      # Events pubblici + modifica/elimina admin
+│   │   ├── events/index.blade.php      # Events pubblici + ricerca + modifica/elimina admin
 │   │   ├── events/show.blade.php
-│   │   └── gallery/index.blade.php     # Galleria pubblica + azioni admin hover
+│   │   └── gallery/index.blade.php     # Galleria pubblica con lazy loading + azioni admin
 │   │
 │   ├── admin/
-│   │   ├── dashboard.blade.php         # Dashboard admin
+│   │   ├── dashboard.blade.php         # Dashboard admin con audit log
+│   │   ├── audit-log.blade.php         # Audit log dettagliato con filtri
+│   │   ├── messages.blade.php          # Messaggi contatti ricevuti
 │   │   ├── posts/
-│   │   │   ├── index.blade.php         # Lista posts con status badges
+│   │   │   ├── index.blade.php         # Lista posts con ricerca e status badges
 │   │   │   ├── create.blade.php        # Form nuovo post
 │   │   │   └── edit.blade.php          # Form modifica post
 │   │   ├── events/
-│   │   │   ├── index.blade.php         # Lista events
+│   │   │   ├── index.blade.php         # Lista events con ricerca
 │   │   │   ├── create.blade.php        # Form nuovo event
 │   │   │   └── edit.blade.php          # Form modifica event
 │   │   └── gallery/
-│   │       ├── index.blade.php         # Lista foto
+│   │       ├── index.blade.php         # Lista foto con lazy loading
 │   │       ├── create.blade.php        # Upload foto
 │   │       └── edit.blade.php          # Modifica foto
+│   │
+│   ├── emails/
+│   │   └── new-contact-message.blade.php  # Email template per notifiche messaggi
 │   │
 │   ├── layouts/
 │   │   ├── app.blade.php               # Layout dashboard
@@ -184,11 +196,12 @@ ascai_blog/
 ├── routes/
 │   ├── web.php                         # Rotte principali
 │   │   ├── GET  / → home (logo ASCAI, news, eventi)
-│   │   ├── GET  /news → posts pubblici
-│   │   ├── GET  /eventi → events pubblici
-│   │   ├── GET  /galleria → gallery pubblica
+│   │   ├── GET  /news → posts pubblici (con ricerca)
+│   │   ├── GET  /eventi → events pubblici (con ricerca)
+│   │   ├── GET  /galleria → gallery pubblica (con lazy loading)
 │   │   ├── GET  /chi-siamo, /associati, /contatti
-│   │   └── GET  /admin/* → area protetta
+│   │   ├── POST /contatti → salva messaggio + invia email admin + rate limit
+│   │   └── GET  /admin/* → area protetta (audit log, CRUD)
 │   │
 │   ├── auth.php                        # Fortify routes
 │   └── settings.php                    # Profilo utente
@@ -488,15 +501,69 @@ php artisan migrate --force
 - 🌙 **Dark Mode** - Supporto tema scuro/chiaro (dove implementato)
 - ⚡ **Performance** - Lazy loading immagini, CSS optimizzato, JS minificato
 
-## 🔍 Testing
+## 🧪 Testing e Credenziali di Sviluppo
 
+### Account di Test (seeder)
+```
+Admin ASCAI (Originale):
+  Email: admin@ascai.it
+  Password: (generato da factory)
+  
+Test Admin (Per test):
+  Email: testadmin@ascai.it
+  Password: password
+  
+Test User (Utente standard):
+  Email: test@example.com
+  Password: (generato da factory)
+```
+
+### Comandi Test
 ```bash
+# Setup completo per testing
+php artisan migrate:fresh --seed
+
 # Esegui unit tests
 php artisan test
 
 # Con coverage
 php artisan test --coverage
+
+# Interactive shell per debug
+php artisan tinker
 ```
+
+## 🚀 Sprint 1 - Feature Completate
+
+### ✅ Novembre 2025 - Foundation & Core Features
+- [x] Setup Laravel 12 con Fortify authentication
+- [x] Struttura database (Users, Posts, Events, Gallery, ContactMessages)
+- [x] Seeding automatico con test data (2 admin, 1 user, 7 posts, 7 events, 8 photos)
+- [x] Layout pubblico con logo ASCAI e navigation
+- [x] CRUD News (PostController + views pubbliche/admin)
+- [x] CRUD Eventi con is_public e status (EventController)
+- [x] CRUD Galleria con upload/delete immagini (GalleryPhotoController)
+- [x] Modulo Contatti con raccolta messaggi (ContactMessageController)
+
+### ✅ Dicembre 2025 - Security & UX Polish (Priority 1-3)
+- [x] **URL SEO** - Implementazione slug route model binding (posts e events accessible via /posts/{slug})
+- [x] **Paginazione** - Posts (15/pagina), Events (15/pagina), Gallery (12/pagina) in tutte le views
+- [x] **Rate Limiting** - Protezione form contatti: max 5 messaggi per IP / 24 ore con cache
+- [x] **Audit Logging** - Tracciamento completo (creazione, modifica, eliminazione) con AuditLog model e middleware
+- [x] **Audit Dashboard** - View admin con filtri avanzati (model type, action, user, date range)
+- [x] **Search/Filter** - Ricerca full-text su Posts e Events (title, description) in views pubbliche e admin
+- [x] **Email Notifications** - Mailable class + template blade, invia email a TUTTI gli admin su nuovo messaggio contatto
+- [x] **Lazy Loading** - Attributo nativo `loading="lazy"` su galleria (public + admin)
+- [x] **Mobile Optimization** - Responsive Tailwind classes (sm: breakpoints) su contact form e tutti gli elementi
+
+### 📊 Sprint 1 Metrics
+- **Commits:** 14 commits di feature + fixes
+- **Files Modified:** 45+ files
+- **Database Migrations:** 11 migration files
+- **Models:** 6 models (User, Post, Event, GalleryPhoto, ContactMessage, AuditLog)
+- **Controllers:** 7 controllers
+- **Views:** 30+ blade templates
+- **Test Data:** Seeder con 18 record di test (users, posts, events, photos)
 
 ## 🤝 Contributi
 

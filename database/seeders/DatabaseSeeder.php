@@ -22,6 +22,14 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
+        // Crea utente admin per i test
+        User::factory()->create([
+            'name' => 'Test Admin',
+            'email' => 'testadmin@ascai.it',
+            'password' => bcrypt('password'),
+            'is_admin' => true,
+        ]);
+
         // Crea utente normale
         User::factory()->create([
             'name' => 'Test User',
