@@ -175,6 +175,31 @@ La homepage del sito presenta:
 
 ## 🔐 Area Amministrativa
 
+### 🚀 Guida Rapida per Amministratori
+
+Se sei nuovo come admin, segui questi step:
+
+1. **Accedi al sito** (vedi sotto come fare login)
+2. **Vai alla Dashboard** - vedrai un pannello con:
+   - 📊 Statistiche (numero news, eventi, foto, messaggi)
+   - 🔍 Audit log (storico di tutte le azioni)
+   - 🎯 Link rapidi ai CRUD
+
+3. **Gestisci i tuoi contenuti**:
+   - 📰 **News/Post**: Crea, modifica, pubblica articoli
+   - 📅 **Eventi**: Organizza e promuovi eventi
+   - 🖼️ **Galleria**: Carica e gestisci foto
+   - 💬 **Messaggi**: Leggi i messaggi dei visitatori
+
+4. **Ogni azione è loggata** - Tutti i tuoi create/update/delete sono tracciati nell'Audit Log per sicurezza e conformità
+
+5. **Suggerimenti**:
+   - ✅ Pubblica le news come **Draft** prima e poi come **Published** quando pronti
+   - ✅ Usa slug SEO-friendly (es: `torneo-calcio-2025`)
+   - ✅ Carica foto **compresse** per velocità (max 2MB)
+   - ✅ Inserisci sempre la **data futura** per gli eventi
+   - ✅ La **homepage si aggiorna automaticamente** con ultime news/eventi/foto
+
 ### Accesso all'Area Admin
 
 1. **Vai alla pagina di login**:
