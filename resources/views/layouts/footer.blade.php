@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Logo e Nome -->
         <div class="flex items-center gap-3 mb-8">
-            <img src="{{ asset('images/logoAscai.png') }}" alt="Logo ASCAI Bologna" class="h-16 w-auto">
+            <img src="{{ asset('images/logo3.png') }}" alt="Logo ASCAI Bologna" class="h-16 w-auto">
             <div>
                 <h2 class="text-2xl font-bold text-white">ASCAI Bologna</h2>
                 <p class="text-sm text-slate-300">Associazione di Categoria Agenti e Imprese</p>
@@ -126,7 +126,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
-                        Realizzato con passione per la comunità 
+                        Realizzato con passione per la comunità...Softweb Bologna dev Master Franks Toscani
                     </p>
                 </div>
             </div>

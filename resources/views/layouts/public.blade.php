@@ -21,7 +21,7 @@
                 <!-- Logo e Brand -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
                     <div class="relative">
-                        <img src="{{ asset('images/logoAscai.png') }}" alt="Logo ASCAI Bologna" class="h-12 w-auto transition-transform duration-300 group-hover:scale-110">
+                        <img src="{{ asset('images/logo3.png') }}" alt="Logo ASCAI Bologna" class="h-12 w-auto transition-transform duration-300 group-hover:scale-110">
                         <div class="absolute inset-0 bg-sky-400 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                     </div>
                     <div>

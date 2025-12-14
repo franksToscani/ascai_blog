@@ -8,7 +8,7 @@
         currentSlide: 0, 
         slides: [
             {
-                image: '{{ asset('images/logoAscai.png') }}',
+                background: '{{ asset('images/banner0.jpg') }}',
                 title: 'Benvenuti in ASCAI Bologna',
                 subtitle: 'Associazione Camerun Ascai Italia',
                 description: 'Costruiamo ponti tra culture, promuoviamo l\'integrazione e sosteniamo la comunità camerunense a Bologna.',
@@ -16,7 +16,7 @@
                 ctaLink: '{{ route('chi-siamo') }}'
             },
             {
-                image: '{{ asset('images/logoAscai.png') }}',
+                background: '{{ asset('images/banner1.jpg') }}',
                 title: 'Eventi e Attività',
                 subtitle: 'Partecipa alle nostre iniziative',
                 description: 'Organizziamo eventi culturali, workshop e attività ricreative per tutta la comunità.',
@@ -24,7 +24,7 @@
                 ctaLink: '{{ route('eventi.index') }}'
             },
             {
-                image: '{{ asset('images/logoAscai.png') }}',
+                background: '{{ asset('images/banner2.jpg') }}',
                 title: 'Unisciti a Noi',
                 subtitle: 'Diventa parte della famiglia ASCAI',
                 description: 'Sostieni la nostra missione e contribuisci a creare una comunità più inclusiva e solidale.',
@@ -68,10 +68,10 @@
                     x-transition:leave-end="opacity-0 transform -translate-x-full"
                     class="absolute inset-0">
                     
-                    <!-- Background Gradient -->
-                    <div class="absolute inset-0 bg-gradient-to-br from-sky-600 via-blue-700 to-indigo-800">
-                        <!-- Pattern Overlay -->
-                        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 bg-cover bg-center" :style="`background-image: url('${slide.background}');`">
+                        <!-- Dark Overlay for Text Readability -->
+                        <div class="absolute inset-0 bg-black/50"></div>
                     </div>
 
                     <!-- Content -->
@@ -111,12 +111,7 @@
                                  x-transition:enter="transition ease-out duration-700 delay-500"
                                  x-transition:enter-start="opacity-0 transform translate-x-8"
                                  x-transition:enter-end="opacity-100 transform translate-x-0">
-                                <div class="relative">
-                                    <div class="absolute inset-0 bg-white/20 rounded-full blur-3xl"></div>
-                                    <img :src="slide.image" 
-                                         alt="ASCAI Bologna" 
-                                         class="relative h-64 w-auto drop-shadow-2xl transform hover:scale-110 transition-transform duration-500">
-                                </div>
+                                <!-- Logo is hidden since background images are full-width -->
                             </div>
                         </div>
                     </div>

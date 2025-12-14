@@ -211,7 +211,9 @@ ascai_blog/
 │
 ├── public/
 │   ├── images/
-│   │   └── logoAscai.png              # Logo ASCAI personalizzato
+│   │   ├── logoAscai.svg              # Logo ASCAI personalizzato (SVG)
+│   │   ├── banner0.jpg, banner1.jpg, banner2.jpg  # Banner carousel homepage
+│   │   └── logoAscai.png              # Logo ASCAI (legacy)
 │   └── storage → symlink storage/app/public
 │
 └── storage/app/public/gallery/        # Foto caricate dagli admin
