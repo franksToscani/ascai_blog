@@ -8,6 +8,8 @@ use App\Mail\NewContactMessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ContactMessageController extends Controller
 {
@@ -20,10 +22,23 @@ class ContactMessageController extends Controller
         $limit = 5;
         $window = 86400; // 24 ore in secondi
 
-        // Incrementa il contatore
-        $count = Cache::get($key, 0);
+        // Inizializza il contatore con TTL se non esiste
+        if (!Cache::has($key)) {
+            Cache::put($key, 0, $window);
+        }
 
-        if ($count >= $limit) {
+        // Incrementa atomicamente il contatore
+        $count = Cache::increment($key);
+
+        if ($count > $limit) {
+            // Supera il limite, rollback e rifiuta
+            Cache::decrement($key);
+            
+            Log::warning('Contact form rate limit exceeded', [
+                'ip' => $ip,
+                'count' => $count,
+            ]);
+            
             return back()
                 ->with('error', 'Hai raggiunto il limite massimo di messaggi (5) nelle ultime 24 ore. Riprova più tardi.')
                 ->withInput();
@@ -31,23 +46,30 @@ class ContactMessageController extends Controller
 
         // Valida il form
         $validated = $request->validate([
-            'name'    => 'required|max:255',
-            'email'   => 'required|email',
-            'subject' => 'nullable|max:255',
-            'message' => 'required|min:5',
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|min:10|max:5000',
         ]);
 
-        // Salva il messaggio
-        $contactMessage = ContactMessage::create($validated);
+        // Salva messaggio e invia email in transazione atomica
+        DB::transaction(function () use ($validated, $ip) {
+            // Salva il messaggio
+            $contactMessage = ContactMessage::create($validated);
 
-        // Invia email agli admin
-        $admins = User::where('is_admin', true)->get();
-        foreach ($admins as $admin) {
-            Mail::to($admin->email)->send(new NewContactMessageNotification($contactMessage));
-        }
+            Log::info('Contact message received', [
+                'message_id' => $contactMessage->id,
+                'email' => $validated['email'],
+                'subject' => $validated['subject'],
+                'ip' => $ip,
+            ]);
 
-        // Incrementa il contatore
-        Cache::put($key, $count + 1, $window);
+            // Invia email agli admin in modo asincrono
+            $admins = User::where('is_admin', true)->get();
+            foreach ($admins as $admin) {
+                Mail::to($admin->email)->queue(new NewContactMessageNotification($contactMessage));
+            }
+        });
 
         return back()->with('success', 'Messaggio inviato con successo!');
     }

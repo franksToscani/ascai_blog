@@ -15,10 +15,19 @@ class GalleryPhoto extends Model
         'image_path',
         'published_at',
         'is_visible',
+        'user_id',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
         'is_visible'   => 'boolean',
     ];
+
+    /**
+     * Get the user that owns the photo.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\GalleryPhoto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class GalleryPhotoController extends Controller
 {
@@ -26,7 +29,7 @@ class GalleryPhotoController extends Controller
        // Lista "admin" delle foto
     public function adminIndex()
     {
-        $photos = GalleryPhoto::orderByDesc('created_at')->paginate(12);
+        $photos = GalleryPhoto::with('user')->orderByDesc('created_at')->paginate(12);
 
         return view('admin.gallery.index', compact('photos'));
     }
@@ -41,22 +44,38 @@ class GalleryPhotoController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'image'      => 'required|image|max:4096', // max 4MB
-            'title'      => 'nullable|max:255',
-            'caption'    => 'nullable|max:255',
+            'image'      => [
+                'required',
+                'image',
+                'mimes:jpeg,jpg,png,webp',
+                'max:2048', // max 2MB
+                'dimensions:max_width=2000,max_height=2000'
+            ],
+            'title'      => 'nullable|string|max:255',
+            'caption'    => 'nullable|string|max:500',
             'is_visible' => 'nullable|boolean',
         ]);
 
         // Salva file in storage/app/public/gallery
         $path = $request->file('image')->store('gallery', 'public');
 
-        GalleryPhoto::create([
+        $photo = GalleryPhoto::create([
             'title'        => $validated['title'] ?? null,
             'caption'      => $validated['caption'] ?? null,
             'image_path'   => $path,
             'published_at' => now(),
             'is_visible'   => $request->has('is_visible'),
+            'user_id'      => Auth::id(),
         ]);
+
+        Log::info('Gallery photo uploaded', [
+            'photo_id' => $photo->id,
+            'image_path' => $path,
+            'user_id' => Auth::id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.gallery_photos');
 
         return redirect()->route('admin.gallery.index')
             ->with('success', 'Foto aggiunta alla galleria!');
@@ -84,9 +103,15 @@ class GalleryPhotoController extends Controller
     public function update(Request $request, GalleryPhoto $galleryPhoto)
     {
         $validated = $request->validate([
-            'image'      => 'nullable|image|max:4096',
-            'title'      => 'nullable|max:255',
-            'caption'    => 'nullable|max:255',
+            'image'      => [
+                'nullable',
+                'image',
+                'mimes:jpeg,jpg,png,webp',
+                'max:2048', // max 2MB
+                'dimensions:max_width=2000,max_height=2000'
+            ],
+            'title'      => 'nullable|string|max:255',
+            'caption'    => 'nullable|string|max:500',
             'is_visible' => 'nullable|boolean',
         ]);
 
@@ -103,6 +128,14 @@ class GalleryPhotoController extends Controller
             'is_visible' => $request->has('is_visible'),
         ]);
 
+        Log::info('Gallery photo updated', [
+            'photo_id' => $galleryPhoto->id,
+            'user_id' => auth()->id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.gallery_photos');
+
         return redirect()->route('admin.gallery.index')
             ->with('success', 'Foto aggiornata con successo!');
     }
@@ -112,10 +145,22 @@ class GalleryPhotoController extends Controller
      */
     public function destroy(GalleryPhoto $galleryPhoto)
     {
+        $photoId = $galleryPhoto->id;
+        $imagePath = $galleryPhoto->image_path;
+        
         // Elimina file di storage
-        Storage::disk('public')->delete($galleryPhoto->image_path);
+        Storage::disk('public')->delete($imagePath);
         
         $galleryPhoto->delete();
+
+        Log::warning('Gallery photo deleted', [
+            'photo_id' => $photoId,
+            'image_path' => $imagePath,
+            'user_id' => auth()->id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.gallery_photos');
 
         return redirect()->route('admin.gallery.index')
             ->with('success', 'Foto eliminata dalla galleria!');

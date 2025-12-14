@@ -7,7 +7,7 @@
             Pubblicato il {{ $post->created_at->format('d/m/Y H:i') }}
         </p>
         <div class="prose max-w-none">
-            {!! nl2br(e($post->content)) !!}
+            <p class="whitespace-pre-line">{{ $post->content }}</p>
         </div>
     </article>
 

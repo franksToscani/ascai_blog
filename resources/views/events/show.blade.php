@@ -17,7 +17,7 @@
         </p>
 
         <div class="prose max-w-none text-slate-800">
-            {!! nl2br(e($event->description)) !!}
+            <p class="whitespace-pre-line">{{ $event->description }}</p>
         </div>
     </article>
 

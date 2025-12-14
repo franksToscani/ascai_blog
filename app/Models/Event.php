@@ -19,6 +19,7 @@ class Event extends Model
         'location',
         'is_public',
         'status',
+        'user_id',
     ];
 
     protected $casts = [
@@ -34,5 +35,13 @@ class Event extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get the user that owns the event.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

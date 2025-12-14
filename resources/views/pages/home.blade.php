@@ -8,7 +8,7 @@
         currentSlide: 0, 
         slides: [
             {
-                background: '{{ asset('images/banner0.jpg') }}',
+                background: @if(file_exists(public_path('images/banner0.jpg'))) '{{ asset('images/banner0.jpg') }}' @else 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' @endif,
                 title: 'Benvenuti in ASCAI Bologna',
                 subtitle: 'Associazione Camerun Ascai Italia',
                 description: 'Costruiamo ponti tra culture, promuoviamo l\'integrazione e sosteniamo la comunità camerunense a Bologna.',
@@ -16,7 +16,7 @@
                 ctaLink: '{{ route('chi-siamo') }}'
             },
             {
-                background: '{{ asset('images/banner1.jpg') }}',
+                background: @if(file_exists(public_path('images/banner1.jpg'))) '{{ asset('images/banner1.jpg') }}' @else 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' @endif,
                 title: 'Eventi e Attività',
                 subtitle: 'Partecipa alle nostre iniziative',
                 description: 'Organizziamo eventi culturali, workshop e attività ricreative per tutta la comunità.',
@@ -24,7 +24,7 @@
                 ctaLink: '{{ route('eventi.index') }}'
             },
             {
-                background: '{{ asset('images/banner2.jpg') }}',
+                background: @if(file_exists(public_path('images/banner2.jpg'))) '{{ asset('images/banner2.jpg') }}' @else 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' @endif,
                 title: 'Unisciti a Noi',
                 subtitle: 'Diventa parte della famiglia ASCAI',
                 description: 'Sostieni la nostra missione e contribuisci a creare una comunità più inclusiva e solidale.',
@@ -68,8 +68,11 @@
                     x-transition:leave-end="opacity-0 transform -translate-x-full"
                     class="absolute inset-0">
                     
-                    <!-- Background Image -->
-                    <div class="absolute inset-0 bg-cover bg-center" :style="`background-image: url('${slide.background}');`">
+                    <!-- Background Image or Gradient Fallback -->
+                    <div class="absolute inset-0 bg-cover bg-center" 
+                        :style="slide.background.startsWith('linear-gradient') ? 
+                                `background: ${slide.background};` : 
+                                `background-image: url('${slide.background}');`">
                         <!-- Dark Overlay for Text Readability -->
                         <div class="absolute inset-0 bg-black/50"></div>
                     </div>
@@ -79,10 +82,10 @@
                         <div class="grid lg:grid-cols-2 gap-12 items-center w-full">
                             <!-- Text Content -->
                             <div class="text-white space-y-6" 
-                                 x-show="currentSlide === index"
-                                 x-transition:enter="transition ease-out duration-700 delay-300"
-                                 x-transition:enter-start="opacity-0 transform -translate-y-4"
-                                 x-transition:enter-end="opacity-100 transform translate-y-0">
+                                x-show="currentSlide === index"
+                                x-transition:enter="transition ease-out duration-700 delay-300"
+                                x-transition:enter-start="opacity-0 transform -translate-y-4"
+                                x-transition:enter-end="opacity-100 transform translate-y-0">
                                 
                                 <div class="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold mb-2">
                                     <span x-text="slide.subtitle"></span>
@@ -97,7 +100,7 @@
                                 </p>
                                 
                                 <a :href="slide.ctaLink" 
-                                   class="inline-flex items-center gap-2 px-8 py-4 bg-white text-sky-700 rounded-xl font-bold text-lg hover:bg-sky-50 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                                class="inline-flex items-center gap-2 px-8 py-4 bg-white text-sky-700 rounded-xl font-bold text-lg hover:bg-sky-50 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
                                     <span x-text="slide.cta"></span>
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -107,10 +110,10 @@
 
                             <!-- Image/Logo -->
                             <div class="hidden lg:flex items-center justify-center"
-                                 x-show="currentSlide === index"
-                                 x-transition:enter="transition ease-out duration-700 delay-500"
-                                 x-transition:enter-start="opacity-0 transform translate-x-8"
-                                 x-transition:enter-end="opacity-100 transform translate-x-0">
+                                x-show="currentSlide === index"
+                                x-transition:enter="transition ease-out duration-700 delay-500"
+                                x-transition:enter-start="opacity-0 transform translate-x-8"
+                                x-transition:enter-end="opacity-100 transform translate-x-0">
                                 <!-- Logo is hidden since background images are full-width -->
                             </div>
                         </div>

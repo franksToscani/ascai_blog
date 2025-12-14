@@ -4,6 +4,14 @@ Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai It
 
 ## ✨ Caratteristiche Principali
 
+### 🆕 Aggiornamenti recenti (Dic 2025)
+- 👥 **Ownership tracking**: `user_id` su post, eventi e foto con relazioni `belongsTo`
+- 📬 **Email async sicure**: invio messaggi contatto in transazione DB + `Mail::queue`
+- ⚙️ **Caching homepage**: dati news/eventi/galleria con TTL 1h e cache invalidation su CRUD
+- 🚀 **Performance DB**: indici su slug/status/visibilità/date e indice composito eventi
+- 🛡️ **Logging completo**: audit per create/update/delete e warning su rate limit contatti
+- 🖼️ **Fallback carousel**: gradienti automatici se mancano i banner
+
 ### 🌍 Frontend Pubblico
 - 🎨 **Hero Carousel** - Slider dinamico con 3 slide auto-rotate, navigazione frecce e dot indicators, transizioni fluide
 - 🧭 **Navigation Moderna** - Sticky header con Alpine.js, menu mobile responsive, icone SVG, stati attivi

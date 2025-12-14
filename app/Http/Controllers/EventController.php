@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
@@ -15,9 +18,15 @@ class EventController extends Controller
 
             // Ricerca per titolo
             if ($request->filled('search')) {
-                $search = $request->search;
+                // Valida lunghezza search
+                $request->validate(['search' => 'string|max:100']);
+                
+                // Sanitizza input: rimuovi HTML e escape caratteri LIKE
+                $search = strip_tags($request->search);
+                $search = str_replace(['%', '_'], ['\\%', '\\_'], $search);
+                
                 $query->where('title', 'like', "%{$search}%")
-                      ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%");
             }
 
             $events = $query->orderByDesc('starts_at')->paginate(15);
@@ -31,10 +40,16 @@ class EventController extends Controller
             ->where('starts_at', '>=', now());
 
         if ($request->filled('search')) {
-            $search = $request->search;
+            // Valida lunghezza search
+            $request->validate(['search' => 'string|max:100']);
+            
+            // Sanitizza input: rimuovi HTML e escape caratteri LIKE
+            $search = strip_tags($request->search);
+            $search = str_replace(['%', '_'], ['\\%', '\\_'], $search);
+            
             $upcomingQuery->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
@@ -46,10 +61,16 @@ class EventController extends Controller
             ->where('starts_at', '<', now());
 
         if ($request->filled('search')) {
-            $search = $request->search;
+            // Valida lunghezza search
+            $request->validate(['search' => 'string|max:100']);
+            
+            // Sanitizza input: rimuovi HTML e escape caratteri LIKE
+            $search = strip_tags($request->search);
+            $search = str_replace(['%', '_'], ['\\%', '\\_'], $search);
+            
             $pastQuery->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
@@ -69,18 +90,31 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'       => 'required|max:255',
-            'description' => 'required',
-            'starts_at'   => 'required|date',
+            'title'       => 'required|string|max:255',
+            'slug'        => 'nullable|string|max:255|unique:events,slug',
+            'description' => 'required|string|min:20',
+            'starts_at'   => 'required|date|after_or_equal:today',
             'ends_at'     => 'nullable|date|after_or_equal:starts_at',
-            'location'    => 'nullable|max:255',
+            'location'    => 'nullable|string|max:255',
             'is_public'   => 'nullable|boolean',
             'status'      => 'required|in:draft,published',
         ]);
 
         $validated['is_public'] = $request->has('is_public');
 
-        Event::create($validated);
+        $event = Event::create(array_merge($validated, [
+            'user_id' => Auth::id(),
+        ]));
+
+        Log::info('Event created', [
+            'event_id' => $event->id,
+            'title' => $event->title,
+            'user_id' => Auth::id(),
+            'starts_at' => $event->starts_at,
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.upcoming_events');
 
         $redirectRoute = $request->routeIs('admin.events.*') ? 'admin.events.index' : 'eventi.index';
 
@@ -105,11 +139,12 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         $validated = $request->validate([
-            'title'       => 'required|max:255',
-            'description' => 'required',
+            'title'       => 'required|string|max:255',
+            'slug'        => 'nullable|string|max:255|unique:events,slug,' . $event->id,
+            'description' => 'required|string|min:20',
             'starts_at'   => 'required|date',
             'ends_at'     => 'nullable|date|after_or_equal:starts_at',
-            'location'    => 'nullable|max:255',
+            'location'    => 'nullable|string|max:255',
             'is_public'   => 'nullable|boolean',
             'status'      => 'required|in:draft,published',
         ]);
@@ -118,13 +153,34 @@ class EventController extends Controller
 
         $event->update($validated);
 
+        Log::info('Event updated', [
+            'event_id' => $event->id,
+            'title' => $event->title,
+            'user_id' => Auth::id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.upcoming_events');
+
         return redirect()->route('admin.events.index')
             ->with('success', 'Evento aggiornato con successo!');
     }
 
     public function destroy(Event $event)
     {
+        $eventId = $event->id;
+        $eventTitle = $event->title;
+        
         $event->delete();
+
+        Log::warning('Event deleted', [
+            'event_id' => $eventId,
+            'title' => $eventTitle,
+            'user_id' => Auth::id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.upcoming_events');
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Evento eliminato con successo!');

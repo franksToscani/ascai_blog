@@ -21,7 +21,7 @@ class AdminDashboardController extends Controller
         ];
 
         $latestMessages = ContactMessage::latest()->take(5)->get();
-        $latestEvents   = Event::latest('starts_at')->take(5)->get();
+        $latestEvents   = Event::with('user')->latest('starts_at')->take(5)->get();
 
         return view('admin.dashboard', compact('stats', 'latestMessages', 'latestEvents'));
     }

@@ -15,6 +15,7 @@ class Post extends Model
         'slug',
         'content',
         'status',
+        'user_id',
     ];
 
     protected $casts = [
@@ -27,5 +28,13 @@ class Post extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get the user that owns the post.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

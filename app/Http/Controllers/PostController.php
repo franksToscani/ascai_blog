@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -16,21 +19,27 @@ class PostController extends Controller
 
         // Ricerca per titolo o contenuto
         if ($request->filled('search')) {
-            $search = $request->search;
+            // Valida lunghezza search
+            $request->validate(['search' => 'string|max:100']);
+            
+            // Sanitizza input: rimuovi HTML e escape caratteri LIKE
+            $search = strip_tags($request->search);
+            $search = str_replace(['%', '_'], ['\\%', '\\_'], $search);
+            
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('content', 'like', "%{$search}%");
+                ->orWhere('content', 'like', "%{$search}%");
             });
         }
 
         // Admin area: show all posts with pagination
         if ($request->routeIs('admin.posts.*')) {
-            $posts = $query->latest()->paginate(15);
+            $posts = $query->with('user')->latest()->paginate(15);
             return view('admin.posts.index', compact('posts'));
         }
 
         // Public: only published posts with pagination
-        $posts = $query->where('status', 'published')->latest()->paginate(15);
+        $posts = $query->where('status', 'published')->with('user')->latest()->paginate(15);
 
         return view('posts.index', compact('posts'));
     }
@@ -49,12 +58,26 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'   => 'required|max:255',
-            'content' => 'required',
+            'title'   => 'required|string|max:255',
+            'slug'    => 'nullable|string|max:255|unique:posts,slug',
+            'excerpt' => 'nullable|string|max:500',
+            'content' => 'required|string|min:50',
             'status'  => 'required|in:draft,published',
         ]);
 
-        Post::create($validated);
+        $post = Post::create(array_merge($validated, [
+            'user_id' => Auth::id(),
+        ]));
+
+        Log::info('Post created', [
+            'post_id' => $post->id,
+            'title' => $post->title,
+            'user_id' => Auth::id(),
+            'status' => $post->status,
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.latest_posts');
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Post creato con successo!');
@@ -85,12 +108,23 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'title'   => 'required|max:255',
-            'content' => 'required',
+            'title'   => 'required|string|max:255',
+            'slug'    => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
+            'excerpt' => 'nullable|string|max:500',
+            'content' => 'required|string|min:50',
             'status'  => 'required|in:draft,published',
         ]);
 
         $post->update($validated);
+
+        Log::info('Post updated', [
+            'post_id' => $post->id,
+            'title' => $post->title,
+            'user_id' => Auth::id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.latest_posts');
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Post aggiornato con successo!');
@@ -101,7 +135,19 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $postId = $post->id;
+        $postTitle = $post->title;
+        
         $post->delete();
+
+        Log::warning('Post deleted', [
+            'post_id' => $postId,
+            'title' => $postTitle,
+            'user_id' => Auth::id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.latest_posts');
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Post eliminato con successo!');
