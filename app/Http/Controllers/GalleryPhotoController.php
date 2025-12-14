@@ -130,7 +130,7 @@ class GalleryPhotoController extends Controller
 
         Log::info('Gallery photo updated', [
             'photo_id' => $galleryPhoto->id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
         ]);
 
         // Clear homepage cache
@@ -156,7 +156,7 @@ class GalleryPhotoController extends Controller
         Log::warning('Gallery photo deleted', [
             'photo_id' => $photoId,
             'image_path' => $imagePath,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
         ]);
 
         // Clear homepage cache
