@@ -4,15 +4,56 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::latest()->get();
+        $query = Post::query();
+
+        // Ricerca per titolo o contenuto
+        if ($request->filled('search')) {
+            // Valida lunghezza search
+            $request->validate(['search' => 'string|max:100']);
+            
+            // Sanitizza input: rimuovi HTML e escape caratteri LIKE
+            $search = strip_tags($request->search);
+            $search = str_replace(['%', '_'], ['\\%', '\\_'], $search);
+            
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                ->orWhere('content', 'like', "%{$search}%");
+            });
+        }
+
+        // Filtro intervallo date su created_at
+        if ($request->filled('from_date') || $request->filled('to_date')) {
+            $request->validate([
+                'from_date' => 'nullable|date',
+                'to_date'   => 'nullable|date|after_or_equal:from_date',
+            ]);
+            if ($request->filled('from_date')) {
+                $query->whereDate('created_at', '>=', $request->input('from_date'));
+            }
+            if ($request->filled('to_date')) {
+                $query->whereDate('created_at', '<=', $request->input('to_date'));
+            }
+        }
+
+        // Admin area: show all posts with pagination
+        if ($request->routeIs('admin.posts.*')) {
+            $posts = $query->with('user')->latest()->paginate(15)->withQueryString();
+            return view('admin.posts.index', compact('posts'));
+        }
+
+        // Public: only published posts with pagination
+        $posts = $query->where('status', 'published')->with('user')->latest()->paginate(15)->withQueryString();
 
         return view('posts.index', compact('posts'));
     }
@@ -31,13 +72,40 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'   => 'required|max:255',
-            'content' => 'required',
+            'title'        => 'required|string|max:255',
+            'slug'         => 'nullable|string|max:255|unique:posts,slug',
+            'excerpt'      => 'nullable|string|max:500',
+            'content'      => 'required|string|min:50',
+            'cover_image'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'youtube_url'  => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
+                    $fail('L\'URL deve essere un link YouTube valido.');
+                }
+            }],
+            'status'       => 'required|in:draft,published',
         ]);
 
-        Post::create($validated);
+        // Handle cover image upload
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('posts/covers', 'public');
+            $validated['cover_image'] = $path;
+        }
 
-        return redirect()->route('posts.index')
+        $post = Post::create(array_merge($validated, [
+            'user_id' => Auth::id(),
+        ]));
+
+        Log::info('Post created', [
+            'post_id' => $post->id,
+            'title' => $post->title,
+            'user_id' => Auth::id(),
+            'status' => $post->status,
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.latest_posts');
+
+        return redirect()->route('admin.posts.index')
             ->with('success', 'Post creato con successo!');
     }
 
@@ -46,6 +114,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        // Public: only show published posts
+        abort_unless($post->status === 'published', 404);
+
         return view('posts.show', compact('post'));
     }
 
@@ -54,7 +125,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -62,7 +133,39 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validated = $request->validate([
+            'title'        => 'required|string|max:255',
+            'slug'         => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
+            'excerpt'      => 'nullable|string|max:500',
+            'content'      => 'required|string|min:50',
+            'cover_image'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'youtube_url'  => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
+                    $fail('L\'URL deve essere un link YouTube valido.');
+                }
+            }],
+            'status'       => 'required|in:draft,published',
+        ]);
+
+        // Handle cover image upload
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('posts/covers', 'public');
+            $validated['cover_image'] = $path;
+        }
+
+        $post->update($validated);
+
+        Log::info('Post updated', [
+            'post_id' => $post->id,
+            'title' => $post->title,
+            'user_id' => Auth::id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.latest_posts');
+
+        return redirect()->route('admin.posts.index')
+            ->with('success', 'Post aggiornato con successo!');
     }
 
     /**
@@ -70,6 +173,21 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $postId = $post->id;
+        $postTitle = $post->title;
+        
+        $post->delete();
+
+        Log::warning('Post deleted', [
+            'post_id' => $postId,
+            'title' => $postTitle,
+            'user_id' => Auth::id(),
+        ]);
+
+        // Clear homepage cache
+        Cache::forget('home.latest_posts');
+
+        return redirect()->route('admin.posts.index')
+            ->with('success', 'Post eliminato con successo!');
     }
 }

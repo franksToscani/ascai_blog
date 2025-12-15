@@ -1,9 +1,19 @@
-@extends('layouts.app')
+@extends('layouts.public')
 
 @section('title', 'Associati - Associazione No-Profit')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Diventa socio</h1>
+    <h1 class="text-2xl font-bold mb-2">Diventa socio</h1>
+    <p class="text-slate-600 mb-4">Compila il modulo online e unisciti all'associazione.</p>
+    <div class="mb-6">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSuhK_7-bpB4-07XHc_XP214gIbqkzjGYFGVLAwMT53XG0SQ/viewform?usp=dialog" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-sky-600 text-white font-semibold shadow hover:bg-sky-700 transition">
+            Compila il modulo di adesione
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+        </a>
+    </div>
 
     <div class="bg-white rounded-xl shadow-sm p-6 space-y-4 text-sm">
         <p>
@@ -20,7 +30,7 @@
 
         <h2 class="text-lg font-semibold mt-4">Quota associativa</h2>
         <p>
-            La quota associativa per l’anno in corso è di <strong>[importo €]</strong>.
+            La quota associativa per l’anno in corso è di <strong>importo ...€</strong>.
         </p>
 
         <h2 class="text-lg font-semibold mt-4">Dati per il versamento</h2>

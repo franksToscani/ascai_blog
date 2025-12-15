@@ -1,36 +1,94 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
+use Illuminate\Support\Facades\Auth; // 👈 AGGIUNTO
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\GalleryPhotoController;
+use App\Http\Controllers\AdminDashboardController;
 
-// Sito pubblico
+// ======================
+// SITO PUBBLICO
+// ======================
+
 Route::get('/', [PageController::class, 'home'])->name('home');
+
 Route::get('/chi-siamo', [PageController::class, 'chiSiamo'])->name('chi-siamo');
-
-//  Eventi dal DB
-Route::get('/eventi', [EventController::class, 'index'])->name('eventi.index');
-Route::get('/eventi/{event}', [EventController::class, 'show'])->name('eventi.show');
-
-// Contatti / Associati
-Route::get('/contatti', [PageController::class, 'contatti'])->name('contatti');
+Route::get('/statuto', [PageController::class, 'statuto'])->name('statuto');
+Route::get('/staff-ascaibo', [PageController::class, 'staff'])->name('staff-ascaibo');
+Route::get('/bilancio', [PageController::class, 'bilancio'])->name('bilancio');
 Route::get('/associati', [PageController::class, 'associati'])->name('associati');
-Route::post('/contatti', [ContactMessageController::class, 'store'])->name('contatti.store');
 
+// Contatti pubblici
+Route::get('/contatti', [PageController::class, 'contatti'])->name('contatti');
+Route::post('/contatti', [ContactMessageController::class, 'store'])
+    ->name('contatti.store')
+    ->middleware('throttle:5,1440'); // 5 messaggi ogni 24 ore (1440 minuti)
 
-// News
-Route::get('/news', [PostController::class, 'index'])->name('news.index');
-Route::get('/news/{post}', [PostController::class, 'show'])->name('news.show');
+// Eventi pubblici
+Route::get('/eventi', [EventController::class, 'index'])->name('eventi.index');
+Route::get('/eventi/{event:slug}', [EventController::class, 'show'])->name('eventi.show');
 
-// Rotte CRUD per post ed eventi (da spostare in /admin più avanti)
-Route::resource('posts', PostController::class)->except(['index', 'show']);
-Route::resource('events', EventController::class)->except(['index', 'show']);
+// News pubbliche (perco' mantenendo lo slug /news)
+Route::get('/news', [PostController::class, 'index'])->name('posts.index');
+Route::get('/news/{post:slug}', [PostController::class, 'show'])->name('posts.show');
 
-// Admin - gestione messaggi
-Route::get('/admin/messaggi', [ContactMessageController::class, 'index'])->name('admin.messages.index');
-Route::get('/admin/messaggi/{contact_message}', [ContactMessageController::class, 'show'])->name('admin.messages.show');
+// Galleria pubblica
+Route::get('/galleria', [GalleryPhotoController::class, 'index'])->name('galleria');
 
+// ======================
+// DASHBOARD (usata da Breeze)
+// ======================
 
-Route::resource('posts', PostController::class);
+Route::get('/dashboard', function () {
+    $user = Auth::user();
+
+    if ($user && $user->is_admin) {
+        // Admin → dashboard amministrativa
+        return redirect()->route('admin.dashboard');
+    }
+
+    // Utente normale → home pubblica
+    return redirect()->route('home');
+})->middleware(['auth'])->name('dashboard');
+
+// ======================
+// AREA ADMIN (protetta)
+// ======================
+
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        // Dashboard admin
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Audit log
+        Route::get('audit-log', [AdminDashboardController::class, 'auditLog'])->name('audit-log');
+
+        // Gestione NEWS (Post) - solo da admin
+        Route::resource('posts', PostController::class)->except(['show']);
+
+        // Gestione EVENTI - solo da admin
+        Route::resource('events', EventController::class)->except(['show']);
+
+        // Messaggi contatti
+        Route::get('messaggi', [ContactMessageController::class, 'index'])->name('messages.index');
+        Route::get('messaggi/{contact_message}', [ContactMessageController::class, 'show'])->name('messages.show');
+
+        // Galleria foto
+        Route::get('galleria', [GalleryPhotoController::class, 'adminIndex'])->name('gallery.index');
+        Route::get('galleria/crea', [GalleryPhotoController::class, 'create'])->name('gallery.create');
+        Route::post('galleria', [GalleryPhotoController::class, 'store'])->name('gallery.store');
+        Route::get('galleria/{galleryPhoto}/modifica', [GalleryPhotoController::class, 'edit'])->name('gallery.edit');
+        Route::put('galleria/{galleryPhoto}', [GalleryPhotoController::class, 'update'])->name('gallery.update');
+        Route::delete('galleria/{galleryPhoto}', [GalleryPhotoController::class, 'destroy'])->name('gallery.destroy');
+    });
+
+// Rotte auth generate da Breeze (login, register, ecc.)
+require __DIR__.'/auth.php';
+
+require __DIR__.'/settings.php';

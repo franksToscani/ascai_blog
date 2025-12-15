@@ -1,55 +1,45 @@
 <!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <title>@yield('title', 'Associazione No-Profit')</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- Tailwind via CDN --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+        <title>@yield('title', config('app.name', 'Laravel'))</title>
 
-<body class="bg-slate-100 text-slate-800">
-    {{-- NAVBAR --}}
-    <nav class="bg-sky-700 text-white shadow">
-        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="{{ route('home') }}" class="font-semibold text-lg">
-                Associazione No-Profit
-            </a>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-            <div class="flex items-center gap-4 text-sm">
-                <a href="{{ route('home') }}" class="hover:text-sky-200">Home</a>
-                <a href="{{ route('chi-siamo') }}" class="hover:text-sky-200">Chi siamo</a>
-                <a href="{{ route('eventi.index') }}" class="hover:text-sky-200">Eventi</a>
-                <a href="{{ route('news.index') }}" class="hover:text-sky-200">News</a>
-                <a href="{{ route('associati') }}" class="hover:text-sky-200">Associati</a>
-                <a href="{{ route('contatti') }}" class="hover:text-sky-200">Contatti</a>
-            </div>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans antialiased flex flex-col min-h-screen">
+        <div class="flex-1 bg-gray-100">
+            @include('layouts.navigation')
+
+            <!-- Page Heading -->
+            @isset($header)
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endisset
+
+            <!-- Page Content -->
+            <main>
+                @isset($slot)
+                    {{-- Usato quando il layout è chiamato come componente: <x-app-layout> --}}
+                    {{ $slot }}
+                @else
+                    {{-- Usato quando il layout è esteso con @extends('layouts.app') --}}
+                    @yield('content')
+                @endisset
+            </main>
         </div>
-    </nav>
 
-    {{-- CONTENUTO --}}
-    <main class="max-w-5xl mx-auto px-4 py-6">
-        @if(session('success'))
-            <div class="mb-4 bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @yield('content')
-    </main>
-
-    {{-- FOOTER --}}
-    <footer class="mt-8 border-t border-slate-200 bg-white">
-        <div class="max-w-5xl mx-auto px-4 py-4 text-xs text-slate-500 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <div>
-                © {{ date('Y') }} Associazione No-Profit. Tutti i diritti riservati.
-            </div>
-            <div class="flex gap-3">
-                <span>Email: info@associazione.it</span>
-                <span>Tel: +39 000 0000000</span>
-            </div>
-        </div>
-    </footer>
-</body>
+        <!-- Footer -->
+        @include('layouts.footer')
+    </body>
 </html>

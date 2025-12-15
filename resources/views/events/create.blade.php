@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    <form action="{{ route('events.store') }}" method="POST" class="bg-white rounded-xl shadow-sm p-6 space-y-4">
+    <form action="{{ route('admin.events.store') }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm p-6 space-y-4">
         @csrf
 
         <div>
@@ -49,11 +49,33 @@
                 class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
         </div>
 
+        <div>
+            <label class="block text-sm font-medium mb-1">Flyer/Locandina (opzionale)</label>
+            <input type="file" name="flyer_path" accept="image/jpeg,image/png,image/webp"
+                class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
+            <p class="text-xs text-slate-500 mt-1">JPG, PNG o WebP. Dimensione massima: 5MB</p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-1">Link video YouTube (opzionale)</label>
+            <input type="url" name="youtube_url" value="{{ old('youtube_url') }}" placeholder="https://www.youtube.com/watch?v=..."
+                class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
+            <p class="text-xs text-slate-500 mt-1">Incolla il link completo al video YouTube</p>
+        </div>
+
         <div class="flex items-center gap-2">
             <input type="checkbox" id="is_public" name="is_public" value="1"
                 class="h-4 w-4"
                 {{ old('is_public', true) ? 'checked' : '' }}>
             <label for="is_public" class="text-sm">Visibile sul sito pubblico</label>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-1">Stato</label>
+            <select name="status" class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
+                <option value="draft" {{ old('status', 'draft') === 'draft' ? 'selected' : '' }}>Bozza</option>
+                <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Pubblicato</option>
+            </select>
         </div>
 
         <button type="submit"

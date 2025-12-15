@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -35,12 +36,17 @@ class User extends Authenticatable
         'two_factor_recovery_codes',
         'remember_token',
     ];
-
     /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
+
+    protected $casts = [
+    'email_verified_at' => 'datetime',
+    'is_admin'          => 'boolean',
+];
+
     protected function casts(): array
     {
         return [
