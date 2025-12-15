@@ -69,14 +69,14 @@
                             {{-- Menu Items --}}
                             <div class="py-2">
                                 {{-- La missione --}}
-                                <a href="{{ route('missione') }}" class="px-6 py-3 flex items-start gap-3 hover:bg-sky-50 transition-colors duration-150 border-l-4 border-transparent {{ request()->routeIs('missione') ? 'bg-sky-50 border-sky-600' : 'border-white hover:border-sky-200' }}">
+                                <a href="{{ route('chi-siamo') }}" class="px-6 py-3 flex items-start gap-3 hover:bg-sky-50 transition-colors duration-150 border-l-4 border-transparent {{ request()->routeIs('missione') ? 'bg-sky-50 border-sky-600' : 'border-white hover:border-sky-200' }}">
                                     <div class="flex-shrink-0 mt-1">
                                         <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                         </svg>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-semibold text-slate-900">La missione</p>
+                                        <p class="text-sm font-semibold text-slate-900">Chi siamo</p>
                                         <p class="text-xs text-slate-600 mt-0.5">Valori e obiettivi</p>
                                     </div>
                                 </a>
@@ -206,14 +206,14 @@
                             </svg>
                         </button>
                         <div x-show="mobileChiSiamoOpen" x-transition class="bg-slate-100 rounded-lg mt-2 py-2 border border-slate-300">
-                            <a href="{{ route('missione') }}" class="px-6 py-3 flex items-start gap-3 hover:bg-white transition-colors duration-150 border-l-4 {{ request()->routeIs('missione') ? 'bg-white border-sky-600' : 'border-slate-100 hover:border-sky-200' }}">
+                            <a href="{{ route('chi-siamo') }}" class="px-6 py-3 flex items-start gap-3 hover:bg-white transition-colors duration-150 border-l-4 {{ request()->routeIs('chi-siamo') ? 'bg-white border-sky-600' : 'border-slate-100 hover:border-sky-200' }}">
                                 <div class="flex-shrink-0 mt-0.5">
                                     <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                     </svg>
                                 </div>
                                 <div class="flex-1">
-                                    <p class="text-sm font-semibold text-slate-900">La missione</p>
+                                    <p class="text-sm font-semibold text-slate-900">Chi siamo</p>
                                     <p class="text-xs text-slate-600 mt-0.5">Valori e obiettivi</p>
                                 </div>
                             </a>

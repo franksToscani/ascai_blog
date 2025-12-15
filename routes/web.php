@@ -16,7 +16,6 @@ use App\Http\Controllers\AdminDashboardController;
 Route::get('/', [PageController::class, 'home'])->name('home');
 
 Route::get('/chi-siamo', [PageController::class, 'chiSiamo'])->name('chi-siamo');
-Route::get('/missione', [PageController::class, 'missione'])->name('missione');
 Route::get('/statuto', [PageController::class, 'statuto'])->name('statuto');
 Route::get('/staff-ascaibo', [PageController::class, 'staff'])->name('staff-ascaibo');
 Route::get('/bilancio', [PageController::class, 'bilancio'])->name('bilancio');

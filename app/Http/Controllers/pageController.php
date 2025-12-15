@@ -40,9 +40,9 @@ class PageController extends Controller
 }
 
 
-    public function missione()
+    public function chiSiamo()
     {
-        return view('pages.missione');
+        return view('pages.chi-siamo');
     }
 
     public function statuto()
