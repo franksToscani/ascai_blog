@@ -20,7 +20,7 @@
 
         <h2 class="text-lg font-semibold mt-4">Quota associativa</h2>
         <p>
-            La quota associativa per l’anno in corso è di <strong>[importo €]</strong>.
+            La quota associativa per l’anno in corso è di <strong>importo ...€</strong>.
         </p>
 
         <h2 class="text-lg font-semibold mt-4">Dati per il versamento</h2>

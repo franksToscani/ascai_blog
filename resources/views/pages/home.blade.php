@@ -272,17 +272,17 @@
                 Presto saranno disponibili le foto delle attività dell'associazione.
             </p>
         @else
+            <!-- Uniform preview: equal-size square tiles -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 @foreach ($galleryPhotos as $photo)
-                    <a href="{{ route('galleria') }}" class="group relative aspect-square bg-slate-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+                    <a href="{{ route('galleria') }}" class="group relative aspect-square rounded-2xl overflow-hidden ring-1 ring-slate-100 hover:ring-sky-200 shadow transition-all duration-300">
                         <img src="{{ asset('storage/' . $photo->image_path) }}"
                             alt="{{ $photo->title ?? 'Foto galleria' }}"
                             loading="lazy"
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="absolute bottom-0 left-0 right-0 p-3">
-                                <p class="text-white text-sm font-semibold line-clamp-1">{{ $photo->title ?? 'Foto' }}</p>
-                            </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-3">
+                            <p class="text-white text-sm font-semibold line-clamp-1">{{ $photo->title ?? 'Foto' }}</p>
                         </div>
                     </a>
                 @endforeach

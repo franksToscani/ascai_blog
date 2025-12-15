@@ -27,11 +27,12 @@ class PageController extends Controller
             ->get();
     });
 
-    $galleryPhotos = Cache::remember('home.gallery_photos', 3600, function () {
+    // Preview: show only the latest 4 photos on home
+    $galleryPhotos = Cache::remember('home.gallery_photos_preview', 3600, function () {
         return GalleryPhoto::where('is_visible', true)
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
-            ->take(8)
+            ->take(4)
             ->get();
     });
 
@@ -39,9 +40,24 @@ class PageController extends Controller
 }
 
 
-    public function chiSiamo()
+    public function missione()
     {
-        return view('pages.chi-siamo');
+        return view('pages.missione');
+    }
+
+    public function statuto()
+    {
+        return view('pages.statuto');
+    }
+
+    public function staff()
+    {
+        return view('pages.staff');
+    }
+
+    public function bilancio()
+    {
+        return view('pages.bilancio');
     }
 
     public function eventi()

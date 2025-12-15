@@ -29,7 +29,29 @@ class EventController extends Controller
                     ->orWhere('description', 'like', "%{$search}%");
             }
 
-            $events = $query->orderByDesc('starts_at')->paginate(15);
+            // Filtro intervallo date (starts_at)
+            if ($request->filled('from_date') || $request->filled('to_date')) {
+                $request->validate([
+                    'from_date' => 'nullable|date',
+                    'to_date'   => 'nullable|date|after_or_equal:from_date',
+                ]);
+                if ($request->filled('from_date')) {
+                    $query->whereDate('starts_at', '>=', $request->input('from_date'));
+                }
+                if ($request->filled('to_date')) {
+                    $query->whereDate('starts_at', '<=', $request->input('to_date'));
+                }
+            }
+
+            // Filtro location
+            if ($request->filled('location')) {
+                $request->validate(['location' => 'string|max:100']);
+                $loc = strip_tags($request->location);
+                $loc = str_replace(['%', '_'], ['\\%', '\\_'], $loc);
+                $query->where('location', 'like', "%{$loc}%");
+            }
+
+            $events = $query->orderByDesc('starts_at')->paginate(15)->withQueryString();
 
             return view('admin.events.index', compact('events'));
         }
@@ -53,8 +75,31 @@ class EventController extends Controller
             });
         }
 
+        // Filtro intervallo date pubblici (opzionale)
+        if ($request->filled('from_date') || $request->filled('to_date')) {
+            $request->validate([
+                'from_date' => 'nullable|date',
+                'to_date'   => 'nullable|date|after_or_equal:from_date',
+            ]);
+            if ($request->filled('from_date')) {
+                $upcomingQuery->whereDate('starts_at', '>=', $request->input('from_date'));
+            }
+            if ($request->filled('to_date')) {
+                $upcomingQuery->whereDate('starts_at', '<=', $request->input('to_date'));
+            }
+        }
+
+        // Filtro location pubblici
+        if ($request->filled('location')) {
+            $request->validate(['location' => 'string|max:100']);
+            $loc = strip_tags($request->location);
+            $loc = str_replace(['%', '_'], ['\\%', '\\_'], $loc);
+            $upcomingQuery->where('location', 'like', "%{$loc}%");
+        }
+
         $upcomingEvents = $upcomingQuery->orderBy('starts_at')
-            ->paginate(15, ['*'], 'upcoming');
+            ->paginate(15, ['*'], 'upcoming')
+            ->withQueryString();
 
         $pastQuery = Event::where('is_public', true)
             ->where('status', 'published')
@@ -74,8 +119,32 @@ class EventController extends Controller
             });
         }
 
+        // Filtro intervallo date passati
+        if ($request->filled('from_date') || $request->filled('to_date')) {
+            // stessa validazione già eseguita: ripetiamo per chiarezza
+            $request->validate([
+                'from_date' => 'nullable|date',
+                'to_date'   => 'nullable|date|after_or_equal:from_date',
+            ]);
+            if ($request->filled('from_date')) {
+                $pastQuery->whereDate('starts_at', '>=', $request->input('from_date'));
+            }
+            if ($request->filled('to_date')) {
+                $pastQuery->whereDate('starts_at', '<=', $request->input('to_date'));
+            }
+        }
+
+        // Filtro location passati
+        if ($request->filled('location')) {
+            $request->validate(['location' => 'string|max:100']);
+            $loc = strip_tags($request->location);
+            $loc = str_replace(['%', '_'], ['\\%', '\\_'], $loc);
+            $pastQuery->where('location', 'like', "%{$loc}%");
+        }
+
         $pastEvents = $pastQuery->orderByDesc('starts_at')
-            ->paginate(10, ['*'], 'past');
+            ->paginate(10, ['*'], 'past')
+            ->withQueryString();
 
         return view('events.index', compact('upcomingEvents', 'pastEvents'));
     }

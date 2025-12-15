@@ -26,8 +26,8 @@
 
     {{-- Ricerca --}}
     <form method="GET" action="{{ route('eventi.index') }}" class="mb-8">
-        <div class="flex gap-3">
-            <div class="flex-1 relative">
+        <div class="grid md:grid-cols-5 gap-3">
+            <div class="md:col-span-2 relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -36,11 +36,27 @@
                 <input type="text" name="search" placeholder="Cerca per titolo o descrizione..." value="{{ request('search') }}"
                     class="w-full pl-10 pr-4 py-3 border-2 border-slate-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all">
             </div>
+            <div>
+                <input type="date" name="from_date" value="{{ request('from_date') }}" 
+                    class="w-full px-3 py-3 border-2 border-slate-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" 
+                    placeholder="Dal" aria-label="Dal">
+            </div>
+            <div>
+                <input type="date" name="to_date" value="{{ request('to_date') }}" 
+                    class="w-full px-3 py-3 border-2 border-slate-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" 
+                    placeholder="Al" aria-label="Al">
+            </div>
+            <div>
+                <input type="text" name="location" value="{{ request('location') }}" placeholder="Luogo"
+                    class="w-full px-3 py-3 border-2 border-slate-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all">
+            </div>
+        </div>
+        <div class="mt-3 flex gap-3">
             <button type="submit" 
                 class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300">
                 Cerca
             </button>
-            @if(request('search'))
+            @if(request()->hasAny(['search','from_date','to_date','location']))
                 <a href="{{ route('eventi.index') }}" 
                     class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300">
                     Reset

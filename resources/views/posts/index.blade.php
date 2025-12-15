@@ -14,7 +14,7 @@
             @auth
                 @if(auth()->user()->is_admin)
                     <a href="{{ route('admin.posts.create') }}" 
-                       class="inline-flex items-center gap-2 bg-sky-700 hover:bg-sky-800 text-white px-5 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                        class="inline-flex items-center gap-2 bg-sky-700 hover:bg-sky-800 text-white px-5 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                         </svg>
@@ -27,8 +27,8 @@
 
     {{-- Ricerca --}}
     <form method="GET" action="{{ route('posts.index') }}" class="mb-8">
-        <div class="flex gap-3">
-            <div class="flex-1 relative">
+        <div class="grid md:grid-cols-5 gap-3">
+            <div class="md:col-span-2 relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -37,13 +37,27 @@
                 <input type="text" name="search" placeholder="Cerca per titolo o contenuto..." value="{{ request('search') }}"
                     class="w-full pl-10 pr-4 py-3 border-2 border-slate-200 rounded-lg focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition-all">
             </div>
-            <button type="submit" 
-                class="bg-sky-700 hover:bg-sky-800 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300">
-                Cerca
-            </button>
-            @if(request('search'))
+            <div>
+                <input type="date" name="from_date" value="{{ request('from_date') }}" 
+                    class="w-full px-3 py-3 border-2 border-slate-200 rounded-lg focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition-all" 
+                    placeholder="Dal" aria-label="Dal">
+            </div>
+            <div>
+                <input type="date" name="to_date" value="{{ request('to_date') }}" 
+                    class="w-full px-3 py-3 border-2 border-slate-200 rounded-lg focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition-all" 
+                    placeholder="Al" aria-label="Al">
+            </div>
+            <div class="flex items-center">
+                <button type="submit" 
+                    class="w-full bg-sky-700 hover:bg-sky-800 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+                    Cerca
+                </button>
+            </div>
+        </div>
+        <div class="mt-3">
+            @if(request()->hasAny(['search','from_date','to_date']))
                 <a href="{{ route('posts.index') }}" 
-                   class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300">
+                    class="inline-block bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300">
                     Reset
                 </a>
             @endif
@@ -92,7 +106,7 @@
                         
                         <div class="flex items-center justify-between">
                             <a href="{{ route('posts.show', $post) }}" 
-                               class="inline-flex items-center gap-1 text-sm text-sky-700 font-semibold group-hover:gap-2 transition-all">
+                            class="inline-flex items-center gap-1 text-sm text-sky-700 font-semibold group-hover:gap-2 transition-all">
                                 <span>Leggi tutto</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -103,8 +117,8 @@
                                 @if(auth()->user()->is_admin)
                                     <div class="flex items-center gap-2">
                                         <a href="{{ route('admin.posts.edit', $post) }}" 
-                                           class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
-                                           title="Modifica">
+                                        class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
+                                        title="Modifica">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                             </svg>

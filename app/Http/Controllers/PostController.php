@@ -32,14 +32,28 @@ class PostController extends Controller
             });
         }
 
+        // Filtro intervallo date su created_at
+        if ($request->filled('from_date') || $request->filled('to_date')) {
+            $request->validate([
+                'from_date' => 'nullable|date',
+                'to_date'   => 'nullable|date|after_or_equal:from_date',
+            ]);
+            if ($request->filled('from_date')) {
+                $query->whereDate('created_at', '>=', $request->input('from_date'));
+            }
+            if ($request->filled('to_date')) {
+                $query->whereDate('created_at', '<=', $request->input('to_date'));
+            }
+        }
+
         // Admin area: show all posts with pagination
         if ($request->routeIs('admin.posts.*')) {
-            $posts = $query->with('user')->latest()->paginate(15);
+            $posts = $query->with('user')->latest()->paginate(15)->withQueryString();
             return view('admin.posts.index', compact('posts'));
         }
 
         // Public: only published posts with pagination
-        $posts = $query->where('status', 'published')->with('user')->latest()->paginate(15);
+        $posts = $query->where('status', 'published')->with('user')->latest()->paginate(15)->withQueryString();
 
         return view('posts.index', compact('posts'));
     }
