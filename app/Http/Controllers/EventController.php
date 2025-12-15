@@ -165,11 +165,23 @@ class EventController extends Controller
             'starts_at'   => 'required|date|after_or_equal:today',
             'ends_at'     => 'nullable|date|after_or_equal:starts_at',
             'location'    => 'nullable|string|max:255',
+            'flyer_path'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'youtube_url' => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
+                    $fail('L\'URL deve essere un link YouTube valido.');
+                }
+            }],
             'is_public'   => 'nullable|boolean',
             'status'      => 'required|in:draft,published',
         ]);
 
         $validated['is_public'] = $request->has('is_public');
+
+        // Handle flyer upload
+        if ($request->hasFile('flyer_path')) {
+            $path = $request->file('flyer_path')->store('events/flyers', 'public');
+            $validated['flyer_path'] = $path;
+        }
 
         $event = Event::create(array_merge($validated, [
             'user_id' => Auth::id(),
@@ -214,11 +226,23 @@ class EventController extends Controller
             'starts_at'   => 'required|date',
             'ends_at'     => 'nullable|date|after_or_equal:starts_at',
             'location'    => 'nullable|string|max:255',
+            'flyer_path'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'youtube_url' => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
+                    $fail('L\'URL deve essere un link YouTube valido.');
+                }
+            }],
             'is_public'   => 'nullable|boolean',
             'status'      => 'required|in:draft,published',
         ]);
 
         $validated['is_public'] = $request->has('is_public');
+
+        // Handle flyer upload
+        if ($request->hasFile('flyer_path')) {
+            $path = $request->file('flyer_path')->store('events/flyers', 'public');
+            $validated['flyer_path'] = $path;
+        }
 
         $event->update($validated);
 

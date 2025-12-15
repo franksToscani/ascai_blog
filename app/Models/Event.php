@@ -10,13 +10,15 @@ class Event extends Model
 {
     use SoftDeletes, HasSlug;
 
-     protected $fillable = [
+    protected $fillable = [
         'title',
         'slug',
         'description',
         'starts_at',
         'ends_at',
         'location',
+        'flyer_path',
+        'youtube_url',
         'is_public',
         'status',
         'user_id',

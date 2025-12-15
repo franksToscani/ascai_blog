@@ -122,6 +122,8 @@ La homepage del sito presenta:
 - Data e ora inizio/fine
 - Luogo dell'evento
 - Descrizione completa
+- **Flyer** (se presente): Immagine cliccabile per ingrandimento a schermo intero
+- **Video YouTube** (se presente): Player video incorporato
 - Pulsante "Torna agli eventi"
 
 ### 🖼️ Pagina Galleria
@@ -355,7 +357,7 @@ Se sei loggato come admin e visiti la pagina pubblica delle news:
      - Si genera automaticamente dal titolo
    - **Descrizione** (obbligatorio)
      - Testo completo con dettagli evento
-   - **Luogo** (obbligatorio)
+   - **Luogo** (opzionale)
      - Indirizzo completo
      - Esempio: "Via Marconi 10, Bologna"
    - **Data e Ora Inizio** (obbligatorio)
@@ -363,6 +365,22 @@ Se sei loggato come admin e visiti la pagina pubblica delle news:
      - Esempio: `2025-12-25 18:00`
    - **Data e Ora Fine** (opzionale)
      - Stesso formato di inizio
+   - **Flyer/Locandina** (opzionale) 🆕
+     - Formati supportati: JPG, PNG, WebP
+     - Dimensione massima: 5MB
+     - **Dimensioni consigliate**:
+       - Formato verticale (portrait)
+       - Aspect ratio: 2:3 o 3:4
+       - Risoluzione ottimale: 800×1200px o 1000×1400px
+       - Esempio: Se hai un flyer A4 standard verticale, funziona perfettamente
+     - Il flyer sarà cliccabile per ingrandimento a schermo intero
+   - **Link Video YouTube** (opzionale) 🆕
+     - Incolla il link completo al video YouTube
+     - Formati accettati:
+       - `https://www.youtube.com/watch?v=...`
+       - `https://youtu.be/...`
+       - `https://www.youtube.com/embed/...`
+     - Il video sarà incorporato nella pagina evento
    - **Visibilità**
      - ☑️ **Pubblico**: Visibile a tutti
      - ☐ **Privato**: Visibile solo agli admin
@@ -372,10 +390,19 @@ Se sei loggato come admin e visiti la pagina pubblica delle news:
 3. Click **"Crea Evento"**
 4. Conferma: "Evento creato con successo!"
 
+**💡 Suggerimenti per i Flyer**:
+- Usa immagini verticali per sfruttare al meglio lo spazio
+- Comprimi le immagini prima del caricamento per velocità
+- Il flyer viene automaticamente ridimensionato e centrato nella card
+- Nel dettaglio evento, il flyer è affiancato al video YouTube se entrambi presenti
+
 #### Modificare un Evento
 
 1. Nella lista eventi, click **"Modifica"**
 2. Aggiorna i campi desiderati
+   - **Nota**: Per il flyer, se lasci vuoto il campo file, il flyer esistente non viene modificato
+   - Per **sostituire il flyer**, seleziona una nuova immagine
+   - Per il **video YouTube**, modifica semplicemente l'URL o lascialo vuoto per rimuoverlo
 3. Click **"Aggiorna Evento"**
 4. Conferma: "Evento aggiornato con successo!"
 

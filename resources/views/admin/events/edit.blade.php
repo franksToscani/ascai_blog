@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.events.update', $event) }}" method="POST" class="bg-white rounded-xl shadow-sm p-6 space-y-4">
+    <form action="{{ route('admin.events.update', $event) }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm p-6 space-y-4">
         @csrf
         @method('PUT')
 
@@ -48,6 +48,23 @@
             <label class="block text-sm font-medium mb-1">Luogo (opzionale)</label>
             <input type="text" name="location" value="{{ old('location', $event->location) }}"
                 class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-1">Flyer/Locandina (opzionale)</label>
+            @if ($event->flyer_path)
+                <p class="text-xs text-slate-500 mb-2">File attuale: {{ basename($event->flyer_path) }}</p>
+            @endif
+            <input type="file" name="flyer_path" accept="image/jpeg,image/png,image/webp"
+                class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
+            <p class="text-xs text-slate-500 mt-1">JPG, PNG o WebP. Dimensione massima: 5MB (lascia vuoto per non modificare)</p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-1">Link video YouTube (opzionale)</label>
+            <input type="url" name="youtube_url" value="{{ old('youtube_url', $event->youtube_url) }}" placeholder="https://www.youtube.com/watch?v=..."
+                class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
+            <p class="text-xs text-slate-500 mt-1">Incolla il link completo al video YouTube</p>
         </div>
 
         <div class="flex items-center gap-2">
