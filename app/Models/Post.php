@@ -14,6 +14,8 @@ class Post extends Model
         'title', 
         'slug',
         'content',
+        'cover_image',
+        'youtube_url',
         'status',
         'user_id',
     ];

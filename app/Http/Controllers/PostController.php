@@ -72,12 +72,24 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'   => 'required|string|max:255',
-            'slug'    => 'nullable|string|max:255|unique:posts,slug',
-            'excerpt' => 'nullable|string|max:500',
-            'content' => 'required|string|min:50',
-            'status'  => 'required|in:draft,published',
+            'title'        => 'required|string|max:255',
+            'slug'         => 'nullable|string|max:255|unique:posts,slug',
+            'excerpt'      => 'nullable|string|max:500',
+            'content'      => 'required|string|min:50',
+            'cover_image'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'youtube_url'  => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
+                    $fail('L\'URL deve essere un link YouTube valido.');
+                }
+            }],
+            'status'       => 'required|in:draft,published',
         ]);
+
+        // Handle cover image upload
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('posts/covers', 'public');
+            $validated['cover_image'] = $path;
+        }
 
         $post = Post::create(array_merge($validated, [
             'user_id' => Auth::id(),
@@ -122,12 +134,24 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'title'   => 'required|string|max:255',
-            'slug'    => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
-            'excerpt' => 'nullable|string|max:500',
-            'content' => 'required|string|min:50',
-            'status'  => 'required|in:draft,published',
+            'title'        => 'required|string|max:255',
+            'slug'         => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
+            'excerpt'      => 'nullable|string|max:500',
+            'content'      => 'required|string|min:50',
+            'cover_image'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'youtube_url'  => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
+                    $fail('L\'URL deve essere un link YouTube valido.');
+                }
+            }],
+            'status'       => 'required|in:draft,published',
         ]);
+
+        // Handle cover image upload
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('posts/covers', 'public');
+            $validated['cover_image'] = $path;
+        }
 
         $post->update($validated);
 
