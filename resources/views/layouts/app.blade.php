@@ -28,14 +28,16 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
-                @isset($slot)
-                    {{-- Usato quando il layout è chiamato come componente: <x-app-layout> --}}
-                    {{ $slot }}
-                @else
-                    {{-- Usato quando il layout è esteso con @extends('layouts.app') --}}
-                    @yield('content')
-                @endisset
+            <main class="w-full flex-1">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+                    @isset($slot)
+                        {{-- Usato quando il layout è chiamato come componente: <x-app-layout> --}}
+                        {{ $slot }}
+                    @else
+                        {{-- Usato quando il layout è esteso con @extends('layouts.app') --}}
+                        @yield('content')
+                    @endisset
+                </div>
             </main>
         </div>
 

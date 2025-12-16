@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- Header con gradiente --}}
-    <div class="mb-8 bg-gradient-to-r from-slate-50 via-slate-100 to-slate-50 rounded-2xl p-8 shadow-sm border border-slate-200">
+    <div class="mb-8 bg-gradient-to-r from-slate-50 via-slate-100 to-slate-50 rounded-2xl p-8 shadow-sm border border-slate-200 mt-12 md:mt-16">
         <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Dashboard Amministrativa</h1>
         <p class="text-slate-600">Gestisci contenuti, eventi e messaggi dell'associazione ASCAI Bologna</p>
     </div>

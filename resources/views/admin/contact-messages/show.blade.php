@@ -3,7 +3,7 @@
 @section('title', 'Messaggio di ' . $msg->name)
 
 @section('content')
-    <a href="{{ route('admin.messages.index') }}" class="text-sm text-sky-700 hover:underline">← Torna indietro</a>
+    <a href="{{ route('admin.messages.index') }}" class="text-sm text-sky-700 hover:underline mt-12 md:mt-16 inline-block">← Torna indietro</a>
 
     <div class="bg-white p-6 rounded-xl shadow-sm mt-4">
         <h1 class="text-xl font-bold mb-2">{{ $msg->subject }}</h1>

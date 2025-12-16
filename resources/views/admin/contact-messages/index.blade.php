@@ -3,7 +3,7 @@
 @section('title', 'Messaggi ricevuti')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Messaggi ricevuti</h1>
+    <h1 class="text-2xl font-bold mb-4 mt-12 md:mt-16">Messaggi ricevuti</h1>
 
     @if ($messages->isEmpty())
         <p class="text-slate-600">Nessun messaggio ancora.</p>

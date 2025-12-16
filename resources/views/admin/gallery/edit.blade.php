@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="py-12">
+<div class="py-12 mt-12 md:mt-16">
     <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 class="text-2xl font-bold mb-6">Modifica Foto Galleria</h1>
 
