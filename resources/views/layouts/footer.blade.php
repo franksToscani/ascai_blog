@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Logo e Nome -->
         <div class="flex items-center gap-3 mb-8">
-            <img src="{{ asset('images/logo3.png') }}" alt="Logo ASCAI Bologna" class="h-16 w-auto">
+            <img src="{{ asset('images/logoAscai1.png') }}" alt="Logo ASCAI Bologna" class="h-16 w-auto">
             <div>
                 <h2 class="text-2xl font-bold text-white">ASCAI Bologna</h2>
                 <p class="text-sm text-slate-300">Associazione di Categoria Agenti e Imprese</p>
