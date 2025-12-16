@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>@yield('title', 'ASCAI – Associazione dei Camerunesi a Bologna')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ASCAI Bologna - Associazione dei Camerunesi a Bologna. Comunità, eventi, supporto e integrazione.">
+    <meta name="author" content="Franks Toscani - Web Developer">
+    <meta name="copyright" content="© {{ date('Y') }} ASCAI Bologna. Tutti i diritti riservati.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@yield('title', 'ASCAI Bologna')">
+    <meta property="og:description" content="Associazione dei Camerunesi a Bologna">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

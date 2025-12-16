@@ -39,6 +39,22 @@ Route::get('/news/{post:slug}', [PostController::class, 'show'])->name('posts.sh
 Route::get('/galleria', [GalleryPhotoController::class, 'index'])->name('galleria');
 
 // ======================
+// PAGINE LEGALI
+// ======================
+
+Route::get('/privacy-policy', function () {
+    return view('legal.privacy');
+})->name('privacy');
+
+Route::get('/cookie-policy', function () {
+    return view('legal.cookie-policy');
+})->name('cookie-policy');
+
+Route::get('/note-legali', function () {
+    return view('legal.note-legali');
+})->name('note-legali');
+
+// ======================
 // DASHBOARD (usata da Breeze)
 // ======================
 

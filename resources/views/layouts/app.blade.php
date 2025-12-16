@@ -4,6 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="author" content="Franks Toscani - Web Developer">
+        <meta name="copyright" content="© {{ date('Y') }} ASCAI Bologna. Sviluppato da Franks Toscani.">
+        <meta name="robots" content="noindex, nofollow">
 
         <title>@yield('title', config('app.name', 'Laravel'))</title>
 
