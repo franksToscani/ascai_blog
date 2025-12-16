@@ -633,3 +633,5 @@ Questo progetto è **privato** e di proprietà personale. Tutti i diritti riserv
 ### 🆘 Support
 
 Per problemi o domande, apri un issue nel repository." 
+
+### code sendgrid pour le service mail en cas de perte de mon phone: TFUQEH9XAYLXWS6Y2M98R4JB
