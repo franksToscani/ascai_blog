@@ -1,0 +1,42 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ascai_app
+    working_dir: /app
+    ports:
+      - "8000:8000"
+      - "5173:5173"
+    env_file:
+      - .env.docker
+    volumes:
+      - ./:/app
+      - /app/vendor
+      - /app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "cp .env.docker .env && composer install && php artisan config:clear && php artisan migrate --force && php artisan serve --host 0.0.0.0 --port 8000"
+
+  db:
+    image: postgres:15
+    container_name: ascai_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ascai
+      POSTGRES_USER: ascai
+      POSTGRES_PASSWORD: ascai
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ascai -d ascai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:

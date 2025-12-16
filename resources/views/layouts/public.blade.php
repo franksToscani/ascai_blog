@@ -274,14 +274,16 @@
     </header>
 
     {{-- CONTENUTO --}}
-    <main class="max-w-7xl mx-auto px-6 py-10 flex-1">
-        @if(session('success'))
-            <div class="mb-6 bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded">
-                {{ session('success') }}
-            </div>
-        @endif
+    <main class="w-full flex-1">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            @if(session('success'))
+                <div class="mb-6 bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-        @yield('content')
+            @yield('content')
+        </div>
     </main>
 
     {{-- FOOTER --}}

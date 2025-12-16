@@ -3,7 +3,15 @@
 @section('title', 'Associati - Associazione No-Profit')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-2">Diventa socio</h1>
+    {{-- Header --}}
+    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-12 md:mt-16">
+        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Diventa parte della nostra comunità</h1>
+        <p class="text-slate-600 text-lg">La forza di una comunità nasce dalla partecipazione attiva e condivisa.</p>
+    </div>
+
+    {{-- Contenuto Principale --}}
+    <h2 class="text-1xl mb-4 mt-12 md:mt-16"> Entrare a far parte della nostra associazione significa condividere valori, cultura e solidarietà. ASCAI Bologna è uno spazio di incontro, supporto e crescita, dove ogni socio contribuisce attivamente alla vita della comunità camerunese e al dialogo interculturale sul territorio. Unisciti a noi per partecipare alle attività,
+        sostenere i nostri progetti e costruire insieme un futuro basato su inclusione, collaborazione e rispetto reciproco.</h2>
     <p class="text-slate-600 mb-4">Compila il modulo online e unisciti all'associazione.</p>
     <div class="mb-6">
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSuhK_7-bpB4-07XHc_XP214gIbqkzjGYFGVLAwMT53XG0SQ/viewform?usp=dialog" target="_blank" rel="noopener noreferrer"

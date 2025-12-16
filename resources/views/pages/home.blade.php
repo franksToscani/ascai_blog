@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- HERO SLIDER --}}
-    <section class="mb-12 mt-8 relative" x-data="{ 
+    <section class="mt-12 md:mt-16 relative" x-data="{
         currentSlide: 0, 
         slides: [
             {
@@ -148,7 +148,7 @@
     </section>
 
     {{-- ULTIME NEWS --}}
-    <section class="mb-12">
+    <section class="mb-12 mt-12 md:mt-16">
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Ultime news</h2>
@@ -195,7 +195,7 @@
     </section>
 
     {{-- PROSSIMI EVENTI --}}
-    <section class="mb-12">
+    <section class="mb-12 mt-12 md:mt-16">
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Prossimi eventi</h2>
@@ -253,7 +253,7 @@
     </section>
 
     {{-- MINI GALLERIA --}}
-    <section>
+    <section class="mt-12 md:mt-16">
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Galleria foto</h2>
