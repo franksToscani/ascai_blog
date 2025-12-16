@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Logo e Nome -->
         <div class="flex items-center gap-3 mb-8">
-            <img src="{{ asset('images/logo3.png') }}" alt="Logo ASCAI Bologna" class="h-16 w-auto">
+            <img src="{{ asset('images/logoAscai1.png') }}" alt="Logo ASCAI Bologna" class="h-16 w-auto">
             <div>
                 <h2 class="text-2xl font-bold text-white">ASCAI Bologna</h2>
                 <p class="text-sm text-slate-300">Associazione di Categoria Agenti e Imprese</p>
@@ -113,24 +113,40 @@
             </div>
         </div>
 
-        <!-- Copyright -->
+        <!-- Copyright e Note Legali -->
         <div class="border-t border-slate-600 pt-8 mt-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
-                <p>© {{ date('Y') }} ASCAI Bologna. Tutti i diritti riservati.</p>
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('login') }}" class="text-xs text-slate-400 hover:text-white transition-colors flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                        </svg>
-                        Accesso amministratori
-                    </a>
-                    <p class="flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                        </svg>
-                        Realizzato con passione per la comunità...Softweb Bologna dev Master Franks Toscani
-                    </p>
-                </div>
+            <!-- Link Legali -->
+            <div class="flex flex-wrap justify-center gap-4 mb-6 text-xs text-slate-400">
+                <a href="{{ route('privacy') }}" class="hover:text-white transition-colors">Privacy Policy</a>
+                <span>•</span>
+                <a href="{{ route('cookie-policy') }}" class="hover:text-white transition-colors">Cookie Policy</a>
+                <span>•</span>
+                <a href="{{ route('note-legali') }}" class="hover:text-white transition-colors">Note Legali</a>
+                <span>•</span>
+                <a href="{{ route('login') }}" class="hover:text-white transition-colors flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    Admin
+                </a>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="text-center space-y-2">
+                <p class="text-sm text-slate-300">
+                    © {{ date('Y') }} <strong>ASCAI Bologna</strong> - Associazione dei Camerunesi a Bologna
+                    <br class="sm:hidden">
+                    <span class="hidden sm:inline">•</span> Tutti i diritti riservati
+                </p>
+                <p class="text-xs text-slate-400 flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    Sviluppato da <strong class="text-sky-400">Franks Toscani Koudja</strong> - Web Developer
+                    <svg class="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </p>
             </div>
         </div>
     </div>

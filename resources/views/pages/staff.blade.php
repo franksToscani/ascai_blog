@@ -4,13 +4,13 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8">
-        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Lo staff di ASCAI Bologna</h1>
+    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-12 md:mt-16">
+        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Lo staff dell'AS.CA.I Bologna</h1>
         <p class="text-slate-600 text-lg">Le persone che dedicano il loro tempo all'associazione</p>
     </div>
 
     {{-- Contenuto Principale --}}
-    <div class="grid md:grid-cols-3 gap-6 mb-12">
+    <div class="grid md:grid-cols-3 gap-6 mb-12 mt-12 md:mt-16">
         {{-- Staff --}}
         <div class="md:col-span-2">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 space-y-8">

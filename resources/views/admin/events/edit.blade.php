@@ -3,7 +3,7 @@
 @section('title', 'Modifica evento')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Modifica evento</h1>
+    <h1 class="text-2xl font-bold mt-12 md:mt-16">Modifica evento</h1>
 
     @if ($errors->any())
         <div class="mb-4 bg-red-100 border border-red-300 text-red-800 px-4 py-2 rounded">

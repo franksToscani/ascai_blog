@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-purple-50 via-pink-50 to-rose-50 rounded-2xl border border-purple-100 p-8">
+    <div class="mb-8 bg-gradient-to-r from-purple-50 via-pink-50 to-rose-50 rounded-2xl border border-purple-100 p-8 mt-12 md:mt-16">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">Galleria Fotografica</h1>

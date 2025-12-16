@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-cyan-50 rounded-2xl border border-sky-100 p-8">
+    <div class="mb-8 bg-gradient-to-r from-sky-50 to-cyan-50 rounded-2xl border border-sky-100 p-8 mt-12 md:mt-16">
         <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">Contattaci</h1>
         <p class="text-slate-600">Siamo qui per rispondere alle tue domande e ascoltare le tue proposte</p>
     </div>

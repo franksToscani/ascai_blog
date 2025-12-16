@@ -4,9 +4,9 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8">
-        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Bilancio sociale</h1>
-        <p class="text-slate-600 text-lg">Trasparenza e rendicontazione dell'attività di ASCAI Bologna</p>
+    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-12 md:mt-16">
+        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Bilanci dell'associazione</h1>
+        <p class="text-slate-600 text-lg">Trasparenza e rendicontazione dell'attività di AS.CA.I Bologna</p>
     </div>
 
     {{-- Contenuto Principale --}}

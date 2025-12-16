@@ -3,7 +3,7 @@
 @section('title', 'Gestione galleria')
 
 @section('content')
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center justify-between mb-4 mt-12 md:mt-16">
         <h1 class="text-2xl font-bold">Gestione galleria</h1>
 
         <a href="{{ route('admin.gallery.create') }}"

@@ -3,7 +3,7 @@
 @section('title', 'Audit Log - Admin')
 
 @section('content')
-    <div class="mb-6">
+    <div class="mb-6 mt-12 md:mt-16">
         <h1 class="text-2xl font-bold mb-2">Registro di audit</h1>
         <p class="text-sm text-slate-600">Tutte le modifiche ai dati dell'associazione</p>
     </div>

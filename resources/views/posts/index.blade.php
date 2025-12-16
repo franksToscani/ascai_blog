@@ -5,7 +5,7 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8">
+    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-12 md:mt-16">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">News & Articoli</h1>
