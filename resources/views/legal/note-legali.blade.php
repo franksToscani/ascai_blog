@@ -8,7 +8,7 @@
     <div class="bg-gradient-to-br from-slate-700 to-slate-900 rounded-2xl shadow-xl p-8 mb-8 text-white">
         <h1 class="text-3xl font-bold mb-3">Note Legali</h1>
         <p class="text-slate-300">Termini e condizioni d'uso del sito web</p>
-        <p class="text-sm text-slate-400 mt-2">Ultimo aggiornamento: {{ date('d/m/Y') }}</p>
+        <p class="text-sm text-slate-400 mt-2">Ultimo aggiornamento: 16/10/2026</p>
     </div>
 
     <!-- Contenuto -->
@@ -22,7 +22,7 @@
                 1. Informazioni sul Proprietario del Sito
             </h2>
             <div class="prose prose-slate max-w-none">
-                <p><strong class="text-lg">ASCAI Bologna</strong></p>
+                <p><strong class="text-lg">AS.CA.I Bologna</strong></p>
                 <p>Associazione dei Camerunesi a Bologna</p>
                 <p><strong>Sede legale:</strong> Cassero di Porta Galliera, Piazza XX Settembre 7, 40121 Bologna (BO), Italia</p>
                 <p><strong>Partita IVA:</strong> 94048620549</p>
@@ -90,7 +90,7 @@
                 4. Limitazione di Responsabilità
             </h2>
             <div class="prose prose-slate max-w-none">
-                <p>ASCAI Bologna si impegna a fornire informazioni accurate e aggiornate, tuttavia:</p>
+                <p>AS.CA.I Bologna si impegna a fornire informazioni accurate e aggiornate, tuttavia:</p>
                 <ul class="list-disc pl-6 space-y-2">
                     <li>Non garantisce la completezza, accuratezza o tempestività delle informazioni pubblicate</li>
                     <li>Non è responsabile per eventuali errori, omissioni o imprecisioni nei contenuti</li>

@@ -12,6 +12,10 @@
     <meta property="og:title" content="@yield('title', 'ASCAI Bologna')">
     <meta property="og:description" content="Associazione dei Camerunesi a Bologna">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logoAscai1.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logoAscai1.png') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>

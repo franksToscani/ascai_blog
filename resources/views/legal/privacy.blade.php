@@ -22,7 +22,7 @@
                 1. Titolare del Trattamento
             </h2>
             <div class="prose prose-slate max-w-none">
-                <p><strong>ASCAI Bologna</strong> - Associazione dei Camerunesi a Bologna</p>
+                <p><strong>AS.CA.I Bologna</strong> - Associazione dei Camerunesi a Bologna</p>
                 <p><strong>Sede:</strong> Cassero di Porta Galliera, Piazza XX Settembre 7, 40121 Bologna</p>
                 <p><strong>P.IVA:</strong> 94048620549</p>
                 <p><strong>Email:</strong> <a href="mailto:associazione.camer.bologna@gmail.com" class="text-sky-600 hover:underline">associazione.camer.bologna@gmail.com</a></p>
