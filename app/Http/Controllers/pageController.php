@@ -7,7 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\GalleryPhoto;
 use Illuminate\Support\Facades\Cache;
-
+//ho cambiato il nome della classe da pageController a PageController per seguire le convenzioni di Laravel
 
 class PageController extends Controller
 {
