@@ -43,4 +43,9 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
   CMD curl -f http://127.0.0.1:${PORT:-8000}/ || exit 1
 
-CMD sh -c "php artisan migrate --force --no-interaction && php artisan optimize && php artisan storage:link; php -S 0.0.0.0:${PORT:-8000} -t public"
+CMD sh -c "\
+  if [ -z \"$APP_KEY\" ]; then echo 'APP_KEY is missing; set it in Render env vars.' >&2; exit 1; fi; \
+  mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache; \
+  chmod -R 775 storage bootstrap/cache; \
+  php artisan migrate --force --no-interaction && php artisan optimize && php artisan storage:link; \
+  php -S 0.0.0.0:${PORT:-8000} -t public"
