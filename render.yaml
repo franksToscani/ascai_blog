@@ -6,15 +6,23 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     autoDeploy: true
+    disk:
+      name: uploads
+      mountPath: /app/storage
+      sizeGB: 1
     envVars:
       - key: APP_ENV
         value: "production"
       - key: APP_DEBUG
         value: "false"
       - key: APP_KEY
-        sync: false
+        value: base64:4YCDm4RTeIJLMAD9SRoLOebW6Emvjiyjcad1N+kszmg=
       - key: APP_URL
         value: https://ascai-blog.onrender.com
+      - key: LOG_CHANNEL
+        value: "stderr"
+      - key: LOG_LEVEL
+        value: "info"
       - key: DB_CONNECTION
         value: "pgsql"
       - key: DB_HOST
