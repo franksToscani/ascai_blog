@@ -7,7 +7,6 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\GalleryPhoto;
 use Illuminate\Support\Facades\Cache;
-//ho messo il nome del controller con la lettera maiuscola per convenzione
 
 class PageController extends Controller
 {
