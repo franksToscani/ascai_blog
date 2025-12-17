@@ -15,27 +15,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crea utente admin
-        $admin = User::factory()->create([
-            'name' => 'Admin ASCAI',
-            'email' => 'admin@ascai.it',
-            'is_admin' => true,
-        ]);
+        // Crea utente admin (senza usare Factory / Faker in produzione)
+        User::updateOrCreate(
+            ['email' => 'admin@ascai.it'],
+            [
+                'name' => 'Admin ASCAI',
+                'password' => 'password', // verrà hashato dal cast
+                'is_admin' => true,
+                'email_verified_at' => now(),
+            ]
+        );
 
-        // Crea utente admin per i test
-        User::factory()->create([
-            'name' => 'Test Admin',
-            'email' => 'testadmin@ascai.it',
-            'password' => bcrypt('password'),
-            'is_admin' => true,
-        ]);
-
-        // Crea utente normale
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'is_admin' => false,
-        ]);
+        // Crea utente admin di test
+        User::updateOrCreate(
+            ['email' => 'associazione.camer.bologna@gmail.com'],
+            [
+                'name' => 'Admin Ascai',
+                'password' => 'AscaiTeam2024.',
+                'is_admin' => true,
+                'email_verified_at' => now(),
+            ]
+        );
 
         // ========================================
         // EVENTI PASSATI (4)
