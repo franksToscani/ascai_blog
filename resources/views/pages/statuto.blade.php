@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-12 md:mt-16">
+    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-10 md:mt-12">
         <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Statuto dell'associazione</h1>
         <p class="text-slate-600 text-lg">Le norme e regolamenti AS.CA.I Bologna</p>
     </div>

@@ -4,13 +4,13 @@
 
 @section('content')
     {{-- HERO SLIDER --}}
-    <section class="mt-12 md:mt-16 relative" x-data="{
+    <section class="mt-10 md:mt-12 relative" x-data="{
         currentSlide: 0, 
         slides: [
             {
                 background: @if(file_exists(public_path('images/banner0.jpg'))) '{{ asset('images/banner0.jpg') }}' @else 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' @endif,
-                title: 'Benvenuti in ASCAI Bologna',
-                subtitle: 'Associazione Camerun Ascai Italia',
+                title: 'Benvenuti in AS.CA.I Bologna',
+                subtitle: 'Associazione dei Camerunesi in Italia - Sezione di Bologna',
                 description: 'Costruiamo ponti tra culture, promuoviamo l\'integrazione e sosteniamo la comunità camerunense a Bologna.',
                 cta: 'Scopri chi siamo',
                 ctaLink: '{{ route('chi-siamo') }}'
@@ -26,7 +26,7 @@
             {
                 background: @if(file_exists(public_path('images/banner2.jpg'))) '{{ asset('images/banner2.jpg') }}' @else 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' @endif,
                 title: 'Unisciti a Noi',
-                subtitle: 'Diventa parte della famiglia ASCAI',
+                subtitle: 'Diventa parte della famiglia AS.CA.I Bologna',
                 description: 'Sostieni la nostra missione e contribuisci a creare una comunità più inclusiva e solidale.',
                 cta: 'Contattaci',
                 ctaLink: '{{ route('contatti') }}'
@@ -56,7 +56,7 @@
             this.startAutoplay();
         }
     }">
-        <div class="relative h-[380px] rounded-lg overflow-hidden shadow-2xl">
+        <div class="relative h-[380px] overflow-hidden shadow-2xl">
             <!-- Slides -->
             <template x-for="(slide, index) in slides" :key="index">
                 <div x-show="currentSlide === index"

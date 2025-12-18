@@ -2,14 +2,14 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'ASCAI – Associazione dei Camerunesi a Bologna')</title>
+    <title>@yield('title', 'AS.CA.I – Associazione dei Camerunesi a Bologna')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ASCAI Bologna - Associazione dei Camerunesi a Bologna. Comunità, eventi, supporto e integrazione.">
+    <meta name="description" content="AS.CA.I Bologna - Associazione dei Camerunesi a Bologna. Comunità, eventi, supporto e integrazione.">
     <meta name="author" content="Franks Toscani - Web Developer">
-    <meta name="copyright" content="© {{ date('Y') }} ASCAI Bologna. Tutti i diritti riservati.">
+    <meta name="copyright" content="© {{ date('Y') }} AS.CA.I Bologna. Tutti i diritti riservati.">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="@yield('title', 'ASCAI Bologna')">
+    <meta property="og:title" content="@yield('title', 'AS.CA.I Bologna')">
     <meta property="og:description" content="Associazione dei Camerunesi a Bologna">
 
     <!-- Favicon -->
@@ -36,7 +36,7 @@
                         <div class="absolute inset-0 bg-sky-400 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                     </div>
                     <div>
-                        <span class="text-xl font-bold text-slate-800 group-hover:text-sky-600 transition-colors">ASCAI Bologna</span>
+                        <span class="text-xl font-bold text-slate-800 group-hover:text-sky-600 transition-colors">AS.CA.I Bologna</span>
                         <p class="text-xs text-slate-500 hidden sm:block">Associazione dei Camerunesi</p>
                     </div>
                 </a>

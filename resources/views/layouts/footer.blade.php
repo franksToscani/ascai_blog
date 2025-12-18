@@ -4,8 +4,8 @@
         <div class="flex items-center gap-3 mb-8">
             <img src="{{ asset('images/logoAscai1.png') }}" alt="Logo ASCAI Bologna" class="h-16 w-auto">
             <div>
-                <h2 class="text-2xl font-bold text-white">ASCAI Bologna</h2>
-                <p class="text-sm text-slate-300">Associazione di Categoria Agenti e Imprese</p>
+                <h2 class="text-2xl font-bold text-white">AS.CA.I Bologna</h2>
+                <p class="text-sm text-slate-300">Associazione dei Camerunesi d'Italia sezione di Bologna</p>
             </div>
         </div>
 

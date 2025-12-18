@@ -4,9 +4,9 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-12 md:mt-16">
+    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-10 md:mt-12">
         <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Chi siamo</h1>
-        <p class="text-slate-600 text-lg">L'Associazione dei Camerunesi di Bologna</p>
+        <p class="text-slate-600 text-lg">Associazione dei Camerunesi d'Italia sezione di Bologna nata negli anni 2000 per promuovere l'integrazione e la solidarietà.</p>
     </div>
 
     {{-- Contenuto Principale --}}
@@ -15,9 +15,9 @@
         <div class="md:col-span-2">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 space-y-6">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Chi siamo</h2>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">La nostra storia</h2>
                     <p class="text-slate-600 leading-relaxed mb-4">
-                        ASCAI Bologna è un'associazione no-profit fondata con la missione di promuovere l'integrazione, la solidarietà e lo scambio culturale tra la comunità camerunese e la società bolognese.
+                        AS.CA.I Bologna è un'associazione no-profit fondata con la missione di promuovere l'integrazione, la solidarietà e lo scambio culturale tra la comunità camerunese e la società bolognese.
                     </p>
                     <p class="text-slate-600 leading-relaxed mb-4">
                         Crediamo che la diversità sia una ricchezza e lavoriamo quotidianamente per costruire ponti fra le culture, favorendo il dialogo e la comprensione reciproca.
