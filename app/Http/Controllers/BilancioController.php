@@ -20,10 +20,11 @@ class BilancioController extends Controller
 
         $downloadName = 'Bilancio_' . $year . '.pdf';
 
-        return response()->download(
-            Storage::disk('public')->path($bilancio->file_path),
-            $downloadName
-        );
+        return response()->streamDownload(function () use ($bilancio) {
+            echo Storage::disk('public')->get($bilancio->file_path);
+        }, $downloadName, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }
 
