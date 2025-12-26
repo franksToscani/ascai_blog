@@ -8,6 +8,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\GalleryPhotoController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\BilancioController as PublicBilancioController;
+use App\Http\Controllers\Admin\BilancioController as AdminBilancioController;
 
 // ======================
 // SITO PUBBLICO
@@ -19,6 +21,7 @@ Route::get('/chi-siamo', [PageController::class, 'chiSiamo'])->name('chi-siamo')
 Route::get('/statuto', [PageController::class, 'statuto'])->name('statuto');
 Route::get('/staff-ascaibo', [PageController::class, 'staff'])->name('staff-ascaibo');
 Route::get('/bilancio', [PageController::class, 'bilancio'])->name('bilancio');
+Route::get('/bilancio/{year}/download', [PublicBilancioController::class, 'download'])->name('bilancio.download');
 Route::get('/associati', [PageController::class, 'associati'])->name('associati');
 
 // Contatti pubblici
@@ -102,6 +105,12 @@ Route::middleware(['auth', 'admin'])
         Route::get('galleria/{galleryPhoto}/modifica', [GalleryPhotoController::class, 'edit'])->name('gallery.edit');
         Route::put('galleria/{galleryPhoto}', [GalleryPhotoController::class, 'update'])->name('gallery.update');
         Route::delete('galleria/{galleryPhoto}', [GalleryPhotoController::class, 'destroy'])->name('gallery.destroy');
+
+        // Bilanci (PDF)
+        Route::get('bilanci', [AdminBilancioController::class, 'index'])->name('bilanci.index');
+        Route::get('bilanci/crea', [AdminBilancioController::class, 'create'])->name('bilanci.create');
+        Route::post('bilanci', [AdminBilancioController::class, 'store'])->name('bilanci.store');
+        Route::delete('bilanci/{bilancio}', [AdminBilancioController::class, 'destroy'])->name('bilanci.destroy');
     });
 
 // Rotte auth generate da Breeze (login, register, ecc.)

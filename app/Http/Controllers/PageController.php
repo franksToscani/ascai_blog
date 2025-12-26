@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\GalleryPhoto;
+use App\Models\Bilancio;
 use Illuminate\Support\Facades\Cache;
 
 class PageController extends Controller
@@ -56,7 +57,8 @@ class PageController extends Controller
 
     public function bilancio()
     {
-        return view('pages.bilancio');
+        $bilanci = Bilancio::orderByDesc('year')->get();
+        return view('pages.bilancio', compact('bilanci'));
     }
 
     public function eventi()

@@ -24,58 +24,24 @@
                 <div>
                     <h2 class="text-2xl font-bold text-slate-800 mb-6">Bilanci storici</h2>
                     <div class="space-y-3">
-
-                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:border-sky-200 hover:shadow-md transition-all">
-                            <div>
-                                <p class="font-semibold text-slate-800">Bilancio 2025</p>
-                                <p class="text-xs text-slate-600 mt-1">Ultimo anno fiscale</p>
+                        @forelse($bilanci as $b)
+                            <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:border-sky-200 hover:shadow-md transition-all">
+                                <div>
+                                    <p class="font-semibold text-slate-800">Bilancio {{ $b->year }}</p>
+                                    @if($b->title)
+                                        <p class="text-xs text-slate-600 mt-1">{{ $b->title }}</p>
+                                    @endif
+                                </div>
+                                <a href="{{ route('bilancio.download', ['year' => $b->year]) }}" class="inline-flex items-center gap-2 text-sky-600 hover:text-sky-700 font-semibold transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    Scarica (PDF)
+                                </a>
                             </div>
-                            <a href="#" class="inline-flex items-center gap-2 text-sky-600 hover:text-sky-700 font-semibold transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                Scarica (PDF)
-                            </a>
-                        </div>
-
-                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:border-sky-200 hover:shadow-md transition-all">
-                            <div>
-                                <p class="font-semibold text-slate-800">Bilancio 2024</p>
-                                <p class="text-xs text-slate-600 mt-1">Ultimo anno fiscale</p>
-                            </div>
-                            <a href="#" class="inline-flex items-center gap-2 text-sky-600 hover:text-sky-700 font-semibold transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                Scarica (PDF)
-                            </a>
-                        </div>
-
-                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:border-sky-200 hover:shadow-md transition-all">
-                            <div>
-                                <p class="font-semibold text-slate-800">Bilancio 2023</p>
-                                <p class="text-xs text-slate-600 mt-1">Anno precedente</p>
-                            </div>
-                            <a href="#" class="inline-flex items-center gap-2 text-sky-600 hover:text-sky-700 font-semibold transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                Scarica (PDF)
-                            </a>
-                        </div>
-
-                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:border-sky-200 hover:shadow-md transition-all">
-                            <div>
-                                <p class="font-semibold text-slate-800">Bilancio 2022</p>
-                                <p class="text-xs text-slate-600 mt-1">Archivio</p>
-                            </div>
-                            <a href="#" class="inline-flex items-center gap-2 text-sky-600 hover:text-sky-700 font-semibold transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                Scarica (PDF)
-                            </a>
-                        </div>
+                        @empty
+                            <p class="text-sm text-slate-500">Nessun bilancio disponibile al momento.</p>
+                        @endforelse
                     </div>
                 </div>
 

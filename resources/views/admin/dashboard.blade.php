@@ -125,6 +125,15 @@
             </div>
             <span class="text-sm text-sky-700 font-semibold">Carica foto →</span>
         </a>
+        <a href="{{ route('admin.bilanci.index') }}" class="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between">
+            <div>
+                <h2 class="font-semibold mb-1">Gestisci bilanci</h2>
+                <p class="text-xs text-slate-500 mb-2">
+                    Carica e gestisci i bilanci annuali in PDF.
+                </p>
+            </div>
+            <span class="text-sm text-sky-700 font-semibold">Apri bilanci →</span>
+        </a>
     </div>
 
 
