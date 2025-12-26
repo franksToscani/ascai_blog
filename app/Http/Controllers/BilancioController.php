@@ -19,12 +19,9 @@ class BilancioController extends Controller
         }
 
         $downloadName = 'Bilancio_' . $year . '.pdf';
+        $filePath = Storage::disk('public')->path($bilancio->file_path);
 
-        return response()->streamDownload(function () use ($bilancio) {
-            echo Storage::disk('public')->get($bilancio->file_path);
-        }, $downloadName, [
-            'Content-Type' => 'application/pdf',
-        ]);
+        return response()->download($filePath, $downloadName);
     }
 }
 
