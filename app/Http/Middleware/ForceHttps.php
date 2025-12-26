@@ -11,7 +11,7 @@ class ForceHttps
     public function handle(Request $request, Closure $next): Response
     {
         // Force HTTPS in production
-        if ($this->app('config')->get('app.env') === 'production' && !$request->secure()) {
+        if (app()->environment('production') && !$request->isSecure()) {
             return redirect(
                 preg_replace('/^http:\/\//i', 'https://', $request->url()),
                 301
@@ -21,18 +21,13 @@ class ForceHttps
         $response = $next($request);
 
         // Add HSTS header to force HTTPS for future requests
-        if ($this->app('config')->get('app.env') === 'production') {
-            $response->header(
+        if (app()->environment('production')) {
+            $response->headers->set(
                 'Strict-Transport-Security',
                 'max-age=31536000; includeSubDomains'
             );
         }
 
         return $response;
-    }
-
-    private function app($abstract)
-    {
-        return app($abstract);
     }
 }
