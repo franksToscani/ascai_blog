@@ -30,6 +30,14 @@
                 description: 'Sostieni la nostra missione e contribuisci a creare una comunità più inclusiva e solidale.',
                 cta: 'Contattaci',
                 ctaLink: '{{ route('contatti') }}'
+            },
+            {
+                background: @if(file_exists(public_path('images/banner3.jpg'))) '{{ asset('images/banner3.jpg') }}' @else 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)' @endif,
+                title: 'Calendario Eventi 2025',
+                subtitle: 'Scopri tutti gli eventi in programma',
+                description: 'Partecipa ai nostri eventi culturali, formativi e ricreativi. Resta aggiornato su tutte le iniziative della comunità AS.CA.I Bologna.',
+                cta: 'Vedi il calendario',
+                ctaLink: '{{ route('eventi.index') }}'
             }
         ],
         autoplay: null,
