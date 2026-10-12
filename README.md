@@ -1,6 +1,6 @@
 # 🇨🇲 ASCAI Bologna - Sito Web Associazione
 
-Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai Italia) costruito con **Laravel 12**, **Blade Templates**, **Inertia.js**, **Vue 3** e **Tailwind CSS**. Un'applicazione full-stack con autenticazione, gestione contenuti (news, eventi, galleria), messaggi di contatto e pannello amministrativo completo.
+Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai Italia) costruito con **Laravel 12**, **Blade Templates**, **Alpine.js** e **Tailwind CSS**. Un'applicazione full-stack con autenticazione, gestione contenuti (news, eventi, galleria), messaggi di contatto e pannello amministrativo completo.
 
 ## ✨ Caratteristiche Principali
 
@@ -24,7 +24,7 @@ Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai It
 - 📧 **Notifiche Email** - Admins ricevono email automatiche su nuovi messaggi di contatto
 
 ### 🛡️ Area Amministrativa
-- 🔐 **Autenticazione** - Login, registrazione, 2FA, recupero password (Laravel Fortify)
+- 🔐 **Autenticazione** - Login, recupero password, profilo (Laravel Breeze, Blade). Registrazione pubblica disabilitata
 - 📝 **Gestione News** - CRUD completo con status draft/published
 - 📅 **Gestione Eventi** - CRUD con status public/private e published/draft
 - 🎨 **Gestione Galleria** - CRUD completo foto con upload, modifica, eliminazione
@@ -41,33 +41,14 @@ Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai It
 - 🔄 **RESTful API** - Endpoint CRUD per tutte le risorse
 - 📋 **Database Robusto** - Enum status, soft/hard relationships, seeding automatico
 
-## 🧭 Scelte architetturali: Blade vs Vue/Inertia (SPA)
+## 🧭 Scelte architetturali
 
-| Approccio | Pro | Contro | Quando usarlo |
-| --- | --- | --- | --- |
-| **Blade (SSR)** | SEO immediato, first-load veloce, semplicità, costi bassi, funziona anche senza JS | Reload pagina, interattività limitata | Siti di contenuto, blog/news, landing, admin semplice |
-| **Vue 3 + Inertia (SPA)** | UX fluida senza reload, UI complesse, riuso API | Bundle JS iniziale, SEO più complesso (serve SSR/pre-render), maggiore complessità | Dashboard ricche, real-time, app-like |
+Tutto il sito (pagine pubbliche, area admin, login e profilo) è renderizzato lato server con **Blade**:
+SEO immediato, primo caricamento veloce, nessuna SPA da mantenere.
+L'interattività leggera (carousel, menu mobile, modali) è gestita con **Alpine.js**.
 
-🎯 Due Approcci Diversi
-1️⃣ Laravel + Blade (Traditional Server-Side Rendering)
-
-Browser → Request → Laravel → Blade Template → HTML → Browser
-Blade = Template engine PHP di Laravel
-Il server genera HTML per ogni richiesta
-Ogni click = reload della pagina
-Nessun JavaScript framework richiesto (o jQuery opzionale)
-2️⃣ Laravel + Vue 3 + Inertia (Modern SPA)
-
-Browser → Request → Laravel → Inertia → Vue Component → Client-side Render
-Vue gestisce tutto il frontend
-Il server invia JSON/props a Vue
-Nessun reload della pagina (SPA)
-File .blade.php NON servono (tranne app.blade.php come shell)
-
-### Scelta per ASCAI Bologna
-- Sito **content-driven** (news, eventi, galleria) con SEO importante ⇒ priorità a **Blade SSR**
-- Viste pubbliche e admin in Blade; Inertia/Vue resta dove serve (auth/settings)
-- Per micro-interazioni: **Alpine.js**; per interattività più ricca senza SPA completa: **Livewire**
+Il progetto era nato dallo starter kit Laravel Vue/Inertia: quella parte (Vue, Inertia, Fortify, 2FA)
+è stata rimossa perché non veniva compilata ed era in conflitto con le pagine Blade.
 
 ## 📋 Prerequisiti
 
@@ -141,7 +122,7 @@ ascai_blog/
 │   └── AdminDashboardController.php # Dashboard admin, audit log filtering
 │
 ├── app/Models/
-│   ├── User.php              # Users (is_admin, 2FA)
+│   ├── User.php              # Users (is_admin)
 │   ├── Post.php              # Posts (status: draft/published, slug, searchable)
 │   ├── Event.php             # Events (status, is_public, slug, searchable)
 │   ├── GalleryPhoto.php       # Foto (is_visible, published_at, lazy loadable)
@@ -157,7 +138,7 @@ ascai_blog/
 │   ├── gallery_photos_table      # is_visible, published_at
 │   ├── contact_messages_table    # Messaggi, read_at timestamp
 │   ├── audit_logs_table          # Tracciamento modifiche
-│   └── users_table              # is_admin boolean, 2FA fields
+│   └── users_table              # is_admin boolean
 │
 ├── database/seeders/
 │   └── DatabaseSeeder.php    # Test data: 2 admin users, 1 user, 7 posts, 7 events, 8 photos
@@ -202,7 +183,7 @@ ascai_blog/
 │   ├── components/
 │   │   └── application-logo.blade.php  # Logo ASCAI
 │   │
-│   └── auth/                           # Fortify auth views
+│   └── auth/                           # Breeze auth views (Blade)
 │
 ├── routes/
 │   ├── web.php                         # Rotte principali
@@ -214,7 +195,7 @@ ascai_blog/
 │   │   ├── POST /contatti → salva messaggio + invia email admin + rate limit
 │   │   └── GET  /admin/* → area protetta (audit log, CRUD)
 │   │
-│   ├── auth.php                        # Fortify routes
+│   ├── auth.php                        # Breeze routes
 │   └── settings.php                    # Profilo utente
 │
 ├── public/
@@ -231,86 +212,27 @@ ascai_blog/
 
 ### Backend (PHP)
 
-| Pacchetto | Versione | Descrizione |
-|-----------|----------|-------------|
-| **laravel/framework** | ^12.0 | Framework PHP web |
-| **inertiajs/inertia-laravel** | ^2.0 | Adapter Laravel per Inertia.js |
-| **laravel/fortify** | ^1.30 | Autenticazione e 2FA |
-| **laravel/tinker** | ^2.10.1 | Interactive shell |
-| **laravel/wayfinder** | ^0.1.9 | Utility per routing |
+| Pacchetto | Descrizione |
+|-----------|-------------|
+| **laravel/framework** ^12 | Framework PHP |
+| **laravel/tinker** | Shell interattiva |
+| **laravel/breeze** (dev) | Scaffolding login/profilo in Blade |
 
-### Frontend (JavaScript/Vue 3)
+### Frontend (build con Vite)
 
-| Pacchetto | Versione | Descrizione |
-|-----------|----------|-------------|
-| **vue** | ^3.5.13 | Framework Vue.js |
-| **@inertiajs/vue3** | ^2.1.0 | Adapter Vue3 per Inertia.js |
-| **tailwindcss** | ^4.1.1 | Utility-first CSS framework |
-| **@tailwindcss/forms** | ^0.5.2 | Form styling plugin |
-| **lucide-vue-next** | ^0.468.0 | Icon library |
-| **reka-ui** | ^2.4.1 | Headless UI components |
-| **@vueuse/core** | ^12.8.2 | Vue composition utilities |
-| **alpinejs** | ^3.4.2 | Lightweight JavaScript framework |
-
-### Strumenti di Sviluppo
-
-| Pacchetto | Versione | Descrizione |
-|-----------|----------|-------------|
-| **vite** | ^7.0.4 | Build tool moderno |
-| **@vitejs/plugin-vue** | ^6.0.0 | Plugin Vue per Vite |
-| **typescript** | ^5.2.2 | Linguaggio TypeScript |
-| **tailwindcss-vite** | ^4.1.11 | Plugin Tailwind per Vite |
-| **eslint** | ^9.17.0 | Linter JavaScript |
-| **prettier** | ^3.4.2 | Code formatter |
-| **postcss** | ^8.4.31 | Tool CSS |
-| **laravel-vite-plugin** | ^2.0.0 | Plugin Laravel per Vite |
-
-## 📄 Pagine e Componenti
-
-### Pagine Pubbliche
-- **Welcome.vue** - Homepage del blog
-- **Dashboard.vue** - Dashboard post-login
-
-### Pagine Autenticazione (`auth/`)
-- **Login.vue** - Login utente
-- **Register.vue** - Registrazione nuovo account
-- **ForgotPassword.vue** - Recupero password
-- **ResetPassword.vue** - Reset password
-- **VerifyEmail.vue** - Verifica email
-- **ConfirmPassword.vue** - Conferma password
-- **TwoFactorChallenge.vue** - Verifica 2FA
-
-### Pagine Impostazioni (`settings/`)
-- **Profile.vue** - Profilo utente
-- **Password.vue** - Cambio password
-- **Appearance.vue** - Temi e aspetto
-- **TwoFactor.vue** - Configurazione 2FA
-
-### Componenti Principali
-- **AppShell.vue** - Shell principale dell'app
-- **AppLayout.vue** - Layout principale
-- **AuthLayout.vue** - Layout autenticazione
-- **AppHeader.vue** - Header top
-- **AppSidebar.vue** - Sidebar navigazione
-- **NavMain.vue** - Menu principale
-- **NavUser.vue** - Menu utente
-
-### Componenti UI (`components/ui/`)
-Basati su **Reka UI** (headless components):
-- Button
-- Input
-- Select
-- Dialog
-- Dropdown Menu
-- Tooltip
-- E altri...
+| Pacchetto | Descrizione |
+|-----------|-------------|
+| **tailwindcss** ^3 + **@tailwindcss/forms** | CSS utility-first (via PostCSS) |
+| **alpinejs** ^3 | Interattività leggera nelle viste Blade |
+| **vite** + **laravel-vite-plugin** | Build di `resources/css/app.css` e `resources/js/app.js` |
+| **eslint**, **prettier** | Lint e formattazione |
 
 ## 📋 Database Schema
 
 ### Tabella: users
 ```
 id (PK), name, email, email_verified_at, password, 
-remember_token, two_factor_secret, two_factor_recovery_codes,
+remember_token,
 is_admin (boolean: false=user, true=admin),
 created_at, updated_at
 ```
@@ -318,7 +240,7 @@ created_at, updated_at
 
 ### Tabella: posts
 ```
-id (PK), user_id (FK → users), title, slug, excerpt, content,
+id (PK), user_id (FK → users), title, slug, content, cover_image, youtube_url,
 status (enum: 'draft' | 'published'),
 created_at, updated_at
 ```
@@ -353,28 +275,25 @@ created_at, updated_at
 
 ## 🔐 Autenticazione e Autorizzazione
 
-### Laravel Fortify - Autenticazione Completa
-- ✅ **Registrazione** - Nuovi utenti (default is_admin = false)
-- ✅ **Login/Logout** - Gestione sessioni sicure
-- ✅ **Verifica Email** - Conferma via link
-- ✅ **2FA** (Two-Factor Authentication) - TOTP/SMS recovery codes
+### Laravel Breeze (Blade)
+- ✅ **Login/Logout** - Sessioni sicure, rate limiting sul login
 - ✅ **Recupero Password** - Reset via email
-- ✅ **Profilo Utente** - Gestione dati personali
+- ✅ **Verifica Email** - Conferma via link
+- ✅ **Profilo** (`/profile`) - Modifica dati, cambio password, eliminazione account
+- ⛔ **Registrazione** - Disabilitata: gli admin si creano dal seeder (`ADMIN_EMAIL` / `ADMIN_PASSWORD`)
 
 ### Sistema Ruoli e Autorizzazione
 
 | Ruolo | Accesso | Permessi |
 |-------|---------|----------|
 | **Guest** | Pubblico | Lettura news, eventi, galleria, contatti |
-| **User** | Autenticato | Dashboard, modifica profilo, 2FA |
-| **Admin** | is_admin=true | CRUD completo (posts, events, gallery) + azioni inline su pagine pubbliche |
+| **Admin** | is_admin=true | CRUD completo (posts, events, gallery, bilanci) + azioni inline su pagine pubbliche |
 
 ### Middleware di Protezione
 - `auth` - Richiede autenticazione
 - `admin` - Richiede is_admin = true
 - Protezione CSRF su tutti i form
-- Rate limiting su login/register
-- Azioni admin inline: modifica/elimina su posts, events, gallery direttamente dalle pagine pubbliche
+- Rate limiting su login e modulo contatti (5 messaggi / 24h per IP)
 
 ## 🛠️ Comandi Utili
 
@@ -543,7 +462,7 @@ php artisan tinker
 ## 🚀 Sprint 1 - Feature Completate
 
 ### ✅ Novembre 2025 - Foundation & Core Features
-- [x] Setup Laravel 12 con Fortify authentication
+- [x] Setup Laravel 12 con autenticazione Breeze
 - [x] Struttura database (Users, Posts, Events, Gallery, ContactMessages)
 - [x] Seeding automatico con test data (2 admin, 1 user, 7 posts, 7 events, 8 photos)
 - [x] Layout pubblico con logo ASCAI e navigation
@@ -619,8 +538,6 @@ Questo progetto è **privato** e di proprietà personale. Tutti i diritti riserv
 ### 📚 Risorse Utili
 
 - [Laravel Docs](https://laravel.com/docs)
-- [Inertia.js](https://inertiajs.com/)
-- [Vue 3 Documentation](https://vuejs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Reka UI](https://reka-ui.com/)
 

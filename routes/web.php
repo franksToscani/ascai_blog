@@ -8,6 +8,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\GalleryPhotoController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BilancioController as PublicBilancioController;
 use App\Http\Controllers\Admin\BilancioController as AdminBilancioController;
 
@@ -112,7 +113,12 @@ Route::middleware(['auth', 'admin'])
         Route::delete('bilanci/{bilancio}', [AdminBilancioController::class, 'destroy'])->name('bilanci.destroy');
     });
 
-// Rotte auth generate da Breeze (login, register, ecc.)
+// Rotte auth generate da Breeze (login, reset password, verifica email)
 require __DIR__.'/auth.php';
 
-require __DIR__.'/settings.php';
+// Profilo utente (Blade, da Breeze)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});

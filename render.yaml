@@ -59,15 +59,18 @@ services:
       - key: MAIL_MAILER
         value: "smtp"
       - key: MAIL_HOST
-        value: "smtp.example.com"
+        value: "smtp.gmail.com"
       - key: MAIL_PORT
         value: "587"
-      - key: MAIL_ENCRYPTION
-        value: "tls"
+      # Segreti: impostarli dalla dashboard di Render (password per le app di Google)
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
       - key: MAIL_FROM_ADDRESS
-        value: "no-reply@example.com"
+        value: "associazione.camer.bologna@gmail.com"
       - key: MAIL_FROM_NAME
-        value: "AscaiBlog"
+        value: "AS.CA.I Bologna"
     healthCheckPath: /
 
 databases:
