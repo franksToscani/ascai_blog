@@ -775,15 +775,8 @@ Per informazioni sull'associazione:
 
 ### Credenziali di Test (Solo Ambiente di Sviluppo)
 
-```
-Admin ASCAI:
-  Email: admin@ascai.it
-  Password: [Contatta amministratore]
-
-Test Admin:
-  Email: testadmin@ascai.it
-  Password: password
-```
+L'account admin di sviluppo si crea con `php artisan db:seed`, usando
+`ADMIN_EMAIL` e `ADMIN_PASSWORD` impostati nel file `.env`.
 
 ⚠️ **Attenzione**: NON usare queste credenziali in produzione!
 

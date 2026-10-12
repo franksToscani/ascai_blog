@@ -15,27 +15,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crea utente admin (senza usare Factory / Faker in produzione)
-        User::updateOrCreate(
-            ['email' => 'admin@ascai.it'],
-            [
-                'name' => 'Admin ASCAI',
-                'password' => 'password', // verrà hashato dal cast
-                'is_admin' => true,
-                'email_verified_at' => now(),
-            ]
-        );
+        // Crea l'utente admin con le credenziali prese dal .env (mai scritte nel codice)
+        $adminEmail = env('ADMIN_EMAIL');
+        $adminPassword = env('ADMIN_PASSWORD');
 
-        // Crea utente admin di test
-        User::updateOrCreate(
-            ['email' => 'associazione.camer.bologna@gmail.com'],
-            [
-                'name' => 'Admin Ascai',
-                'password' => 'AscaiTeam2024.',
-                'is_admin' => true,
-                'email_verified_at' => now(),
-            ]
-        );
+        if ($adminEmail && $adminPassword) {
+            User::updateOrCreate(
+                ['email' => $adminEmail],
+                [
+                    'name' => env('ADMIN_NAME', 'Admin ASCAI'),
+                    'password' => $adminPassword, // verrà hashato dal cast
+                    'is_admin' => true,
+                    'email_verified_at' => now(),
+                ]
+            );
+        } else {
+            $this->command?->warn('ADMIN_EMAIL / ADMIN_PASSWORD non impostati: nessun admin creato.');
+        }
+
+        // Contenuti di esempio solo in sviluppo, mai in produzione
+        if (app()->environment('production')) {
+            return;
+        }
 
         // ========================================
         // EVENTI PASSATI (4)

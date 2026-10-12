@@ -516,20 +516,14 @@ php artisan migrate --force
 
 ## 🧪 Testing e Credenziali di Sviluppo
 
-### Account di Test (seeder)
-```
-Admin ASCAI (Originale):
-  Email: admin@ascai.it
-  Password: (generato da factory)
-  
-Test Admin (Per test):
-  Email: testadmin@ascai.it
-  Password: password
-  
-Test User (Utente standard):
-  Email: test@example.com
-  Password: (generato da factory)
-```
+### Account admin (seeder)
+Le credenziali non sono nel codice: imposta `ADMIN_EMAIL` e `ADMIN_PASSWORD` nel `.env`
+e lancia `php artisan db:seed`. In produzione il seeder crea solo l'admin, senza contenuti di esempio.
+
+La registrazione pubblica è disabilitata.
+
+### Docker in locale
+`.env.docker` non è versionato: copialo da `.env.docker.example` e genera una `APP_KEY`.
 
 ### Comandi Test
 ```bash

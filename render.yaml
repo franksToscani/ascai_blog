@@ -15,8 +15,9 @@ services:
         value: "production"
       - key: APP_DEBUG
         value: "false"
+      # Segreto: impostarlo solo dalla dashboard di Render, mai nel repository
       - key: APP_KEY
-        value: base64:4YCDm4RTeIJLMAD9SRoLOebW6Emvjiyjcad1N+kszmg=
+        sync: false
       - key: APP_URL
         value: https://ascai-blog.onrender.com
       - key: LOG_CHANNEL
