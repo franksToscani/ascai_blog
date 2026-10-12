@@ -53,7 +53,7 @@
             <label class="block text-sm font-medium mb-1">Flyer/Locandina (opzionale)</label>
             <input type="file" name="flyer_path" accept="image/jpeg,image/png,image/webp"
                 class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
-            <p class="text-xs text-slate-500 mt-1">JPG, PNG o WebP. Dimensione massima: 5MB</p>
+            <p class="text-xs text-slate-500 mt-1">JPG, PNG o WebP. Dimensione massima: 10MB</p>
         </div>
 
         <div>

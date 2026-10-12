@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Services\ImageResizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -25,8 +27,11 @@ class EventController extends Controller
                 $search = strip_tags($request->search);
                 $search = str_replace(['%', '_'], ['\\%', '\\_'], $search);
                 
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%");
+                // Raggruppato, altrimenti l'OR scavalca gli altri filtri
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+                });
             }
 
             // Filtro intervallo date (starts_at)
@@ -165,7 +170,7 @@ class EventController extends Controller
             'starts_at'   => 'required|date|after_or_equal:today',
             'ends_at'     => 'nullable|date|after_or_equal:starts_at',
             'location'    => 'nullable|string|max:255',
-            'flyer_path'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'flyer_path'  => 'nullable|image|mimes:jpeg,png,webp|max:10240',
             'youtube_url' => ['nullable', 'url', function ($attribute, $value, $fail) {
                 if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
                     $fail('L\'URL deve essere un link YouTube valido.');
@@ -179,8 +184,7 @@ class EventController extends Controller
 
         // Handle flyer upload
         if ($request->hasFile('flyer_path')) {
-            $path = $request->file('flyer_path')->store('events/flyers', 'public');
-            $validated['flyer_path'] = $path;
+            $validated['flyer_path'] = ImageResizer::store($request->file('flyer_path'), 'events/flyers');
         }
 
         $event = Event::create(array_merge($validated, [
@@ -226,7 +230,7 @@ class EventController extends Controller
             'starts_at'   => 'required|date',
             'ends_at'     => 'nullable|date|after_or_equal:starts_at',
             'location'    => 'nullable|string|max:255',
-            'flyer_path'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'flyer_path'  => 'nullable|image|mimes:jpeg,png,webp|max:10240',
             'youtube_url' => ['nullable', 'url', function ($attribute, $value, $fail) {
                 if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
                     $fail('L\'URL deve essere un link YouTube valido.');
@@ -238,10 +242,14 @@ class EventController extends Controller
 
         $validated['is_public'] = $request->has('is_public');
 
-        // Handle flyer upload
+        // Handle flyer upload (la vecchia locandina viene eliminata)
         if ($request->hasFile('flyer_path')) {
-            $path = $request->file('flyer_path')->store('events/flyers', 'public');
-            $validated['flyer_path'] = $path;
+            $oldFlyer = $event->flyer_path;
+            $validated['flyer_path'] = ImageResizer::store($request->file('flyer_path'), 'events/flyers');
+
+            if ($oldFlyer) {
+                Storage::disk('public')->delete($oldFlyer);
+            }
         }
 
         $event->update($validated);

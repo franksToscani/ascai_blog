@@ -19,9 +19,13 @@ WORKDIR /app
 
 # System deps for Laravel + Postgres
 RUN apt-get update \
- && apt-get install -y git unzip curl libpq-dev libzip-dev libpng-dev libonig-dev libxml2-dev \
- && docker-php-ext-install pdo_pgsql gd zip mbstring xml \
+ && apt-get install -y git unzip curl libpq-dev libzip-dev libpng-dev libjpeg62-turbo-dev libwebp-dev libonig-dev libxml2-dev \
+ && docker-php-ext-configure gd --with-jpeg --with-webp \
+ && docker-php-ext-install pdo_pgsql gd exif zip mbstring xml \
  && rm -rf /var/lib/apt/lists/*
+
+# Upload fino a 10MB (foto da telefono, PDF bilanci); il default PHP è 2MB
+RUN printf "upload_max_filesize=12M\npost_max_size=14M\nmemory_limit=256M\n" > /usr/local/etc/php/conf.d/uploads.ini
 
 # Copy composer from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

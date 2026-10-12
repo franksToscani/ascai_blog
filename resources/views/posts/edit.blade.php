@@ -38,7 +38,7 @@
             @endif
             <input type="file" name="cover_image" accept="image/jpeg,image/png,image/webp"
                 class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
-            <p class="text-xs text-slate-500 mt-1">JPG, PNG o WebP. Max 5MB. Lascia vuoto per mantenere l'immagine attuale.</p>
+            <p class="text-xs text-slate-500 mt-1">JPG, PNG o WebP. Max 10MB. Lascia vuoto per mantenere l'immagine attuale.</p>
         </div>
 
         <div>

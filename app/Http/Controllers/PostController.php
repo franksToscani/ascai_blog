@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Services\ImageResizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -74,9 +76,8 @@ class PostController extends Controller
         $validated = $request->validate([
             'title'        => 'required|string|max:255',
             'slug'         => 'nullable|string|max:255|unique:posts,slug',
-            'excerpt'      => 'nullable|string|max:500',
             'content'      => 'required|string|min:50',
-            'cover_image'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'cover_image'  => 'nullable|image|mimes:jpeg,png,webp|max:10240',
             'youtube_url'  => ['nullable', 'url', function ($attribute, $value, $fail) {
                 if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
                     $fail('L\'URL deve essere un link YouTube valido.');
@@ -87,8 +88,7 @@ class PostController extends Controller
 
         // Handle cover image upload
         if ($request->hasFile('cover_image')) {
-            $path = $request->file('cover_image')->store('posts/covers', 'public');
-            $validated['cover_image'] = $path;
+            $validated['cover_image'] = ImageResizer::store($request->file('cover_image'), 'posts/covers');
         }
 
         $post = Post::create(array_merge($validated, [
@@ -136,9 +136,8 @@ class PostController extends Controller
         $validated = $request->validate([
             'title'        => 'required|string|max:255',
             'slug'         => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
-            'excerpt'      => 'nullable|string|max:500',
             'content'      => 'required|string|min:50',
-            'cover_image'  => 'nullable|image|mimes:jpeg,png,webp|max:5120',
+            'cover_image'  => 'nullable|image|mimes:jpeg,png,webp|max:10240',
             'youtube_url'  => ['nullable', 'url', function ($attribute, $value, $fail) {
                 if ($value && !str_contains(strtolower($value), 'youtube') && !str_contains($value, 'youtu.be')) {
                     $fail('L\'URL deve essere un link YouTube valido.');
@@ -147,10 +146,14 @@ class PostController extends Controller
             'status'       => 'required|in:draft,published',
         ]);
 
-        // Handle cover image upload
+        // Handle cover image upload (la vecchia copertina viene eliminata)
         if ($request->hasFile('cover_image')) {
-            $path = $request->file('cover_image')->store('posts/covers', 'public');
-            $validated['cover_image'] = $path;
+            $oldCover = $post->cover_image;
+            $validated['cover_image'] = ImageResizer::store($request->file('cover_image'), 'posts/covers');
+
+            if ($oldCover) {
+                Storage::disk('public')->delete($oldCover);
+            }
         }
 
         $post->update($validated);

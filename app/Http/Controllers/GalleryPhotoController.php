@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GalleryPhoto;
+use App\Services\ImageResizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -48,8 +49,7 @@ class GalleryPhotoController extends Controller
                 'required',
                 'image',
                 'mimes:jpeg,jpg,png,webp',
-                'max:2048', // max 2MB
-                'dimensions:max_width=2000,max_height=2000'
+                'max:10240', // max 10MB: le foto grandi vengono ridimensionate a 2000px
             ],
             'title'      => 'nullable|string|max:255',
             'caption'    => 'nullable|string|max:500',
@@ -57,7 +57,7 @@ class GalleryPhotoController extends Controller
         ]);
 
         // Salva file in storage/app/public/gallery
-        $path = $request->file('image')->store('gallery', 'public');
+        $path = ImageResizer::store($request->file('image'), 'gallery');
 
         $photo = GalleryPhoto::create([
             'title'        => $validated['title'] ?? null,
@@ -75,7 +75,7 @@ class GalleryPhotoController extends Controller
         ]);
 
         // Clear homepage cache
-        Cache::forget('home.gallery_photos');
+        Cache::forget('home.gallery_photos_preview');
 
         return redirect()->route('admin.gallery.index')
             ->with('success', 'Foto aggiunta alla galleria!');
@@ -107,8 +107,7 @@ class GalleryPhotoController extends Controller
                 'nullable',
                 'image',
                 'mimes:jpeg,jpg,png,webp',
-                'max:2048', // max 2MB
-                'dimensions:max_width=2000,max_height=2000'
+                'max:10240', // max 10MB: le foto grandi vengono ridimensionate a 2000px
             ],
             'title'      => 'nullable|string|max:255',
             'caption'    => 'nullable|string|max:500',
@@ -118,7 +117,7 @@ class GalleryPhotoController extends Controller
         // Se caricata nuova immagine, elimina la vecchia e salva la nuova
         if ($request->file('image')) {
             Storage::disk('public')->delete($galleryPhoto->image_path);
-            $path = $request->file('image')->store('gallery', 'public');
+            $path = ImageResizer::store($request->file('image'), 'gallery');
             $galleryPhoto->image_path = $path;
         }
 
@@ -134,7 +133,7 @@ class GalleryPhotoController extends Controller
         ]);
 
         // Clear homepage cache
-        Cache::forget('home.gallery_photos');
+        Cache::forget('home.gallery_photos_preview');
 
         return redirect()->route('admin.gallery.index')
             ->with('success', 'Foto aggiornata con successo!');
@@ -160,7 +159,7 @@ class GalleryPhotoController extends Controller
         ]);
 
         // Clear homepage cache
-        Cache::forget('home.gallery_photos');
+        Cache::forget('home.gallery_photos_preview');
 
         return redirect()->route('admin.gallery.index')
             ->with('success', 'Foto eliminata dalla galleria!');

@@ -1,23 +1,25 @@
 <x-mail::message>
 # Nuovo messaggio ricevuto
 
-<strong>Da:</strong> {{ $message->name }}  
-<strong>Email:</strong> {{ $message->email }}  
-<strong>Oggetto:</strong> {{ $message->subject ?? '(Nessun oggetto)' }}  
-<strong>Data:</strong> {{ $message->created_at->format('d/m/Y H:i') }}
+**Da:** {{ $contactMessage->name }}<br>
+**Email:** {{ $contactMessage->email }}<br>
+**Oggetto:** {{ $contactMessage->subject ?? '(Nessun oggetto)' }}<br>
+**Data:** {{ $contactMessage->created_at->format('d/m/Y H:i') }}
 
 ---
 
-## Messaggio:
+## Messaggio
 
-{{ $message->message }}
+<x-mail::panel>
+{!! nl2br(e($contactMessage->message)) !!}
+</x-mail::panel>
 
----
-
-<x-mail::button :url="route('admin.messages.show', $message)">
+<x-mail::button :url="route('admin.messages.show', $contactMessage)">
 Vedi nel pannello admin
 </x-mail::button>
 
-Grazie,  
+Puoi rispondere direttamente a questa email per scrivere a {{ $contactMessage->name }}.
+
+Grazie,<br>
 ASCAI Bologna
 </x-mail::message>

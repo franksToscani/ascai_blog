@@ -32,7 +32,7 @@
             <label class="block text-sm font-medium mb-1">Immagine di copertina (opzionale)</label>
             <input type="file" name="cover_image" accept="image/jpeg,image/png,image/webp"
                 class="w-full border border-slate-300 rounded px-3 py-2 text-sm">
-            <p class="text-xs text-slate-500 mt-1">JPG, PNG o WebP. Dimensione massima: 5MB. Formato orizzontale 16:9 consigliato (es. 1200×675px)</p>
+            <p class="text-xs text-slate-500 mt-1">JPG, PNG o WebP. Dimensione massima: 10MB. Formato orizzontale 16:9 consigliato (es. 1200×675px)</p>
         </div>
 
         <div>

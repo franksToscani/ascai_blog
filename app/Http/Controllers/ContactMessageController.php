@@ -6,9 +6,8 @@ use App\Models\ContactMessage;
 use App\Models\User;
 use App\Mail\NewContactMessageNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Log;
 
 class ContactMessageController extends Controller
@@ -16,35 +15,7 @@ class ContactMessageController extends Controller
     // Salva i messaggi dal form contatti con rate limiting
     public function store(Request $request)
     {
-        // Rate limiting: max 5 messaggi per IP ogni 24 ore
-        $ip = $request->ip();
-        $key = 'contact_form_' . $ip;
-        $limit = 5;
-        $window = 86400; // 24 ore in secondi
-
-        // Inizializza il contatore con TTL se non esiste
-        if (!Cache::has($key)) {
-            Cache::put($key, 0, $window);
-        }
-
-        // Incrementa atomicamente il contatore
-        $count = Cache::increment($key);
-
-        if ($count > $limit) {
-            // Supera il limite, rollback e rifiuta
-            Cache::decrement($key);
-            
-            Log::warning('Contact form rate limit exceeded', [
-                'ip' => $ip,
-                'count' => $count,
-            ]);
-            
-            return back()
-                ->with('error', 'Hai raggiunto il limite massimo di messaggi (5) nelle ultime 24 ore. Riprova più tardi.')
-                ->withInput();
-        }
-
-        // Valida il form
+        // Valida il form (gli errori di compilazione non consumano il limite)
         $validated = $request->validate([
             'name'    => 'required|string|max:255',
             'email'   => 'required|email|max:255',
@@ -52,24 +23,44 @@ class ContactMessageController extends Controller
             'message' => 'required|string|min:10|max:5000',
         ]);
 
-        // Salva messaggio e invia email in transazione atomica
-        DB::transaction(function () use ($validated, $ip) {
-            // Salva il messaggio
-            $contactMessage = ContactMessage::create($validated);
+        // Rate limiting: max 5 messaggi per IP ogni 24 ore
+        $ip = $request->ip();
+        $key = 'contact_form:' . $ip;
 
-            Log::info('Contact message received', [
-                'message_id' => $contactMessage->id,
-                'email' => $validated['email'],
-                'subject' => $validated['subject'],
-                'ip' => $ip,
-            ]);
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            Log::warning('Contact form rate limit exceeded', ['ip' => $ip]);
 
-            // Invia email agli admin in modo asincrono
-            $admins = User::where('is_admin', true)->get();
-            foreach ($admins as $admin) {
-                Mail::to($admin->email)->queue(new NewContactMessageNotification($contactMessage));
+            return back()
+                ->with('error', 'Hai raggiunto il limite massimo di messaggi (5) nelle ultime 24 ore. Riprova più tardi.')
+                ->withInput();
+        }
+
+        RateLimiter::hit($key, 86400); // 24 ore in secondi
+
+        // Il messaggio viene sempre salvato: resta leggibile nel pannello admin
+        $contactMessage = ContactMessage::create($validated);
+
+        Log::info('Contact message received', [
+            'message_id' => $contactMessage->id,
+            'email' => $validated['email'],
+            'subject' => $validated['subject'],
+            'ip' => $ip,
+        ]);
+
+        // Notifica gli admin; se l'SMTP non risponde l'utente non vede errori
+        $admins = User::where('is_admin', true)->pluck('email');
+
+        foreach ($admins as $adminEmail) {
+            try {
+                Mail::to($adminEmail)->send(new NewContactMessageNotification($contactMessage));
+            } catch (\Throwable $e) {
+                Log::error('Contact notification email failed', [
+                    'message_id' => $contactMessage->id,
+                    'admin' => $adminEmail,
+                    'error' => $e->getMessage(),
+                ]);
             }
-        });
+        }
 
         return back()->with('success', 'Messaggio inviato con successo!');
     }
