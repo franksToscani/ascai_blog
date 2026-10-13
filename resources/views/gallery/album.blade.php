@@ -9,11 +9,16 @@
 @section('og_image', $photos->first()->url)
 
 @section('content')
-    <div class="mt-10 md:mt-12">
-        <a href="{{ route('galleria') }}" class="text-sm text-purple-700 hover:underline">← Tutti gli album</a>
+    <div>
+        <a href="{{ route('galleria') }}" class="text-sm text-sky-700 hover:underline">← Tutti gli album</a>
     </div>
 
-    <header class="mt-4 mb-8">
+    <header class="mt-4 mb-8 pb-6 border-b border-slate-200">
+        <div class="flex gap-1 mb-3" aria-hidden="true">
+            <span class="h-1 w-6 rounded-full bg-camerun-green"></span>
+            <span class="h-1 w-6 rounded-full bg-camerun-red"></span>
+            <span class="h-1 w-6 rounded-full bg-camerun-yellow"></span>
+        </div>
         <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800">{{ $album->title }}</h1>
         <p class="text-slate-500 mt-2">
             @if ($album->date)
@@ -21,7 +26,7 @@
             @endif
             {{ $photos->count() }} foto
             @if ($album->event)
-                · <a href="{{ route('eventi.show', $album->event) }}" class="text-purple-700 hover:underline">Vai all'evento</a>
+                · <a href="{{ route('eventi.show', $album->event) }}" class="text-sky-700 hover:underline">Vai all'evento</a>
             @endif
         </p>
         @if ($album->description)

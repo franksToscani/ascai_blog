@@ -62,7 +62,7 @@
             <div class="p-6 md:p-8 flex flex-col gap-4">
                 <div class="flex flex-wrap items-start gap-3 justify-between">
                     <div>
-                        <p class="text-xs uppercase tracking-[0.2em] text-sky-600 font-semibold mb-2">News</p>
+                        <p class="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-2">News</p>
                         <h1 class="text-3xl font-extrabold text-slate-900 leading-tight">{{ $post->title }}</h1>
                     </div>
                     <a href="{{ route('posts.index') }}" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-sky-700 bg-sky-50 border border-sky-100 rounded-lg hover:bg-sky-100 transition">

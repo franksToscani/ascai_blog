@@ -187,39 +187,7 @@
         @else
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach ($latestPosts as $post)
-                    <article class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                        {{-- Copertina, oppure il logo su sfondo verde se la news non ne ha una --}}
-                        <div class="aspect-[16/9] overflow-hidden bg-gradient-to-br from-camerun-green to-slate-800">
-                            @if ($post->cover_image)
-                                <img src="{{ asset('storage/' . ltrim($post->cover_image, '/')) }}" alt="" loading="lazy"
-                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                            @else
-                                <div class="w-full h-full flex items-center justify-center">
-                                    {{-- Disco bianco: la scritta scura del logo resta leggibile sullo sfondo verde --}}
-                                    <span class="flex items-center justify-center w-24 h-24 rounded-full bg-white shadow-lg">
-                                        <img src="{{ asset('images/logo-256.png') }}" alt="" class="h-16 w-16">
-                                    </span>
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="flex flex-col flex-1 p-6">
-                            <time datetime="{{ $post->created_at->toDateString() }}" class="text-xs font-semibold uppercase tracking-wide text-camerun-green">
-                                {{ $post->created_at->translatedFormat('j F Y') }}
-                            </time>
-                            <h3 class="mt-2 font-bold text-lg leading-snug text-slate-900 line-clamp-2 group-hover:text-sky-700 transition-colors">
-                                {{-- Il link copre tutta la card --}}
-                                <a href="{{ route('posts.show', $post) }}" class="after:absolute after:inset-0">{{ $post->title }}</a>
-                            </h3>
-                            <p class="mt-3 text-sm text-slate-600 leading-relaxed line-clamp-3">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 140) }}
-                            </p>
-                            <span class="mt-auto pt-4 inline-flex items-center gap-1 text-sm text-sky-700 font-semibold group-hover:gap-2 transition-all">
-                                Leggi tutto
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                            </span>
-                        </div>
-                    </article>
+                    @include('partials.news-card', ['post' => $post])
                 @endforeach
             </div>
         @endif
@@ -239,40 +207,7 @@
         @else
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach ($upcomingEvents as $event)
-                    <article class="group relative flex gap-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 p-5 transition-all duration-300">
-                        {{-- Data a calendario --}}
-                        <div class="flex-shrink-0 w-16 rounded-xl overflow-hidden text-center border border-slate-200 self-start">
-                            <div class="bg-camerun-red text-white text-[11px] font-bold uppercase tracking-wider py-1">
-                                {{ $event->starts_at->translatedFormat('M') }}
-                            </div>
-                            <div class="py-1.5 bg-white">
-                                <div class="text-2xl font-extrabold leading-none text-slate-900">{{ $event->starts_at->format('j') }}</div>
-                                <div class="text-[11px] text-slate-500 mt-1 capitalize">{{ $event->starts_at->translatedFormat('D') }}</div>
-                            </div>
-                        </div>
-
-                        <div class="min-w-0 flex-1">
-                            <h3 class="font-bold text-lg leading-snug text-slate-900 line-clamp-2 group-hover:text-camerun-green transition-colors">
-                                <a href="{{ route('eventi.show', $event) }}" class="after:absolute after:inset-0">{{ $event->title }}</a>
-                            </h3>
-                            <p class="mt-2 flex items-center gap-1.5 text-sm text-slate-600">
-                                <svg class="w-4 h-4 flex-shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                Ore {{ $event->starts_at->format('H:i') }}
-                            </p>
-                            @if ($event->location)
-                                <p class="mt-1 flex items-center gap-1.5 text-sm text-slate-600">
-                                    <svg class="w-4 h-4 flex-shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    </svg>
-                                    <span class="line-clamp-1">{{ $event->location }}</span>
-                                </p>
-                            @endif
-                            <p class="mt-3 text-sm text-slate-500 leading-relaxed line-clamp-2">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($event->description), 100) }}
-                            </p>
-                        </div>
-                    </article>
+                    @include('partials.event-card', ['event' => $event])
                 @endforeach
             </div>
         @endif

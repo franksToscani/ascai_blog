@@ -66,7 +66,7 @@
         <div class="p-6 md:p-8 flex flex-col gap-4">
             <div class="flex flex-wrap items-start gap-3 justify-between">
                 <div>
-                    <p class="text-xs uppercase tracking-[0.2em] text-sky-600 font-semibold mb-2">Evento</p>
+                    <p class="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-2">Evento</p>
                     <h1 class="text-3xl font-extrabold text-slate-900 leading-tight">{{ $event->title }}</h1>
                 </div>
                 <a href="{{ route('eventi.index') }}" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-sky-700 bg-sky-50 border border-sky-100 rounded-lg hover:bg-sky-100 transition">
@@ -76,18 +76,18 @@
 
             <div class="flex flex-wrap gap-4 text-sm text-slate-600">
                 <div class="inline-flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg">
-                    <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span>Inizio: {{ $event->starts_at->format('d/m/Y H:i') }}</span>
                 </div>
                 @if ($event->ends_at)
                     <div class="inline-flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg">
-                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <span>Fine: {{ $event->ends_at->format('d/m/Y H:i') }}</span>
                     </div>
                 @endif
                 @if ($event->location)
                     <div class="inline-flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg">
-                        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         <span class="line-clamp-1">{{ $event->location }}</span>
                     </div>
                 @endif
@@ -133,7 +133,7 @@
                     <h2 class="text-xl font-bold text-slate-800">
                         {{ $albums->count() > 1 ? $album->title : 'Foto dell\'evento' }}
                     </h2>
-                    <a href="{{ route('galleria.album', $album) }}" class="text-sm font-semibold text-purple-700 hover:underline">
+                    <a href="{{ route('galleria.album', $album) }}" class="text-sm font-semibold text-sky-700 hover:underline">
                         Vedi tutte le {{ $album->visible_photos_count }} foto →
                     </a>
                 </div>
