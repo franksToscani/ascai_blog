@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\TrustProxies;
+use App\Http\Middleware\CanonicalDomain;
 use App\Http\Middleware\ForceHttps;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
 
         $middleware->web(append: [
+            CanonicalDomain::class,
             ForceHttps::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);

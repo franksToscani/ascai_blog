@@ -12,8 +12,9 @@ class ForceHttps
     {
         // Force HTTPS in production
         if (app()->environment('production') && !$request->isSecure()) {
+            // fullUrl: mantiene anche la query string (?search=..., ?page=...)
             return redirect(
-                preg_replace('/^http:\/\//i', 'https://', $request->url()),
+                preg_replace('/^http:\/\//i', 'https://', $request->fullUrl()),
                 301
             );
         }

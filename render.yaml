@@ -18,8 +18,9 @@ services:
       # Segreto: impostarlo solo dalla dashboard di Render, mai nel repository
       - key: APP_KEY
         sync: false
+      # Dominio principale: le richieste su *.onrender.com vengono reindirizzate qui
       - key: APP_URL
-        value: https://ascai-blog.onrender.com
+        value: https://ascai-bo.it
       - key: APP_LOCALE
         value: "it"
       - key: LOG_CHANNEL
@@ -73,7 +74,7 @@ services:
         value: "associazione.camer.bologna@gmail.com"
       - key: MAIL_FROM_NAME
         value: "AS.CA.I Bologna"
-    healthCheckPath: /
+    healthCheckPath: /up
 
 databases:
   - name: ascai-blog-db

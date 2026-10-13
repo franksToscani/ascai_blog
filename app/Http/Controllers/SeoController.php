@@ -51,7 +51,10 @@ class SeoController extends Controller
                 'changefreq' => 'monthly',
             ]);
 
-        $xml = view('seo.sitemap', ['urls' => $urls->concat($posts)->concat($events)])->render();
+        // Dichiarazione XML aggiunta qui e non nel template: "<?" in un file Blade
+        // viene letto come tag PHP quando short_open_tag è attivo (default nell'immagine Docker)
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
+            . view('seo.sitemap', ['urls' => $urls->concat($posts)->concat($events)])->render();
 
         return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
     }

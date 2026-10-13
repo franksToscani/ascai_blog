@@ -769,7 +769,7 @@ Per informazioni sull'associazione:
 
 ### Link Utili
 
-- **Sito Pubblico**: https://www.ascai.it
+- **Sito Pubblico**: https://ascai-bo.it
 - **Repository GitHub**: https://github.com/franksToscani/ascai_blog
 - **README Tecnico**: Vedi file `README.md` per dettagli sviluppo
 

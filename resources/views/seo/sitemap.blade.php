@@ -1,4 +1,4 @@
-{!! '<?xml version="1.0" encoding="UTF-8"?>' !!}
+{{-- La dichiarazione XML la aggiunge SeoController: il tag di apertura breve in un template rompe PHP con short_open_tag attivo --}}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 @foreach ($urls as $url)
     <url>

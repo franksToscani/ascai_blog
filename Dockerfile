@@ -27,6 +27,9 @@ RUN apt-get update \
 # Upload fino a 10MB (foto da telefono, PDF bilanci); il default PHP è 2MB
 RUN printf "upload_max_filesize=12M\npost_max_size=14M\nmemory_limit=256M\n" > /usr/local/etc/php/conf.d/uploads.ini
 
+# Come in locale: senza php.ini l'immagine ha short_open_tag attivo e "<?xml" nei template rompe PHP
+RUN printf "short_open_tag=Off\n" > /usr/local/etc/php/conf.d/short-tags.ini
+
 # OPcache: il codice compilato resta in memoria (php -S gira come CLI, serve enable_cli)
 RUN printf "opcache.enable=1\nopcache.enable_cli=1\nopcache.memory_consumption=128\nopcache.max_accelerated_files=20000\nopcache.revalidate_freq=60\n" > /usr/local/etc/php/conf.d/opcache.ini
 
