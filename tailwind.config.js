@@ -14,6 +14,14 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            // Colori della bandiera del Camerun (logo dell'associazione)
+            colors: {
+                camerun: {
+                    green: '#007A5E',
+                    red: '#CE1126',
+                    yellow: '#FCD116',
+                },
+            },
         },
     },
 

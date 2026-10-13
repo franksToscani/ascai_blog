@@ -174,46 +174,51 @@
 
 @section('content')
     {{-- ULTIME NEWS --}}
-    <section class="mb-12">
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Ultime news</h2>
-                <p class="text-sm text-slate-500 mt-1">Resta aggiornato sulle nostre attività</p>
-            </div>
-            <a href="{{ route('posts.index') }}" class="inline-flex items-center gap-1 text-sm text-sky-700 hover:text-sky-800 font-semibold group">
-                <span>Vedi tutte</span>
-                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
+    <section class="mb-14">
+        @include('pages.partials.section-heading', [
+            'title' => 'Ultime news',
+            'subtitle' => 'Resta aggiornato sulle nostre attività',
+            'link' => route('posts.index'),
+            'linkText' => 'Vedi tutte',
+        ])
 
         @if ($latestPosts->isEmpty())
             <p class="text-slate-600 text-sm">Non ci sono ancora news pubblicate.</p>
         @else
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach ($latestPosts as $post)
-                    <article class="group bg-white rounded-xl shadow-md hover:shadow-2xl border border-slate-100 hover:border-sky-200 p-6 transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="flex items-start justify-between mb-3">
-                            <div class="bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                News
-                            </div>
-                            <time class="text-xs text-slate-500 font-medium">{{ $post->created_at->translatedFormat('d M Y') }}</time>
+                    <article class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        {{-- Copertina, oppure il logo su sfondo verde se la news non ne ha una --}}
+                        <div class="aspect-[16/9] overflow-hidden bg-gradient-to-br from-camerun-green to-slate-800">
+                            @if ($post->cover_image)
+                                <img src="{{ asset('storage/' . ltrim($post->cover_image, '/')) }}" alt="" loading="lazy"
+                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center">
+                                    {{-- Disco bianco: la scritta scura del logo resta leggibile sullo sfondo verde --}}
+                                    <span class="flex items-center justify-center w-24 h-24 rounded-full bg-white shadow-lg">
+                                        <img src="{{ asset('images/logo-256.png') }}" alt="" class="h-16 w-16">
+                                    </span>
+                                </div>
+                            @endif
                         </div>
-                        <h3 class="font-bold text-lg mb-3 line-clamp-2">
-                            <a href="{{ route('posts.show', $post) }}" class="text-slate-800 group-hover:text-sky-700 transition-colors">
-                                {{ $post->title }}
-                            </a>
-                        </h3>
-                        <p class="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-4">
-                            {{ \Illuminate\Support\Str::limit($post->content, 120) }}
-                        </p>
-                        <a href="{{ route('posts.show', $post) }}" class="inline-flex items-center gap-1 text-sm text-sky-700 font-semibold group-hover:gap-2 transition-all">
-                            <span>Leggi tutto</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                            </svg>
-                        </a>
+
+                        <div class="flex flex-col flex-1 p-6">
+                            <time datetime="{{ $post->created_at->toDateString() }}" class="text-xs font-semibold uppercase tracking-wide text-camerun-green">
+                                {{ $post->created_at->translatedFormat('j F Y') }}
+                            </time>
+                            <h3 class="mt-2 font-bold text-lg leading-snug text-slate-900 line-clamp-2 group-hover:text-sky-700 transition-colors">
+                                {{-- Il link copre tutta la card --}}
+                                <a href="{{ route('posts.show', $post) }}" class="after:absolute after:inset-0">{{ $post->title }}</a>
+                            </h3>
+                            <p class="mt-3 text-sm text-slate-600 leading-relaxed line-clamp-3">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 140) }}
+                            </p>
+                            <span class="mt-auto pt-4 inline-flex items-center gap-1 text-sm text-sky-700 font-semibold group-hover:gap-2 transition-all">
+                                Leggi tutto
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                            </span>
+                        </div>
                     </article>
                 @endforeach
             </div>
@@ -221,57 +226,52 @@
     </section>
 
     {{-- PROSSIMI EVENTI --}}
-    <section class="mb-12 mt-12 md:mt-16">
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Prossimi eventi</h2>
-                <p class="text-sm text-slate-500 mt-1">Partecipa alle nostre iniziative</p>
-            </div>
-            <a href="{{ route('eventi.index') }}" class="inline-flex items-center gap-1 text-sm text-sky-700 hover:text-sky-800 font-semibold group">
-                <span>Vedi tutti</span>
-                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
+    <section class="mb-14">
+        @include('pages.partials.section-heading', [
+            'title' => 'Prossimi eventi',
+            'subtitle' => 'Partecipa alle nostre iniziative',
+            'link' => route('eventi.index'),
+            'linkText' => 'Vedi tutti',
+        ])
 
         @if ($upcomingEvents->isEmpty())
-            <p class="text-sm text-slate-600">
-                Al momento non ci sono eventi in programma.
-            </p>
+            <p class="text-sm text-slate-600">Al momento non ci sono eventi in programma.</p>
         @else
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach ($upcomingEvents as $event)
-                    <article class="group bg-white rounded-xl shadow-md hover:shadow-2xl border border-slate-100 hover:border-green-200 p-6 transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="flex items-start justify-between mb-3">
-                            <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                Evento
+                    <article class="group relative flex gap-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 p-5 transition-all duration-300">
+                        {{-- Data a calendario --}}
+                        <div class="flex-shrink-0 w-16 rounded-xl overflow-hidden text-center border border-slate-200 self-start">
+                            <div class="bg-camerun-red text-white text-[11px] font-bold uppercase tracking-wider py-1">
+                                {{ $event->starts_at->translatedFormat('M') }}
                             </div>
-                            <time class="text-xs text-slate-500 font-medium">{{ $event->starts_at->translatedFormat('d M Y') }}</time>
+                            <div class="py-1.5 bg-white">
+                                <div class="text-2xl font-extrabold leading-none text-slate-900">{{ $event->starts_at->format('j') }}</div>
+                                <div class="text-[11px] text-slate-500 mt-1 capitalize">{{ $event->starts_at->translatedFormat('D') }}</div>
+                            </div>
                         </div>
-                        <h3 class="font-bold text-lg mb-3 line-clamp-2">
-                            <a href="{{ route('eventi.show', $event) }}" class="text-slate-800 group-hover:text-green-700 transition-colors">
-                                {{ $event->title }}
-                            </a>
-                        </h3>
-                        @if ($event->location)
-                            <div class="flex items-center gap-2 text-sm text-slate-500 mb-3">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                                <span class="line-clamp-1">{{ $event->location }}</span>
-                            </div>
-                        @endif
-                        <p class="text-sm text-slate-600 leading-relaxed line-clamp-2 mb-4">
-                            {{ \Illuminate\Support\Str::limit($event->description, 100) }}
-                        </p>
-                        <a href="{{ route('eventi.show', $event) }}" class="inline-flex items-center gap-1 text-sm text-green-700 font-semibold group-hover:gap-2 transition-all">
-                            <span>Scopri di più</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                            </svg>
-                        </a>
+
+                        <div class="min-w-0 flex-1">
+                            <h3 class="font-bold text-lg leading-snug text-slate-900 line-clamp-2 group-hover:text-camerun-green transition-colors">
+                                <a href="{{ route('eventi.show', $event) }}" class="after:absolute after:inset-0">{{ $event->title }}</a>
+                            </h3>
+                            <p class="mt-2 flex items-center gap-1.5 text-sm text-slate-600">
+                                <svg class="w-4 h-4 flex-shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Ore {{ $event->starts_at->format('H:i') }}
+                            </p>
+                            @if ($event->location)
+                                <p class="mt-1 flex items-center gap-1.5 text-sm text-slate-600">
+                                    <svg class="w-4 h-4 flex-shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span class="line-clamp-1">{{ $event->location }}</span>
+                                </p>
+                            @endif
+                            <p class="mt-3 text-sm text-slate-500 leading-relaxed line-clamp-2">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($event->description), 100) }}
+                            </p>
+                        </div>
                     </article>
                 @endforeach
             </div>
@@ -279,33 +279,23 @@
     </section>
 
     {{-- MINI GALLERIA --}}
-    <section class="mt-12 md:mt-16">
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Galleria foto</h2>
-                <p class="text-sm text-slate-500 mt-1">Le nostre attività in immagini</p>
-            </div>
-            <a href="{{ route('galleria') }}" class="inline-flex items-center gap-1 text-sm text-sky-700 hover:text-sky-800 font-semibold group">
-                <span>Vedi tutte</span>
-                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
+    <section class="mb-14">
+        @include('pages.partials.section-heading', [
+            'title' => 'Galleria foto',
+            'subtitle' => 'Le nostre attività in immagini',
+            'link' => route('galleria'),
+            'linkText' => 'Vedi tutte',
+        ])
 
         @if ($galleryPhotos->isEmpty())
-            <p class="text-sm text-slate-600">
-                Presto saranno disponibili le foto delle attività dell'associazione.
-            </p>
+            <p class="text-sm text-slate-600">Presto saranno disponibili le foto delle attività dell'associazione.</p>
         @else
-            <!-- Uniform preview: equal-size square tiles -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 @foreach ($galleryPhotos as $photo)
-                    <a href="{{ $photo->album?->is_visible ? route('galleria.album', $photo->album) : route('galleria') }}" class="group relative aspect-square rounded-2xl overflow-hidden ring-1 ring-slate-100 hover:ring-sky-200 shadow transition-all duration-300">
-                        <img src="{{ $photo->thumb_url }}"
-                            alt="{{ $photo->title ?? 'Foto galleria' }}"
-                            loading="lazy"
-                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <a href="{{ $photo->album?->is_visible ? route('galleria.album', $photo->album) : route('galleria') }}"
+                       class="group relative aspect-square rounded-2xl overflow-hidden bg-slate-100 shadow-sm">
+                        <img src="{{ $photo->thumb_url }}" alt="{{ $photo->title ?? 'Foto galleria' }}" loading="lazy"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                         @if ($photo->title)
                             {{-- Titolo visibile al passaggio del mouse, sopra una sfumatura scura che lo rende leggibile --}}
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -319,4 +309,29 @@
         @endif
     </section>
 
+    {{-- DIVENTA SOCIO --}}
+    <section class="relative overflow-hidden rounded-3xl bg-slate-900 text-white">
+        <div class="absolute inset-0 bg-gradient-to-br from-camerun-green/90 via-slate-900 to-slate-900" aria-hidden="true"></div>
+
+        <div class="relative px-6 py-12 sm:px-12 md:py-14 md:flex md:items-center md:justify-between gap-10">
+            <div class="max-w-2xl">
+                <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-camerun-yellow">Unisciti a noi</p>
+                <h2 class="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">Diventa parte della comunità AS.CA.I Bologna</h2>
+                <p class="mt-4 text-white/80 text-base md:text-lg leading-relaxed">
+                    Partecipa alle attività, sostieni i nostri progetti e contribuisci a costruire ponti tra il Camerun e Bologna.
+                </p>
+            </div>
+            <div class="mt-8 md:mt-0 flex flex-col sm:flex-row md:flex-col lg:flex-row gap-3 flex-shrink-0">
+                <a href="{{ route('associati') }}"
+                   class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-camerun-yellow text-slate-900 font-bold hover:bg-yellow-300 transition">
+                    Diventa socio
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+                <a href="{{ route('contatti') }}"
+                   class="inline-flex items-center justify-center px-7 py-3.5 rounded-full border border-white/40 text-white font-semibold hover:bg-white/10 transition">
+                    Contattaci
+                </a>
+            </div>
+        </div>
+    </section>
 @endsection

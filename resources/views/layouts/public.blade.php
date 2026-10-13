@@ -30,6 +30,10 @@
     <link rel="icon" type="image/png" sizes="64x64" href="{{ asset('images/favicon-64.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}">
 
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="antialiased bg-gray-30 text-gray-800 flex flex-col min-h-screen">
@@ -69,7 +73,7 @@
                         <button @click="open = !open" @click.away="open = false" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all duration-200 flex items-center gap-2 {{ request()->routeIs('chi-siamo') || request()->routeIs('missione') || request()->routeIs('statuto') || request()->routeIs('staff*') || request()->routeIs('bilancio') ? 'text-sky-600 bg-sky-50' : '' }}">
                             <span>Chi siamo</span>
                             <svg class="w-4 h-4 transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         
@@ -239,7 +243,7 @@
                         <button @click="mobileChiSiamoOpen = !mobileChiSiamoOpen" class="w-full px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition-all flex items-center justify-between {{ request()->routeIs('chi-siamo') || request()->routeIs('missione') || request()->routeIs('statuto') || request()->routeIs('staff*') || request()->routeIs('bilancio') ? 'text-sky-600 bg-sky-50' : '' }}">
                             <span>Chi siamo</span>
                             <svg class="w-4 h-4 transition-transform duration-300" :class="mobileChiSiamoOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div x-show="mobileChiSiamoOpen" x-transition class="bg-slate-100 rounded-lg mt-2 py-2 border border-slate-300">
@@ -315,6 +319,12 @@
                     @endauth
                 </nav>
             </div>
+        </div>
+        {{-- Linea con i colori del Camerun --}}
+        <div class="flex h-1" aria-hidden="true">
+            <span class="flex-1 bg-camerun-green"></span>
+            <span class="flex-1 bg-camerun-red"></span>
+            <span class="flex-1 bg-camerun-yellow"></span>
         </div>
     </header>
 

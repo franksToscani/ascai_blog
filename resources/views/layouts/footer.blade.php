@@ -1,8 +1,15 @@
-<footer class="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 text-white mt-12">
+<footer class="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 text-white">
+    <div class="flex h-1" aria-hidden="true">
+        <span class="flex-1 bg-camerun-green"></span>
+        <span class="flex-1 bg-camerun-red"></span>
+        <span class="flex-1 bg-camerun-yellow"></span>
+    </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Logo e Nome -->
         <div class="flex items-center gap-3 mb-8">
-            <img src="{{ asset('images/logo-256.png') }}" alt="Logo ASCAI Bologna" class="h-16 w-auto">
+            <span class="flex items-center justify-center w-16 h-16 rounded-full bg-white flex-shrink-0">
+                <img src="{{ asset('images/logo-256.png') }}" alt="Logo ASCAI Bologna" class="h-12 w-12">
+            </span>
             <div>
                 <h2 class="text-2xl font-bold text-white">AS.CA.I Bologna</h2>
                 <p class="text-sm text-slate-300">Associazione dei Camerunesi d'Italia sezione di Bologna</p>
@@ -62,7 +69,7 @@
                     </a>
                     <a href="{{ route('contatti') }}" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-sm font-semibold transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
                         Scrivici
                     </a>
