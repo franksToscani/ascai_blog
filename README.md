@@ -1,548 +1,298 @@
-# 🇨🇲 ASCAI Bologna - Sito Web Associazione
+# 🇨🇲 AS.CA.I Bologna – Sito web
 
-Sito web moderno e completo per **ASCAI Bologna** (Associazione Camerun Ascai Italia) costruito con **Laravel 12**, **Blade Templates**, **Alpine.js** e **Tailwind CSS**. Un'applicazione full-stack con autenticazione, gestione contenuti (news, eventi, galleria), messaggi di contatto e pannello amministrativo completo.
+Sito dell'**Associazione dei Camerunesi d'Italia – sezione di Bologna**, online su **https://ascai-bo.it**.
 
-## ✨ Caratteristiche Principali
+Applicazione **Laravel 12** renderizzata lato server con **Blade**, **Alpine.js** e **Tailwind CSS 3**: sito pubblico (news, eventi, galleria, pagine istituzionali, contatti) e pannello di amministrazione per gestire i contenuti.
 
-### 🆕 Aggiornamenti recenti (Dic 2025)
-- 👥 **Ownership tracking**: `user_id` su post, eventi e foto con relazioni `belongsTo`
-- 📬 **Email async sicure**: invio messaggi contatto in transazione DB + `Mail::queue`
-- ⚙️ **Caching homepage**: dati news/eventi/galleria con TTL 1h e cache invalidation su CRUD
-- 🚀 **Performance DB**: indici su slug/status/visibilità/date e indice composito eventi
-- 🛡️ **Logging completo**: audit per create/update/delete e warning su rate limit contatti
-- 🖼️ **Fallback carousel**: gradienti automatici se mancano i banner
-
-### 🌍 Frontend Pubblico
-- 🎨 **Hero Carousel** - Slider dinamico con 3 slide auto-rotate, navigazione frecce e dot indicators, transizioni fluide
-- 🧭 **Navigation Moderna** - Sticky header con Alpine.js, menu mobile responsive, icone SVG, stati attivi
-- 👣 **Footer Completo** - Logo ASCAI, info contatti, social media icons (Facebook, Instagram, TikTok, X, WhatsApp), link admin
-- **Homepage** con logo ASCAI e sezioni home, chi siamo, associati
-- 📝 **News/Blog** - Lettura articoli con sistema draft/published, ricerca e filtri
-- 📅 **Eventi** - Visualizzazione prossimi e passati con ubicazione, ricerca e filtri
-- 🎨 **Galleria Fotografica** - Grid responsive con foto organizzate, lazy loading nativo
-- 💬 **Modulo Contatti** - Raccolta messaggi con ottimizzazione mobile, rate limiting 5 msg/24h per IP
-- 📧 **Notifiche Email** - Admins ricevono email automatiche su nuovi messaggi di contatto
-
-### 🛡️ Area Amministrativa
-- 🔐 **Autenticazione** - Login, recupero password, profilo (Laravel Breeze, Blade). Registrazione pubblica disabilitata
-- 📝 **Gestione News** - CRUD completo con status draft/published
-- 📅 **Gestione Eventi** - CRUD con status public/private e published/draft
-- 🎨 **Gestione Galleria** - CRUD completo foto con upload, modifica, eliminazione
-- 💬 **Messaggi Contatti** - Visualizzazione e gestione messaggi ricevuti
-- 🎯 **Dashboard Admin** - Pannello di controllo con riepilogo statistiche, audit log filtering
-- 🔴 **Azioni Inline** - Modifica/Elimina direttamente dalle pagine pubbliche (per admin)
-- 📊 **Audit Log** - Tracciamento completo di tutte le modifiche (creazione, modifica, eliminazione) con filtri avanzati
-
-### 🏗️ Architettura Tecnica
-- 🛡️ **Sistema Ruoli** - Gestione admin con accesso privilegiato (is_admin flag)
-- 📱 **Responsive Design** - Mobile-first con Tailwind CSS
-- ⚡ **Alpine.js** - Micro-framework per interattività (carousel autoplay, mobile menu, transitions)
-- 🎨 **Logo Personalizzato** - Branding ASCAI integrato
-- 🔄 **RESTful API** - Endpoint CRUD per tutte le risorse
-- 📋 **Database Robusto** - Enum status, soft/hard relationships, seeding automatico
-
-## 🧭 Scelte architetturali
-
-Tutto il sito (pagine pubbliche, area admin, login e profilo) è renderizzato lato server con **Blade**:
-SEO immediato, primo caricamento veloce, nessuna SPA da mantenere.
-L'interattività leggera (carousel, menu mobile, modali) è gestita con **Alpine.js**.
-
-Il progetto era nato dallo starter kit Laravel Vue/Inertia: quella parte (Vue, Inertia, Fortify, 2FA)
-è stata rimossa perché non veniva compilata ed era in conflitto con le pagine Blade.
-
-## 📋 Prerequisiti
-
-- **PHP** 8.2 o superiore
-- **Node.js** 18+ e npm
-- **Composer** 2.0+
-- **Database** MySQL 8.0+ o PostgreSQL 12+
-- **Git** per versionamento
-
-## 🔧 Installazione
-
-### 1️⃣ Clone del Repository
-```bash
-git clone https://github.com/franksToscani/ascai_blog.git
-cd ascai_blog
-```
-
-### 2️⃣ Configurazione Ambiente
-```bash
-cp .env.example .env
-php artisan key:generate
-```
-
-### 3️⃣ Installazione Dipendenze
-```bash
-# PHP
-composer install
-
-# Node.js
-npm install
-```
-
-### 4️⃣ Configurazione Database
-Modifica il file `.env` con le credenziali del database:
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=ascai_blog
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
-Esegui le migrazioni:
-```bash
-php artisan migrate
-```
-
-### 5️⃣ Avvio Sviluppo
-```bash
-# Terminal 1: Server PHP (porta 8000)
-php artisan serve
-
-# Terminal 2: Vite dev server (porta 5173)
-npm run dev
-```
-
-Accedi a: `http://localhost:8000`
-
-## 📁 Struttura del Progetto
-
-### Cartelle Principali
-```
-ascai_blog/
-├── app/Http/Controllers/
-│   ├── PageController.php           # Home, chi siamo, contatti
-│   ├── PostController.php           # CRUD news (draft/published), ricerca
-│   ├── EventController.php          # CRUD eventi (public/private, draft/published), ricerca
-│   ├── GalleryPhotoController.php   # CRUD galleria foto
-│   ├── ContactMessageController.php # Messaggi contatti, rate limiting, email notifications
-│   └── AdminDashboardController.php # Dashboard admin, audit log filtering
-│
-├── app/Models/
-│   ├── User.php              # Users (is_admin)
-│   ├── Post.php              # Posts (status: draft/published, slug, searchable)
-│   ├── Event.php             # Events (status, is_public, slug, searchable)
-│   ├── GalleryPhoto.php       # Foto (is_visible, published_at, lazy loadable)
-│   ├── ContactMessage.php     # Messaggi contatti (rate limited)
-│   └── AuditLog.php          # Audit trail di tutte le modifiche
-│
-├── app/Mail/
-│   └── NewContactMessageNotification.php  # Email su nuovi messaggi
-│
-├── database/migrations/
-│   ├── posts_table              # status enum: draft/published
-│   ├── events_table             # status enum, is_public boolean
-│   ├── gallery_photos_table      # is_visible, published_at
-│   ├── contact_messages_table    # Messaggi, read_at timestamp
-│   ├── audit_logs_table          # Tracciamento modifiche
-│   └── users_table              # is_admin boolean
-│
-├── database/seeders/
-│   └── DatabaseSeeder.php    # Test data: 2 admin users, 1 user, 7 posts, 7 events, 8 photos
-│
-├── resources/views/
-│   ├── pages/
-│   │   ├── home.blade.php              # Homepage con logo ASCAI
-│   │   ├── chi-siamo.blade.php
-│   │   ├── associati.blade.php
-│   │   ├── contatti.blade.php          # Modulo contatti ottimizzato mobile
-│   │   ├── posts/index.blade.php       # Posts pubblici + ricerca + modifica/elimina admin
-│   │   ├── posts/show.blade.php
-│   │   ├── events/index.blade.php      # Events pubblici + ricerca + modifica/elimina admin
-│   │   ├── events/show.blade.php
-│   │   └── gallery/index.blade.php     # Galleria pubblica con lazy loading + azioni admin
-│   │
-│   ├── admin/
-│   │   ├── dashboard.blade.php         # Dashboard admin con audit log
-│   │   ├── audit-log.blade.php         # Audit log dettagliato con filtri
-│   │   ├── messages.blade.php          # Messaggi contatti ricevuti
-│   │   ├── posts/
-│   │   │   ├── index.blade.php         # Lista posts con ricerca e status badges
-│   │   │   ├── create.blade.php        # Form nuovo post
-│   │   │   └── edit.blade.php          # Form modifica post
-│   │   ├── events/
-│   │   │   ├── index.blade.php         # Lista events con ricerca
-│   │   │   ├── create.blade.php        # Form nuovo event
-│   │   │   └── edit.blade.php          # Form modifica event
-│   │   └── gallery/
-│   │       ├── index.blade.php         # Lista foto con lazy loading
-│   │       ├── create.blade.php        # Upload foto
-│   │       └── edit.blade.php          # Modifica foto
-│   │
-│   ├── emails/
-│   │   └── new-contact-message.blade.php  # Email template per notifiche messaggi
-│   │
-│   ├── layouts/
-│   │   ├── app.blade.php               # Layout dashboard
-│   │   ├── public.blade.php            # Layout pubblico
-│   │   └── navigation.blade.php        # Top navigation
-│   │
-│   ├── components/
-│   │   └── application-logo.blade.php  # Logo ASCAI
-│   │
-│   └── auth/                           # Breeze auth views (Blade)
-│
-├── routes/
-│   ├── web.php                         # Rotte principali
-│   │   ├── GET  / → home (logo ASCAI, news, eventi)
-│   │   ├── GET  /news → posts pubblici (con ricerca)
-│   │   ├── GET  /eventi → events pubblici (con ricerca)
-│   │   ├── GET  /galleria → gallery pubblica (con lazy loading)
-│   │   ├── GET  /chi-siamo, /associati, /contatti
-│   │   ├── POST /contatti → salva messaggio + invia email admin + rate limit
-│   │   └── GET  /admin/* → area protetta (audit log, CRUD)
-│   │
-│   ├── auth.php                        # Breeze routes
-│   └── settings.php                    # Profilo utente
-│
-├── public/
-│   ├── images/
-│   │   ├── logoAscai.svg              # Logo ASCAI personalizzato (SVG)
-│   │   ├── banner0.jpg, banner1.jpg, banner2.jpg  # Banner carousel homepage
-│   │   └── logoAscai.png              # Logo ASCAI (legacy)
-│   └── storage → symlink storage/app/public
-│
-└── storage/app/public/gallery/        # Foto caricate dagli admin
-```
-
-## 📦 Dipendenze Principali
-
-### Backend (PHP)
-
-| Pacchetto | Descrizione |
-|-----------|-------------|
-| **laravel/framework** ^12 | Framework PHP |
-| **laravel/tinker** | Shell interattiva |
-| **laravel/breeze** (dev) | Scaffolding login/profilo in Blade |
-
-### Frontend (build con Vite)
-
-| Pacchetto | Descrizione |
-|-----------|-------------|
-| **tailwindcss** ^3 + **@tailwindcss/forms** | CSS utility-first (via PostCSS) |
-| **alpinejs** ^3 | Interattività leggera nelle viste Blade |
-| **vite** + **laravel-vite-plugin** | Build di `resources/css/app.css` e `resources/js/app.js` |
-| **eslint**, **prettier** | Lint e formattazione |
-
-## 📋 Database Schema
-
-### Tabella: users
-```
-id (PK), name, email, email_verified_at, password, 
-remember_token,
-is_admin (boolean: false=user, true=admin),
-created_at, updated_at
-```
-**Ruoli:** Guest (pubblico) | User (autenticato) | Admin (is_admin = true)
-
-### Tabella: posts
-```
-id (PK), user_id (FK → users), title, slug, content, cover_image, youtube_url,
-status (enum: 'draft' | 'published'),
-created_at, updated_at
-```
-**Funzionalità:** CRUD completo, filtro status, modifica/elimina inline da home (solo admin)
-
-### Tabella: events
-```
-id (PK), user_id (FK → users), title, description, location,
-starts_at (datetime), ends_at (datetime),
-is_public (boolean: false=privato, true=pubblico),
-status (enum: 'draft' | 'published'),
-created_at, updated_at
-```
-**Funzionalità:** Separazione pubblici/privati, filtro per data, modifica/elimina inline (solo admin)
-
-### Tabella: gallery_photos
-```
-id (PK), user_id (FK → users), title, caption, image_path,
-is_visible (boolean),
-published_at (datetime),
-created_at, updated_at
-```
-**Funzionalità:** Upload immagini, modifica metadata, eliminazione con cleanup file storage, hover actions
-
-### Tabella: contact_messages
-```
-id (PK), name, email, subject, message,
-read_at (nullable datetime),
-created_at, updated_at
-```
-**Funzionalità:** Raccolta messaggi modulo contatti pubblico, visualizzazione admin
-
-## 🔐 Autenticazione e Autorizzazione
-
-### Laravel Breeze (Blade)
-- ✅ **Login/Logout** - Sessioni sicure, rate limiting sul login
-- ✅ **Recupero Password** - Reset via email
-- ✅ **Verifica Email** - Conferma via link
-- ✅ **Profilo** (`/profile`) - Modifica dati, cambio password, eliminazione account
-- ⛔ **Registrazione** - Disabilitata: gli admin si creano dal seeder (`ADMIN_EMAIL` / `ADMIN_PASSWORD`)
-
-### Sistema Ruoli e Autorizzazione
-
-| Ruolo | Accesso | Permessi |
-|-------|---------|----------|
-| **Guest** | Pubblico | Lettura news, eventi, galleria, contatti |
-| **Admin** | is_admin=true | CRUD completo (posts, events, gallery, bilanci) + azioni inline su pagine pubbliche |
-
-### Middleware di Protezione
-- `auth` - Richiede autenticazione
-- `admin` - Richiede is_admin = true
-- Protezione CSRF su tutti i form
-- Rate limiting su login e modulo contatti (5 messaggi / 24h per IP)
-
-## 🛠️ Comandi Utili
-
-### Sviluppo e Build
-```bash
-# Avvia server di sviluppo (Terminal 1)
-php artisan serve          # Porta 8000
-
-# Avvia Vite dev server (Terminal 2)
-npm run dev                # Porta 5173
-
-# Build per production
-npm run build
-
-# Ottimizzazione cache
-php artisan optimize
-php artisan config:cache
-php artisan route:cache
-
-# Pulizia cache
-php artisan optimize:clear
-```
-
-### Database
-```bash
-# Esegui migrazioni
-php artisan migrate
-
-# Reset + seed (development)
-php artisan migrate:fresh --seed
-
-# Rollback migrazioni
-php artisan migrate:rollback
-
-# Rollback tutto
-php artisan migrate:reset
-
-# Seed database
-php artisan db:seed
-```
-
-### Code Quality
-```bash
-# Esegui test
-php artisan test
-php artisan test --coverage
-
-# Format code
-npm run format
-
-# Lint JavaScript
-npm run lint
-
-# Interactive shell
-php artisan tinker
-```
-
-### Gestione File e Storage
-```bash
-# Crea symbolic link storage
-php artisan storage:link
-
-# Pulisci file temporanei
-php artisan cache:clear
-php artisan view:clear
-```
-
-## 🚀 Flusso di Sviluppo
-
-### Setup Iniziale
-```bash
-# 1. Clone repository
-git clone https://github.com/franksToscani/ascai_blog.git
-cd ascai_blog
-
-# 2. Environment configuration
-cp .env.example .env
-php artisan key:generate
-
-# 3. Install dependencies
-composer install
-npm install
-
-# 4. Database
-php artisan migrate:fresh --seed
-
-# 5. Start development (2 terminals)
-# Terminal 1
-php artisan serve
-
-# Terminal 2
-npm run dev
-
-# Accedi a: http://localhost:8000
-```
-
-### Feature Development Workflow
-```bash
-# Crea branch feature
-git checkout -b feature/new-feature
-
-# Sviluppa e testa
-npm run dev        # Vite watch
-php artisan serve  # Server
-
-# Commit changes
-git add .
-git commit -m "Add new feature"
-
-# Push e PR
-git push origin feature/new-feature
-```
-
-### Production Deployment
-```bash
-# Build assets
-npm run build
-
-# Cache optimization
-php artisan optimize
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
-# Storage link (se su nuovo server)
-php artisan storage:link
-
-# Database migration (se schema changed)
-php artisan migrate --force
-```
-
-## 📱 Responsive Design
-
-- 📱 **Mobile-First** - Ottimizzato per smartphone (320px+)
-- 📱 **Tablet** - Layout adattivo (768px+)
-- 💻 **Desktop** - Esperienza completa (1024px+)
-- 🌙 **Dark Mode** - Supporto tema scuro/chiaro (dove implementato)
-- ⚡ **Performance** - Lazy loading immagini, CSS optimizzato, JS minificato
-
-## 🧪 Testing e Credenziali di Sviluppo
-
-### Account admin (seeder)
-Le credenziali non sono nel codice: imposta `ADMIN_EMAIL` e `ADMIN_PASSWORD` nel `.env`
-e lancia `php artisan db:seed`. In produzione il seeder crea solo l'admin, senza contenuti di esempio.
-
-La registrazione pubblica è disabilitata.
-
-### Docker in locale
-`.env.docker` non è versionato: copialo da `.env.docker.example` e genera una `APP_KEY`.
-
-### Comandi Test
-```bash
-# Setup completo per testing
-php artisan migrate:fresh --seed
-
-# Esegui unit tests
-php artisan test
-
-# Con coverage
-php artisan test --coverage
-
-# Interactive shell per debug
-php artisan tinker
-```
-
-## 🚀 Sprint 1 - Feature Completate
-
-### ✅ Novembre 2025 - Foundation & Core Features
-- [x] Setup Laravel 12 con autenticazione Breeze
-- [x] Struttura database (Users, Posts, Events, Gallery, ContactMessages)
-- [x] Seeding automatico con test data (2 admin, 1 user, 7 posts, 7 events, 8 photos)
-- [x] Layout pubblico con logo ASCAI e navigation
-- [x] CRUD News (PostController + views pubbliche/admin)
-- [x] CRUD Eventi con is_public e status (EventController)
-- [x] CRUD Galleria con upload/delete immagini (GalleryPhotoController)
-- [x] Modulo Contatti con raccolta messaggi (ContactMessageController)
-
-### ✅ Dicembre 2025 - UI/UX Enhancements
-- [x] **Hero Carousel** - Slider dinamico homepage con Alpine.js
-  - 3 slide auto-rotate (5s intervalli)
-  - Navigazione frecce prev/next con hover effects
-  - Dot indicators per navigazione diretta
-  - Transizioni fluide con fade e translate
-  - Responsive: 2-colonne desktop, stack mobile
-  - Gradient backgrounds personalizzabili (ready per immagini)
-  - Altezza ottimizzata 380px con border-radius professionale
-- [x] **Navigation Moderna** - Sticky header responsive
-  - Alpine.js mobile menu con hamburger toggle
-  - Icone SVG per ogni sezione (Home, Eventi, News, Galleria)
-  - Active states dinamici con `request()->routeIs()`
-  - Shadow dinamico on scroll
-  - Logo con hover glow effect
-  - CTA button gradient per Contatti
-- [x] **Footer Completo** - Unified footer per tutto il sito
-  - Logo ASCAI header con brand name
-  - 2-colonne layout: "Dove siamo" + "Contatti"
-  - Social media icons: Facebook, Instagram, TikTok, X, WhatsApp
-  - Brand-specific hover colors (blu Facebook, gradient Instagram, etc.)
-  - Link admin area nel copyright
-  - Gradient slate background con pattern SVG
-  - Applicato a layouts.app e layouts.public
-
-### ✅ Dicembre 2025 - Security & UX Polish (Priority 1-3)
-- [x] **URL SEO** - Implementazione slug route model binding (posts e events accessible via /posts/{slug})
-- [x] **Paginazione** - Posts (15/pagina), Events (15/pagina), Gallery (12/pagina) in tutte le views
-- [x] **Rate Limiting** - Protezione form contatti: max 5 messaggi per IP / 24 ore con cache
-- [x] **Audit Logging** - Tracciamento completo (creazione, modifica, eliminazione) con AuditLog model e middleware
-- [x] **Audit Dashboard** - View admin con filtri avanzati (model type, action, user, date range)
-- [x] **Search/Filter** - Ricerca full-text su Posts e Events (title, description) in views pubbliche e admin
-- [x] **Email Notifications** - Mailable class + template blade, invia email a TUTTI gli admin su nuovo messaggio contatto
-- [x] **Lazy Loading** - Attributo nativo `loading="lazy"` su galleria (public + admin)
-- [x] **Mobile Optimization** - Responsive Tailwind classes (sm: breakpoints) su contact form e tutti gli elementi
-
-### 📊 Sprint 1 Metrics
-- **Commits:** 14 commits di feature + fixes
-- **Files Modified:** 45+ files
-- **Database Migrations:** 11 migration files
-- **Models:** 6 models (User, Post, Event, GalleryPhoto, ContactMessage, AuditLog)
-- **Controllers:** 7 controllers
-- **Views:** 30+ blade templates
-- **Test Data:** Seeder con 18 record di test (users, posts, events, photos)
-
-## 🤝 Contributi
-
-Per contribuire al progetto:
-1. Fork il repository
-2. Crea un branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push al branch (`git push origin feature/AmazingFeature`)
-5. Apri una Pull Request
-
-## 📝 Licenza
-
-Questo progetto è **privato** e di proprietà personale. Tutti i diritti riservati.
-
-## 👨‍💻 Autore
-
-**Frank Toscani**
+> Questo documento è per chi sviluppa il sito. Per l'uso del pannello admin vedi [MANUALE_UTENTE.md](MANUALE_UTENTE.md).
 
 ---
 
-### 📚 Risorse Utili
+## Indice
 
-- [Laravel Docs](https://laravel.com/docs)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Reka UI](https://reka-ui.com/)
+- [Funzionalità](#funzionalità)
+- [Stack e architettura](#stack-e-architettura)
+- [Installazione in locale](#installazione-in-locale)
+- [Struttura del progetto](#struttura-del-progetto)
+- [Database](#database)
+- [Immagini e file caricati](#immagini-e-file-caricati)
+- [SEO](#seo)
+- [Sicurezza](#sicurezza)
+- [Test e qualità del codice](#test-e-qualità-del-codice)
+- [Deploy in produzione (Render)](#deploy-in-produzione-render)
+- [Comandi Artisan del progetto](#comandi-artisan-del-progetto)
+- [Storico delle modifiche](#storico-delle-modifiche)
 
-### 🆘 Support
+---
 
-Per problemi o domande, apri un issue nel repository." 
+## Funzionalità
 
-### code sendgrid pour le service mail en cas de perte de mon phone: TFUQEH9XAYLXWS6Y2M98R4JB
+### Sito pubblico
+| Pagina | Percorso | Note |
+|---|---|---|
+| Home | `/` | Carousel, ultime 3 news, prossimi 3 eventi, ultime 4 foto (in cache 1 ora) |
+| Chi siamo, Statuto, Staff, Associati | `/chi-siamo`, `/statuto`, `/staff-ascaibo`, `/associati` | Staff e dati di iscrizione/pagamento/PDF statuto modificabili dal pannello |
+| Bilanci | `/bilancio` | Elenco e download dei PDF annuali |
+| News | `/news`, `/news/{slug}` | Ricerca e filtro per date |
+| Eventi | `/eventi`, `/eventi/{slug}` | Prossimi e passati, ricerca, filtro per luogo; foto dell'album collegato |
+| Galleria | `/galleria`, `/galleria/{album}` | Album, griglia di miniature, visualizzatore a schermo intero |
+| Contatti | `/contatti` | Modulo con limite di 5 messaggi / 24 ore per IP, notifica email agli admin |
+| Pagine legali | `/privacy-policy`, `/cookie-policy`, `/note-legali` | |
+| SEO | `/sitemap.xml`, `/robots.txt` | Generati dinamicamente |
+
+### Pannello amministrativo (`/admin`, solo utenti con `is_admin`)
+- **News** ed **Eventi**: bozza/pubblicato, copertina o locandina, video YouTube; gli eventi possono essere nascosti dal sito.
+- **Galleria**: album (anche collegati a un evento), caricamento multiplo di foto, filtro per album.
+- **Messaggi di contatto**: letti/non letti, filtro, risposta via email, eliminazione; contatore nella dashboard.
+- **Staff**: consiglio direttivo e collaboratori con foto e ordinamento.
+- **Dati associazione**: quota, IBAN, intestatario, causale, link al modulo di iscrizione, PDF dello statuto.
+- **Bilanci**: caricamento dei PDF annuali.
+- **Registro di audit**: chi ha creato, modificato o eliminato news, eventi e foto.
+- Sulle pagine pubbliche gli admin vedono i pulsanti di modifica rapida.
+
+La **registrazione pubblica è disabilitata**: gli account admin si creano dal seeder o dalla shell (vedi sotto).
+
+---
+
+## Stack e architettura
+
+| Livello | Tecnologia |
+|---|---|
+| Backend | PHP **8.4** (produzione e CI), Laravel 12, Laravel Breeze (login/profilo in Blade) |
+| Frontend | Blade, Alpine.js 3, Tailwind CSS 3 + `@tailwindcss/forms`, build con Vite 7 |
+| Database | PostgreSQL in produzione, SQLite in locale |
+| Hosting | Render (Docker), disco persistente da 1 GB per i file caricati |
+| Dominio | `ascai-bo.it` su Aruba (DNS verso Render) |
+| Email | SMTP Gmail dell'associazione (password per le app) |
+
+**Scelte principali**
+- **Solo Blade, niente SPA**: SEO immediato e un solo sistema da mantenere. Il progetto era nato dallo starter kit Vue/Inertia/Fortify, rimosso perché non veniva compilato ed era in conflitto con le pagine Blade.
+- **Interattività con Alpine.js**: carousel, menu mobile, visualizzatore foto (`resources/js/lightbox.js`) e caricamento multiplo (`resources/js/gallery-uploader.js`).
+- **Email inviate subito, senza coda**: il messaggio di contatto viene sempre salvato; se l'SMTP non risponde l'errore va nel log e il visitatore non vede errori (timeout SMTP 10 s).
+- **Sito in italiano**: `APP_LOCALE=it`, traduzioni in `lang/it` e `lang/it.json`.
+
+---
+
+## Installazione in locale
+
+**Requisiti**: PHP ≥ 8.4 con le estensioni `gd` (JPEG/WebP), `exif`, `pdo_sqlite`; Composer 2; Node.js 22.
+
+```bash
+git clone https://github.com/franksToscani/ascai_blog.git
+cd ascai_blog
+
+composer install
+cp .env.example .env
+php artisan key:generate
+```
+
+Nel `.env` imposta le credenziali dell'admin di sviluppo:
+```env
+ADMIN_EMAIL=tuo@indirizzo.it
+ADMIN_PASSWORD=una-password-per-il-locale
+```
+
+Poi:
+```bash
+php artisan migrate --seed   # crea le tabelle, l'admin e news/eventi di esempio
+php artisan storage:link     # senza questo le foto caricate non si vedono
+npm install
+composer run dev             # server PHP + coda + Vite insieme
+```
+
+Il sito è su `http://localhost:8000`, il pannello su `/admin`.
+
+> `composer setup` esegue in un colpo solo install, `.env`, chiave, migrazioni, `storage:link` e build.
+> Per ripartire da zero in locale: `php artisan migrate:fresh --seed`.
+
+### Note sull'ambiente locale
+- In locale PHP può essere più recente (es. 8.5): **non usare sintassi che non esiste in 8.4** (es. l'operatore pipe `|>`), altrimenti in produzione il sito non parte. `composer.json` fissa la piattaforma a PHP 8.4.1.
+- Fuori dalla produzione le pagine hanno `noindex` e `robots.txt` blocca tutto: la copia locale non finisce su Google.
+- Docker locale: `.env.docker` non è versionato, copialo da `.env.docker.example` e genera una `APP_KEY`.
+
+---
+
+## Struttura del progetto
+
+```
+app/
+├── Console/Commands/          # images:standardize, gallery:thumbnails, storage:clean-orphans
+├── Http/
+│   ├── Controllers/
+│   │   ├── PageController           # home e pagine istituzionali
+│   │   ├── PostController           # news (pubblico + admin)
+│   │   ├── EventController          # eventi (pubblico + admin)
+│   │   ├── GalleryPhotoController   # galleria pubblica e foto (admin)
+│   │   ├── AlbumController          # pagina pubblica dell'album
+│   │   ├── ContactMessageController # modulo contatti e messaggi (admin)
+│   │   ├── BilancioController       # download PDF bilanci
+│   │   ├── SeoController            # sitemap.xml e robots.txt
+│   │   ├── AdminDashboardController # dashboard e registro di audit
+│   │   └── Admin/                   # Album, Staff, Dati associazione, Bilanci
+│   └── Middleware/
+│       ├── AdminMiddleware          # alias "admin": richiede is_admin
+│       ├── CanonicalDomain          # *.onrender.com → dominio di APP_URL (301)
+│       └── ForceHttps               # HTTP → HTTPS + HSTS in produzione
+├── Mail/NewContactMessageNotification.php
+├── Models/                    # Post, Event, Album, GalleryPhoto, ContactMessage,
+│                              # StaffMember, Setting, Bilancio, AuditLog, User
+├── Observers/AuditObserver.php
+├── Services/ImageResizer.php  # standardizzazione immagini e miniature
+└── Traits/HasSlug.php         # slug unico generato dal titolo
+
+resources/
+├── js/                        # app.js, lightbox.js, gallery-uploader.js
+├── views/
+│   ├── layouts/               # public (sito), app (admin), guest (login)
+│   ├── pages/                 # home, chi-siamo, statuto, staff, associati, contatti, bilancio
+│   ├── posts/, events/        # liste e dettagli pubblici + form di creazione/modifica
+│   ├── gallery/               # index, album, partials (griglia, visualizzatore)
+│   ├── admin/                 # dashboard, albums, gallery, staff, settings, bilanci, messaggi, audit
+│   ├── seo/sitemap.blade.php
+│   └── emails/new-contact-message.blade.php
+lang/it/, lang/it.json         # traduzioni italiane
+routes/web.php, routes/auth.php
+tests/Feature/                 # test delle funzionalità
+```
+
+---
+
+## Database
+
+| Tabella | Contenuto |
+|---|---|
+| `users` | Utenti; `is_admin` abilita il pannello |
+| `posts` | News: `title`, `slug` (unico), `content`, `cover_image`, `youtube_url`, `status` (`draft`/`published`), soft delete |
+| `events` | Eventi: `title`, `slug`, `description`, `starts_at`, `ends_at`, `location`, `flyer_path`, `youtube_url`, `is_public`, `status`, soft delete |
+| `albums` | `title`, `slug`, `description`, `date`, `event_id` (facoltativo), `is_visible` |
+| `gallery_photos` | `image_path`, `thumb_path`, `title`, `caption`, `album_id`, `is_visible`, `published_at`, soft delete |
+| `contact_messages` | `name`, `email`, `subject`, `message`, `read_at` |
+| `staff_members` | `group` (`direttivo`/`collaboratori`), `role`, `name`, `description`, `photo_path`, `position` |
+| `settings` | Coppie chiave/valore: `membership_fee`, `payment_holder`, `payment_iban`, `payment_reason`, `membership_form_url`, `statuto_pdf_path` |
+| `bilanci` | `year` (unico), `title`, `file_path` |
+| `audit_logs` | Creazioni/modifiche/eliminazioni di news, eventi e foto, con valori prima/dopo |
+
+Regole da ricordare:
+- `user_id` su news, eventi e foto è **`nullOnDelete`**: eliminare un utente non cancella i contenuti che ha creato.
+- Eliminare un **album** non elimina le foto: restano "senza album".
+- `Setting::get()` legge da cache; `Setting::put()` la invalida.
+
+---
+
+## Immagini e file caricati
+
+Tutti i file caricati stanno sul disco `public` (`storage/app/public`, servito su `/storage`).
+
+| Cartella | Contenuto |
+|---|---|
+| `gallery/` e `gallery/thumbs/` | Foto (max 2000 px) e miniature (600 px) |
+| `posts/covers/`, `events/flyers/` | Copertine news e locandine eventi |
+| `staff/` | Foto dello staff (400 px) |
+| `documenti/` | PDF dello statuto (nome con data, il vecchio viene eliminato) |
+| `bilanci/` | PDF dei bilanci |
+
+`App\Services\ImageResizer` uniforma ogni immagine caricata: **JPEG qualità 82**, lato lungo massimo 2000 px, orientamento EXIF applicato, **metadati rimossi** (anche le coordinate GPS delle foto da telefono), trasparenza appiattita su bianco. I JPEG già conformi restano intatti. Upload fino a 10 MB (limiti PHP a 12 MB nel Dockerfile).
+
+Il caricamento multiplo invia una richiesta per foto: nessun limite sulla dimensione complessiva e un errore non blocca le altre foto.
+
+---
+
+## SEO
+
+- Ogni pagina definisce `title` e `description`; news ed eventi le ricavano dal contenuto.
+- Open Graph / Twitter card: copertina o locandina quando c'è, altrimenti `public/images/og-default.jpg` (1200×630).
+- `<link rel="canonical">` e redirect 301 da `*.onrender.com` verso `APP_URL`.
+- JSON-LD: `NGO` in home, `NewsArticle` sulle news, `Event` sugli eventi.
+- `/sitemap.xml` con pagine, news, eventi e album pubblicati; `/robots.txt` dinamico.
+- Google Search Console: proprietà di tipo Dominio `ascai-bo.it`, verificata con record TXT su Aruba. In alternativa si può usare la variabile `GOOGLE_SITE_VERIFICATION` (meta tag).
+
+---
+
+## Sicurezza
+
+- Nessun segreto nel repository: `APP_KEY`, credenziali SMTP e admin si impostano come variabili d'ambiente (su Render con `sync: false`).
+- Solo HTTPS in produzione, con HSTS.
+- Protezione CSRF su tutti i form, limite di tentativi su login e modulo contatti.
+- Tutti i contenuti inseriti dagli utenti vengono mostrati con escaping (`{{ }}`); i dati JSON nelle pagine usano `JSON_HEX_TAG`.
+- Rotte admin protette da `auth` + `admin`.
+
+---
+
+## Test e qualità del codice
+
+```bash
+php artisan test        # suite completa (non serve avere Vite avviato)
+npm run lint            # ESLint
+npm run format:check    # Prettier
+vendor/bin/pint         # stile PHP
+```
+
+La CI di GitHub (`.github/workflows`) esegue test e lint su PHP 8.4 a ogni push su `main`.
+
+---
+
+## Deploy in produzione (Render)
+
+Ogni push su `main` avvia il deploy automatico. Il `Dockerfile`:
+1. compila gli asset con Node 22;
+2. installa le dipendenze PHP senza quelle di sviluppo;
+3. usa `php:8.4-cli` con GD (JPEG/WebP), EXIF, OPcache, `short_open_tag=Off`, upload fino a 12 MB;
+4. all'avvio esegue `migrate --force`, `optimize`, `storage:link` e lancia il server PHP con 4 worker.
+
+### Variabili d'ambiente su Render
+| Variabile | Valore |
+|---|---|
+| `APP_ENV` / `APP_DEBUG` | `production` / `false` |
+| `APP_KEY` | segreta, solo nella dashboard |
+| `APP_URL` | `https://ascai-bo.it` |
+| `APP_LOCALE` | `it` |
+| `DB_*` | dal database Postgres di Render |
+| `MAIL_HOST` / `MAIL_PORT` | `smtp.gmail.com` / `587` |
+| `MAIL_USERNAME` / `MAIL_PASSWORD` | account Gmail e password per le app (segrete) |
+| `MAIL_FROM_ADDRESS` / `MAIL_FROM_NAME` | indirizzo Gmail / `AS.CA.I Bologna` |
+
+Health check: `/up`. Il disco persistente è montato su `/app/storage`.
+
+### DNS su Aruba (non modificare)
+| Tipo | Nome | Valore |
+|---|---|---|
+| A | `@` | `216.24.57.1` |
+| CNAME | `www` | `ascai-blog.onrender.com` |
+| TXT | `@` | `google-site-verification=…` |
+| TXT | `@` | `v=spf1 include:_spf.aruba.it ~all` |
+
+### Creare o cambiare la password di un admin (Shell di Render)
+```bash
+php artisan tinker --execute="App\Models\User::where('email','EMAIL')->first()?->update(['password' => 'NUOVA_PASSWORD']);"
+```
+
+---
+
+## Comandi Artisan del progetto
+
+Tutti i comandi distruttivi mostrano prima cosa farebbero.
+
+| Comando | Cosa fa |
+|---|---|
+| `php artisan images:standardize [--dry-run]` | Converte nel formato standard le immagini caricate prima di `ImageResizer` |
+| `php artisan gallery:thumbnails` | Crea le miniature mancanti delle foto |
+| `php artisan storage:clean-orphans [--force]` | Elenca (e con `--force` elimina) i file non più collegati a nessun contenuto; ignora i file dell'ultima ora |
+
+---
+
+## Storico delle modifiche
+
+### Ottobre 2026
+- **Sicurezza**: rimossi dal repository `APP_KEY` e password degli admin, registrazione pubblica chiusa.
+- **Bug**: email di contatto mai inviate (template, variabile riservata, coda senza worker); cache della galleria in home; ricerca eventi admin; upload limitati a 2 MB e foto da telefono rifiutate; cancellazione a cascata dei contenuti eliminando un utente; sitemap in errore 500 per `short_open_tag`.
+- **Pulizia**: rimossi Vue/Inertia/Fortify e la 2FA non funzionante; dipendenze aggiornate (Laravel 12.69, 0 avvisi Composer); PHP 8.4 e Node 22 in produzione; OPcache e 4 worker.
+- **Nuove funzioni**: gestione messaggi (letti/non letti, eliminazione), sito in italiano, immagini standardizzate senza metadati GPS, galleria ad album con caricamento multiplo e visualizzatore, SEO completo con sitemap e dati strutturati, dominio unico `ascai-bo.it`, Staff e Dati associazione modificabili dal pannello.
+
+### Novembre – Dicembre 2025
+- Prima versione: news, eventi, galleria, contatti, bilanci, pannello admin, registro di audit, carousel in home, layout pubblico e footer.
+
+---
+
+## Autore
+
+**Franks Toscani Koudja** – progetto per AS.CA.I Bologna. Tutti i diritti riservati.

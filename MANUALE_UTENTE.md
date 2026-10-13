@@ -1,809 +1,270 @@
-# 📖 MANUALE UTENTE - ASCAI Bologna
+# 📖 Manuale utente – Sito AS.CA.I Bologna
 
-**Guida completa all'utilizzo del sito web dell'Associazione Camerun Ascai Italia**
+**Guida per chi gestisce il sito https://ascai-bo.it**
+
+Questo manuale spiega come aggiornare il sito dal **pannello di amministrazione**: news, eventi, foto, messaggi, staff e dati dell'associazione. Non servono competenze tecniche.
 
 ---
 
 ## 📑 Indice
 
-1. [Introduzione](#introduzione)
-2. [Area Pubblica](#area-pubblica)
-3. [Area Amministrativa](#area-amministrativa)
-4. [Gestione Contenuti](#gestione-contenuti)
-5. [Impostazioni e Sicurezza](#impostazioni-e-sicurezza)
-6. [FAQ e Risoluzione Problemi](#faq-e-risoluzione-problemi)
+1. [Entrare nel pannello](#1-entrare-nel-pannello)
+2. [La dashboard](#2-la-dashboard)
+3. [News](#3-news)
+4. [Eventi](#4-eventi)
+5. [Galleria: album e foto](#5-galleria-album-e-foto)
+6. [Messaggi di contatto](#6-messaggi-di-contatto)
+7. [Staff](#7-staff)
+8. [Dati associazione](#8-dati-associazione)
+9. [Bilanci](#9-bilanci)
+10. [Registro delle attività](#10-registro-delle-attività)
+11. [Il tuo profilo e la password](#11-il-tuo-profilo-e-la-password)
+12. [Cosa vedono i visitatori](#12-cosa-vedono-i-visitatori)
+13. [Domande frequenti](#13-domande-frequenti)
 
 ---
 
-## 🌟 Introduzione
+## 1. Entrare nel pannello
 
-Il sito web ASCAI Bologna è una piattaforma moderna per gestire la presenza online dell'associazione. Permette di:
-- Pubblicare notizie e articoli
-- Organizzare e promuovere eventi
-- Condividere foto nelle gallerie
-- Ricevere messaggi dai visitatori
-- Gestire contenuti in modo semplice e sicuro
+1. Vai su **https://ascai-bo.it/login**, oppure clicca **Admin** (con il lucchetto) in fondo a qualsiasi pagina del sito.
+2. Inserisci **email** e **password** e clicca **Accedi**.
+3. Arrivi alla **Dashboard Amministrativa**.
 
-### 🎯 A chi si rivolge questo manuale
+Gli account di amministrazione li crea il responsabile tecnico: sul sito non c'è una pagina di registrazione.
 
-- **Visitatori**: Sezione [Area Pubblica](#area-pubblica)
-- **Amministratori**: Sezioni [Area Amministrativa](#area-amministrativa) e [Gestione Contenuti](#gestione-contenuti)
+**Password dimenticata?** Nella pagina di accesso clicca **Password dimenticata?**, inserisci la tua email e riceverai un link per sceglierne una nuova.
 
----
+> 💡 Mentre sei collegato, sulle pagine pubbliche del sito vedi anche i pulsanti per modificare news, eventi e foto direttamente da lì.
 
-## 🌍 Area Pubblica
-
-### Homepage
-
-La homepage del sito presenta:
-
-#### 🎨 Hero Carousel (Slider in Alto)
-- **3 slide automatiche** che cambiano ogni 5 secondi
-- **Frecce laterali** (← →) per navigazione manuale
-- **Pallini in basso** per saltare a una slide specifica
-- Contenuto:
-  - Slide 1: Benvenuto in ASCAI Bologna
-  - Slide 2: Eventi e Attività
-  - Slide 3: Unisciti a Noi
-
-#### 📰 Ultime News
-- Mostra le **3 news più recenti** pubblicate
-- Ogni card contiene:
-  - Badge "News" azzurro
-  - Data di pubblicazione
-  - Titolo (cliccabile)
-  - Anteprima testo
-  - Link "Leggi tutto"
-
-#### 📅 Prossimi Eventi
-- Mostra i **3 eventi futuri** più vicini
-- Ogni card contiene:
-  - Badge "Evento" verde
-  - Data inizio evento
-  - Titolo (cliccabile)
-  - Icona e luogo
-  - Anteprima descrizione
-  - Link "Scopri di più"
-
-#### 🖼️ Mini Galleria
-- Mostra le **8 foto più recenti**
-- Griglia 2x4 (mobile 2 colonne, desktop 4 colonne)
-- Hover mostra il titolo della foto
-- Click porta alla galleria completa
-
-### 🧭 Navigazione Principale
-
-**Header Sticky** (rimane visibile quando scorri):
-- **Logo ASCAI** (click torna alla home)
-- **Home** 🏠 - Homepage
-- **Eventi** 📅 - Lista eventi
-- **News** 📰 - Lista articoli
-- **Galleria** 🖼️ - Tutte le foto
-- **Contatti** 💬 - Form contatti (pulsante evidenziato)
-
-**Menu Mobile** (su smartphone):
-- Click sull'icona hamburger (☰) in alto a destra
-- Si apre il menu verticale con tutte le voci
-- Click fuori dal menu o su una voce per chiuderlo
-
-### 📝 Pagina News
-
-**Lista News**:
-- Visualizza tutte le news pubblicate
-- **Barra di ricerca** in alto per cercare per titolo
-- Card con:
-  - Badge status (Draft/Published)
-  - Data pubblicazione
-  - Titolo e anteprima
-  - Link "Leggi tutto"
-- **Paginazione** in basso (15 news per pagina)
-
-**Dettaglio News**:
-- Titolo completo
-- Data pubblicazione
-- Testo completo formattato
-- Pulsante "Torna alle news"
-
-### 📅 Pagina Eventi
-
-**Lista Eventi**:
-- Visualizza tutti gli eventi pubblici e pubblicati
-- **Barra di ricerca** per cercare per titolo o luogo
-- Card con:
-  - Badge "Evento"
-  - Data e ora inizio
-  - Titolo e luogo (con icona 📍)
-  - Anteprima descrizione
-  - Link "Scopri di più"
-- **Paginazione** (15 eventi per pagina)
-
-**Dettaglio Evento**:
-- Titolo completo
-- Data e ora inizio/fine
-- Luogo dell'evento
-- Descrizione completa
-- **Flyer** (se presente): Immagine cliccabile per ingrandimento a schermo intero
-- **Video YouTube** (se presente): Player video incorporato
-- Pulsante "Torna agli eventi"
-
-### 🖼️ Pagina Galleria
-
-- Visualizza tutte le foto pubblicate
-- **Griglia responsive**:
-  - Mobile: 2 colonne
-  - Desktop: 4 colonne
-- **Lazy loading**: Le immagini si caricano solo quando scorri
-- **Hover effect**: Il titolo appare sopra la foto al passaggio del mouse
-- **Paginazione** (12 foto per pagina)
-
-### 💬 Pagina Contatti
-
-**Form di Contatto**:
-1. Compila i campi:
-   - **Nome** (obbligatorio)
-   - **Email** (obbligatorio, deve essere valida)
-   - **Oggetto** (obbligatorio)
-   - **Messaggio** (obbligatorio)
-2. Click su **"Invia Messaggio"**
-3. Riceverai una conferma "Messaggio inviato con successo!"
-
-**Protezioni**:
-- Puoi inviare **massimo 5 messaggi ogni 24 ore** dallo stesso dispositivo
-- Gli amministratori ricevono una **email automatica** per ogni nuovo messaggio
-
-### 👣 Footer (Fondo Pagina)
-
-**Colonna Sinistra - Dove Siamo**:
-- Indirizzo sede
-- Partita IVA
-
-**Colonna Destra - Contatti**:
-- Email
-- Link Linktree
-- Pulsante "Contattaci"
-
-**Social Media** (icone con colori al passaggio del mouse):
-- Facebook (blu)
-- Instagram (gradiente arcobaleno)
-- TikTok (nero/blu)
-- X/Twitter (nero)
-- WhatsApp (verde)
-
-**Copyright e Link Admin**:
-- Copyright ASCAI Bologna
-- Link "Accesso amministratori" (con icona lucchetto 🔒)
+Per uscire: menu con il tuo nome in alto a destra → **Esci**. Fallo sempre se usi un computer condiviso.
 
 ---
 
-## 🔐 Area Amministrativa
+## 2. La dashboard
 
-### 🚀 Guida Rapida per Amministratori
+È la pagina iniziale del pannello. Contiene:
 
-Se sei nuovo come admin, segui questi step:
+- **Quattro riquadri** con i numeri del sito e il collegamento alla sezione:
+  - News → **Vai alle news**
+  - Eventi → **Vai agli eventi**
+  - Foto in galleria → **Gestisci album e foto**
+  - Messaggi ricevuti → **Vedi messaggi** (diventa **Leggi i nuovi messaggi** con l'etichetta arancione **"N da leggere"** quando ne arrivano di nuovi)
+- Il pulsante **Visualizza registro di audit**.
+- **Le scorciatoie**: Nuova news, Nuovo evento, Aggiungi foto, Gestisci bilanci, Staff, Dati associazione.
+- **Gli ultimi eventi** e **gli ultimi messaggi** ricevuti (quelli nuovi hanno la scritta *nuovo*).
 
-1. **Accedi al sito** (vedi sotto come fare login)
-2. **Vai alla Dashboard** - vedrai un pannello con:
-   - 📊 Statistiche (numero news, eventi, foto, messaggi)
-   - 🔍 Audit log (storico di tutte le azioni)
-   - 🎯 Link rapidi ai CRUD
-
-3. **Gestisci i tuoi contenuti**:
-   - 📰 **News/Post**: Crea, modifica, pubblica articoli
-   - 📅 **Eventi**: Organizza e promuovi eventi
-   - 🖼️ **Galleria**: Carica e gestisci foto
-   - 💬 **Messaggi**: Leggi i messaggi dei visitatori
-
-4. **Ogni azione è loggata** - Tutti i tuoi create/update/delete sono tracciati nell'Audit Log per sicurezza e conformità
-
-5. **Suggerimenti**:
-   - ✅ Pubblica le news come **Draft** prima e poi come **Published** quando pronti
-   - ✅ Usa slug SEO-friendly (es: `torneo-calcio-2025`)
-   - ✅ Carica foto **compresse** per velocità (max 2MB)
-   - ✅ Inserisci sempre la **data futura** per gli eventi
-   - ✅ La **homepage si aggiorna automaticamente** con ultime news/eventi/foto
-
-### Accesso all'Area Admin
-
-1. **Vai alla pagina di login**:
-   - Click su "Accesso amministratori" nel footer
-   - Oppure vai direttamente a `/login`
-
-2. **Inserisci le credenziali**:
-   - Email amministratore
-   - Password
-
-3. **Autenticazione a Due Fattori (2FA)** (se attivata):
-   - Inserisci il codice dal tuo app di autenticazione
-
-4. **Login riuscito**: Verrai reindirizzato alla Dashboard
-
-### 📊 Dashboard Amministrativa
-
-La dashboard mostra una panoramica rapida:
-
-#### 📈 Statistiche (Card in Alto)
-- **News Totali**: Numero di articoli nel database
-- **Eventi Totali**: Numero di eventi creati
-- **Foto Galleria**: Numero di foto caricate
-- **Messaggi Non Letti**: Numero di messaggi da leggere
-
-#### 🔍 Accesso Rapido (Pulsanti)
-- **Gestisci News** → Vai a CRUD news
-- **Gestisci Eventi** → Vai a CRUD eventi
-- **Gestisci Galleria** → Vai a CRUD foto
-- **Visualizza Messaggi** → Vedi messaggi contatti
-
-#### 📜 Audit Log (Registro Attività)
-
-**Cosa Mostra**:
-- Tutte le azioni degli amministratori
-- Tipo di azione: Creazione, Modifica, Eliminazione
-- Chi ha fatto l'azione
-- Quando è stata fatta
-- Su quale elemento (Post, Event, Photo, etc.)
-
-**Filtri Disponibili**:
-1. **Tipo di Contenuto**: Tutti, Post, Event, GalleryPhoto, etc.
-2. **Azione**: Tutte, created, updated, deleted
-3. **Utente**: Tutti gli admin o uno specifico
-4. **Periodo**: Da data → A data
-
-**Come Usare i Filtri**:
-1. Seleziona i criteri desiderati nei menu a tendina
-2. (Opzionale) Inserisci date nel formato `YYYY-MM-DD` (es: 2025-12-08)
-3. Click "Filtra"
-4. La tabella si aggiornerà con i risultati
-5. Click "Reset" per tornare alla vista completa
+Per tornare qui da qualsiasi pagina del pannello usa la voce **Dashboard** nel menu in alto.
 
 ---
 
-## 📝 Gestione Contenuti
+## 3. News
 
-### 📰 Gestione News
+Dalla dashboard: **Vai alle news** (riquadro News), oppure la scorciatoia **Nuova news**.
 
-#### Vedere Tutte le News
+### Scrivere una news
+1. Clicca **Nuovo post**.
+2. Compila:
+   - **Titolo**
+   - **Contenuto**: almeno 50 caratteri. Vai a capo per separare i paragrafi.
+   - **Immagine di copertina** (facoltativa): JPG, PNG o WebP fino a 10 MB. Formato orizzontale consigliato (16:9). Viene mostrata anche nell'anteprima quando qualcuno condivide la news su WhatsApp o Facebook.
+   - **Link video YouTube** (facoltativo): incolla l'indirizzo del video.
+   - **Stato**: **Bozza** (visibile solo agli admin) oppure **Pubblicato** (visibile a tutti).
+3. Salva.
 
-1. Vai a **Dashboard** → **Gestisci News**
-   - Oppure clicca "News" nel menu laterale
-2. Vedrai la **lista completa** con:
-   - Titolo
-   - Status (Draft/Published)
-   - Data creazione
-   - Azioni: Modifica | Elimina
+L'indirizzo della news (es. `ascai-bo.it/news/festa-di-primavera`) viene creato automaticamente dal titolo.
 
-**Barra di Ricerca**:
-- Cerca news per titolo
-- I risultati si aggiornano automaticamente
+### Modificare o eliminare una news
+Nell'elenco clicca **Modifica** o **Elimina**. Se carichi una nuova copertina, quella vecchia viene sostituita.
 
-**Paginazione**:
-- 15 news per pagina
-- Usa i numeri in basso per navigare
-
-#### Creare una Nuova News
-
-1. Click **"Crea Nuova News"** (pulsante azzurro in alto)
-2. Compila il form:
-   - **Titolo** (obbligatorio)
-     - Esempio: "ASCAI Bologna organizza torneo di calcio"
-   - **Slug** (opzionale)
-     - Si genera automaticamente dal titolo
-     - Puoi personalizzarlo per URL SEO
-     - Esempio: `torneo-calcio-2025`
-   - **Excerpt** (Estratto - opzionale)
-     - Breve riassunto (max 200 caratteri)
-     - Appare nelle card e anteprime
-   - **Contenuto** (obbligatorio)
-     - Testo completo dell'articolo
-     - Usa gli **a capo** per separare i paragrafi
-   - **Status**
-     - **Draft** (Bozza): Visibile solo agli admin
-     - **Published** (Pubblicato): Visibile a tutti
-3. Click **"Crea News"**
-4. Conferma: "News creata con successo!"
-
-#### Modificare una News
-
-1. Nella lista news, click **"Modifica"** sulla riga della news
-2. Il form si apre con i dati attuali
-3. Modifica i campi desiderati
-4. Click **"Aggiorna News"**
-5. Conferma: "News aggiornata con successo!"
-
-**Tip**: Puoi passare da Draft a Published per rendere visibile la news al pubblico.
-
-#### Eliminare una News
-
-1. Nella lista news, click **"Elimina"** sulla riga
-2. **Conferma** l'eliminazione nel popup
-3. La news viene rimossa dal database
-4. Conferma: "News eliminata con successo!"
-
-⚠️ **Attenzione**: L'eliminazione è **permanente** e non può essere annullata!
-
-#### Azioni Inline dalle Pagine Pubbliche
-
-Se sei loggato come admin e visiti la pagina pubblica delle news:
-- Vedrai i pulsanti **"Modifica"** e **"Elimina"** su ogni card
-- Click "Modifica" → Vai direttamente al form di modifica
-- Click "Elimina" → Elimina direttamente (con conferma)
-
-### 📅 Gestione Eventi
-
-#### Vedere Tutti gli Eventi
-
-1. Vai a **Dashboard** → **Gestisci Eventi**
-   - Oppure clicca "Eventi" nel menu laterale
-2. Vedrai la **lista completa** con:
-   - Titolo
-   - Data inizio
-   - Luogo
-   - Status (Draft/Published)
-   - Visibilità (Pubblico/Privato)
-   - Azioni: Modifica | Elimina
-
-**Barra di Ricerca**:
-- Cerca eventi per titolo o luogo
-
-**Paginazione**:
-- 15 eventi per pagina
-
-#### Creare un Nuovo Evento
-
-1. Click **"Crea Nuovo Evento"** (pulsante verde in alto)
-2. Compila il form:
-   - **Titolo** (obbligatorio)
-     - Esempio: "Festa della Comunità 2025"
-   - **Slug** (opzionale)
-     - Si genera automaticamente dal titolo
-   - **Descrizione** (obbligatorio)
-     - Testo completo con dettagli evento
-   - **Luogo** (opzionale)
-     - Indirizzo completo
-     - Esempio: "Via Marconi 10, Bologna"
-   - **Data e Ora Inizio** (obbligatorio)
-     - Formato: `YYYY-MM-DD HH:MM`
-     - Esempio: `2025-12-25 18:00`
-   - **Data e Ora Fine** (opzionale)
-     - Stesso formato di inizio
-   - **Flyer/Locandina** (opzionale) 🆕
-     - Formati supportati: JPG, PNG, WebP
-     - Dimensione massima: 5MB
-     - **Dimensioni consigliate**:
-       - Formato verticale (portrait)
-       - Aspect ratio: 2:3 o 3:4
-       - Risoluzione ottimale: 800×1200px o 1000×1400px
-       - Esempio: Se hai un flyer A4 standard verticale, funziona perfettamente
-     - Il flyer sarà cliccabile per ingrandimento a schermo intero
-   - **Link Video YouTube** (opzionale) 🆕
-     - Incolla il link completo al video YouTube
-     - Formati accettati:
-       - `https://www.youtube.com/watch?v=...`
-       - `https://youtu.be/...`
-       - `https://www.youtube.com/embed/...`
-     - Il video sarà incorporato nella pagina evento
-   - **Visibilità**
-     - ☑️ **Pubblico**: Visibile a tutti
-     - ☐ **Privato**: Visibile solo agli admin
-   - **Status**
-     - **Draft**: Non pubblicato
-     - **Published**: Pubblicato
-3. Click **"Crea Evento"**
-4. Conferma: "Evento creato con successo!"
-
-**💡 Suggerimenti per i Flyer**:
-- Usa immagini verticali per sfruttare al meglio lo spazio
-- Comprimi le immagini prima del caricamento per velocità
-- Il flyer viene automaticamente ridimensionato e centrato nella card
-- Nel dettaglio evento, il flyer è affiancato al video YouTube se entrambi presenti
-
-#### Modificare un Evento
-
-1. Nella lista eventi, click **"Modifica"**
-2. Aggiorna i campi desiderati
-   - **Nota**: Per il flyer, se lasci vuoto il campo file, il flyer esistente non viene modificato
-   - Per **sostituire il flyer**, seleziona una nuova immagine
-   - Per il **video YouTube**, modifica semplicemente l'URL o lascialo vuoto per rimuoverlo
-3. Click **"Aggiorna Evento"**
-4. Conferma: "Evento aggiornato con successo!"
-
-#### Eliminare un Evento
-
-1. Click **"Elimina"** sulla riga dell'evento
-2. **Conferma** l'eliminazione
-3. L'evento viene rimosso
-4. Conferma: "Evento eliminato con successo!"
-
-⚠️ **Attenzione**: L'eliminazione è **permanente**!
-
-#### Azioni Inline dalle Pagine Pubbliche
-
-Se sei loggato come admin:
-- Vedrai i pulsanti **"Modifica"** e **"Elimina"** su ogni card evento
-- Funzionano come nella sezione News
-
-### 🖼️ Gestione Galleria
-
-#### Vedere Tutte le Foto
-
-1. Vai a **Dashboard** → **Gestisci Galleria**
-   - Oppure clicca "Galleria" nel menu laterale
-2. Vedrai la **griglia di foto** (4 colonne) con:
-   - Anteprima immagine
-   - Titolo
-   - Stato visibilità
-   - Data pubblicazione
-   - Azioni: Modifica | Elimina (al hover)
-
-**Paginazione**:
-- 12 foto per pagina
-
-#### Caricare una Nuova Foto
-
-1. Click **"Carica Nuova Foto"** (pulsante azzurro in alto)
-2. Compila il form:
-   - **Titolo** (obbligatorio)
-     - Esempio: "Torneo di Calcio 2025"
-   - **Didascalia** (opzionale)
-     - Descrizione più lunga della foto
-     - Esempio: "Foto di gruppo finale del torneo"
-   - **Immagine** (obbligatorio)
-     - Click su **"Scegli File"**
-     - Seleziona la foto dal tuo computer
-     - Formati supportati: JPG, PNG, GIF, WebP
-     - Dimensione massima: 2MB (raccomandato)
-   - **Visibile**
-     - ☑️ **Sì**: Appare nella galleria pubblica
-     - ☐ **No**: Visibile solo agli admin
-   - **Data Pubblicazione** (opzionale)
-     - Formato: `YYYY-MM-DD HH:MM`
-     - Lascia vuoto per usare data/ora corrente
-3. Click **"Carica Foto"**
-4. Conferma: "Foto caricata con successo!"
-
-**Tip**: Le foto vengono salvate in `storage/app/public/gallery/`
-
-#### Modificare una Foto
-
-1. Nella galleria admin, **hover sulla foto** → Appare "Modifica"
-2. Click **"Modifica"**
-3. Aggiorna:
-   - Titolo
-   - Didascalia
-   - Visibilità
-   - Data pubblicazione
-   - (Opzionale) Sostituisci l'immagine caricandone una nuova
-4. Click **"Aggiorna Foto"**
-5. Conferma: "Foto aggiornata con successo!"
-
-#### Eliminare una Foto
-
-1. **Hover sulla foto** → Appare "Elimina"
-2. Click **"Elimina"**
-3. **Conferma** l'eliminazione
-4. La foto viene rimossa dal database E dal server
-5. Conferma: "Foto eliminata con successo!"
-
-⚠️ **Attenzione**: Il file immagine viene **cancellato definitivamente** dal server!
-
-#### Azioni Inline dalla Galleria Pubblica
-
-Se sei loggato come admin e visiti la galleria pubblica:
-- **Hover su una foto** → Appaiono i pulsanti "Modifica" e "Elimina"
-- Funzionano come nell'area admin
-
-### 💬 Gestione Messaggi Contatti
-
-#### Visualizzare i Messaggi
-
-1. Vai a **Dashboard** → **Visualizza Messaggi**
-   - Oppure clicca "Messaggi" nel menu laterale
-2. Vedrai la **tabella messaggi** con:
-   - Nome mittente
-   - Email
-   - Oggetto
-   - Data invio
-   - Status (Non letto / Letto)
-
-**Badge Status**:
-- 🔴 **Rosso** = Non letto
-- 🟢 **Verde** = Letto
-
-#### Leggere un Messaggio
-
-1. Click su una riga della tabella
-2. Si apre il **dettaglio messaggio** con:
-   - Nome e email mittente
-   - Oggetto
-   - Testo completo
-   - Data/ora invio
-3. Il messaggio viene automaticamente segnato come **"Letto"**
-4. Badge diventa verde
-
-#### Rispondere a un Messaggio
-
-1. Copia l'**email del mittente** dal dettaglio
-2. Apri il tuo client email (Gmail, Outlook, etc.)
-3. Componi una nuova email all'indirizzo copiato
-4. Scrivi la risposta
-
-**Tip**: Al momento non c'è una funzione "Rispondi" integrata. Usa il tuo client email.
-
-#### Eliminare un Messaggio
-
-Al momento non è possibile eliminare messaggi dall'interfaccia. Se necessario, contatta l'amministratore di sistema.
+> 💡 Puoi preparare una news come **Bozza** e passarla a **Pubblicato** quando è pronta.
 
 ---
 
-## ⚙️ Impostazioni e Sicurezza
+## 4. Eventi
 
-### 👤 Profilo Utente
+Dalla dashboard: **Vai agli eventi** (riquadro Eventi), oppure la scorciatoia **Nuovo evento**.
 
-1. Click sul **nome utente** in alto a destra (menu admin)
-2. Seleziona **"Profilo"**
-3. Puoi modificare:
-   - Nome
-   - Email
-   - Password
+### Creare un evento
+1. Clicca **Nuovo evento**.
+2. Compila:
+   - **Titolo** e **Descrizione** (almeno 20 caratteri).
+   - **Data/ora inizio**: non può essere nel passato. **Data/ora fine** è facoltativa.
+   - **Luogo** (facoltativo): scrivi l'indirizzo completo, ad es. *Casa delle Associazioni, Via San Donato 58, Bologna*.
+   - **Flyer/Locandina** (facoltativa): JPG, PNG o WebP fino a 10 MB, meglio verticale. I visitatori possono ingrandirla.
+   - **Link video YouTube** (facoltativo).
+   - **Visibile sul sito pubblico**: togli la spunta per un evento riservato.
+   - **Stato**: **Bozza** o **Pubblicato**.
+3. Salva.
 
-#### Cambiare Password
+Un evento compare sul sito solo se è **Pubblicato** e **Visibile sul sito pubblico**. Dopo la data di inizio passa automaticamente tra gli eventi passati.
 
-1. Vai a **Profilo**
-2. Sezione "Aggiorna Password"
-3. Inserisci:
-   - **Password Attuale**
-   - **Nuova Password**
-   - **Conferma Nuova Password**
-4. Click **"Salva"**
-5. Conferma: "Password aggiornata con successo!"
-
-**Requisiti Password**:
-- Minimo 8 caratteri
-- Almeno una lettera maiuscola
-- Almeno una lettera minuscola
-- Almeno un numero
-
-### 🔐 Autenticazione a Due Fattori (2FA)
-
-#### Attivare il 2FA
-
-1. Vai a **Profilo** → Sezione "Two Factor Authentication"
-2. Click **"Attiva"**
-3. Scansiona il **QR Code** con un'app di autenticazione:
-   - Google Authenticator
-   - Microsoft Authenticator
-   - Authy
-4. Inserisci il **codice a 6 cifre** generato dall'app
-5. Click **"Conferma"**
-6. **Salva i Recovery Codes** in un luogo sicuro
-   - Usa questi codici se perdi l'accesso all'app
-7. 2FA attivo! ✅
-
-#### Disattivare il 2FA
-
-1. Vai a **Profilo** → Sezione "Two Factor Authentication"
-2. Click **"Disattiva"**
-3. Inserisci il **codice a 6 cifre** dall'app
-4. Click **"Conferma"**
-5. 2FA disattivato
-
-⚠️ **Raccomandazione**: Tieni il 2FA sempre **attivo** per maggiore sicurezza!
-
-### 🚪 Logout
-
-1. Click sul **nome utente** in alto a destra
-2. Seleziona **"Logout"**
-3. Verrai disconnesso e reindirizzato alla homepage pubblica
-
-**Tip**: Fai sempre logout quando usi un computer condiviso!
+### Foto dell'evento
+Per mostrare le foto nella pagina dell'evento, crea un **album collegato all'evento** (vedi [Galleria](#5-galleria-album-e-foto)).
 
 ---
 
-## ❓ FAQ e Risoluzione Problemi
+## 5. Galleria: album e foto
 
-### Domande Frequenti
+Le foto si organizzano in **album**, ad esempio *Festa di Natale 2025* o *Torneo di calcio*. Un album può essere collegato a un evento: in quel caso le sue foto compaiono anche nella pagina dell'evento.
 
-#### 🔹 "Non riesco a fare login"
+Dalla dashboard: **Gestisci album e foto** (riquadro Foto in galleria) o la scorciatoia **Aggiungi foto**. Dalla galleria pubblica, da collegato, trovi lo stesso pulsante **Gestisci album e foto**.
 
-**Soluzione**:
-1. Verifica di aver inserito l'email corretta
-2. Controlla che la password sia corretta (maiuscole/minuscole)
-3. Se hai il 2FA attivo, verifica il codice dell'app
-4. Prova a usare la funzione **"Password Dimenticata"**:
-   - Click su "Forgot your password?" nella pagina login
-   - Inserisci la tua email
-   - Riceverai un link per reimpostare la password
+### Creare un album e caricare le foto
+1. Vai su **Album** → **Nuovo album**.
+2. Compila **Titolo**, ed eventualmente **Data**, **Evento collegato** e **Descrizione**. Lascia la spunta su **Visibile sul sito pubblico**.
+3. Clicca **Crea album e carica le foto**: arrivi direttamente alla pagina di caricamento con l'album già scelto.
+4. In **Foto** seleziona tutte le foto che vuoi, anche molte insieme.
+5. Clicca **Carica**. Le foto vengono inviate una alla volta e su ognuna vedi lo stato: *Caricamento…*, ✓ quando è fatto, oppure il motivo se qualcosa non va.
+6. Quando sono tutte caricate torni all'elenco delle foto.
 
-#### 🔹 "Ho perso l'accesso all'app 2FA"
+**Formati**: JPG, PNG o WebP, fino a 10 MB ciascuna. Puoi caricare direttamente le foto del telefono: il sito le ridimensiona, le raddrizza e **toglie le informazioni nascoste** (come la posizione GPS in cui sono state scattate).
 
-**Soluzione**:
-1. Usa uno dei **Recovery Codes** salvati durante l'attivazione
-2. Se non hai i Recovery Codes, contatta l'amministratore di sistema
+> 💡 Se una foto non viene caricata, passa il mouse sopra per leggere il motivo. Puoi cliccare di nuovo **Carica**: vengono ritentate solo quelle non riuscite.
 
-#### 🔹 "L'immagine caricata non si vede"
+### Gestire le foto
+- In **Gestione galleria** puoi filtrare le foto per album (o vedere quelle **Senza album**).
+- **Modifica** permette di cambiare album, titolo, didascalia, visibilità o sostituire l'immagine.
+- **Elimina** cancella la foto definitivamente.
 
-**Possibili Cause**:
-1. File troppo grande (max 2MB)
-2. Formato non supportato (usa JPG, PNG, GIF, WebP)
-3. Symbolic link mancante
+### Gestire gli album
+Nell'elenco **Album** trovi per ogni album: **Carica foto**, **Foto**, **Vedi sul sito**, **Modifica** ed **Elimina**.
 
-**Soluzione**:
-- Riduci le dimensioni dell'immagine
-- Converti in un formato supportato
-- Contatta l'amministratore se il problema persiste
+Eliminare un album **non elimina le foto**: restano nella galleria, senza album. Un album nascosto o senza foto visibili non compare sul sito.
 
-#### 🔹 "Non riesco a inviare un messaggio dal form contatti"
-
-**Possibile Causa**: Hai superato il limite di 5 messaggi in 24 ore
-
-**Soluzione**:
-- Aspetta 24 ore dal primo messaggio inviato
-- Oppure contatta ASCAI via email diretta o telefono
-
-#### 🔹 "La mia news non appare sul sito pubblico"
-
-**Possibili Cause**:
-1. Status è "Draft" invece di "Published"
-2. Non hai salvato le modifiche
-
-**Soluzione**:
-1. Vai a **Gestisci News** → **Modifica** la news
-2. Cambia Status da "Draft" a **"Published"**
-3. Click **"Aggiorna News"**
-
-#### 🔹 "L'evento non appare sul sito pubblico"
-
-**Possibili Cause**:
-1. Status è "Draft"
-2. Visibilità è "Privato" (checkbox non selezionata)
-3. Data inizio è nel passato (eventi passati sono in fondo alla lista)
-
-**Soluzione**:
-1. Vai a **Gestisci Eventi** → **Modifica** l'evento
-2. Verifica:
-   - Status = **"Published"**
-   - Checkbox **"Pubblico"** = ☑️ selezionato
-   - Data inizio corretta
-3. Click **"Aggiorna Evento"**
-
-#### 🔹 "La ricerca non trova i miei contenuti"
-
-**Possibile Causa**: La ricerca cerca solo nel titolo (news) o titolo/luogo (eventi)
-
-**Soluzione**:
-- Verifica che la parola cercata sia nel titolo
-- Per news: la ricerca non cerca nel contenuto, solo nel titolo
-- Per eventi: la ricerca cerca in titolo e luogo
-
-#### 🔹 "Non vedo le statistiche aggiornate in dashboard"
-
-**Soluzione**:
-- Ricarica la pagina (F5 o Ctrl+R)
-- Le statistiche si aggiornano a ogni caricamento della dashboard
-
-#### 🔹 "L'Audit Log è vuoto"
-
-**Possibili Cause**:
-1. Hai applicato filtri troppo restrittivi
-2. Non sono state fatte azioni recenti
-
-**Soluzione**:
-1. Click **"Reset"** per rimuovere tutti i filtri
-2. Verifica che ci siano azioni registrate (crea/modifica/elimina qualcosa)
-
-### Problemi Tecnici Comuni
-
-#### 🔧 "Errore 500 - Internal Server Error"
-
-**Cosa Significa**: Errore del server
-
-**Soluzione**:
-1. Ricarica la pagina
-2. Se persiste, contatta l'amministratore di sistema
-3. Fornisci:
-   - Cosa stavi facendo quando è apparso l'errore
-   - Screenshot dell'errore (se possibile)
-   - Data e ora
-
-#### 🔧 "Errore 404 - Page Not Found"
-
-**Cosa Significa**: Pagina non trovata
-
-**Soluzione**:
-1. Verifica l'URL nella barra indirizzi
-2. Torna alla homepage e naviga da lì
-3. Se il link è interno al sito, segnala l'errore all'amministratore
-
-#### 🔧 "Errore 403 - Forbidden"
-
-**Cosa Significa**: Non hai i permessi per accedere a quella pagina
-
-**Soluzione**:
-1. Verifica di aver fatto login come amministratore
-2. Se sei già loggato, potresti non avere i permessi necessari
-3. Contatta l'amministratore di sistema
-
-#### 🔧 "Il caricamento delle immagini è lento"
-
-**Soluzione**:
-- È normale: le immagini hanno il **lazy loading** attivo
-- Si caricano solo quando scorri fino a loro (risparmia banda)
-- Se la connessione è lenta, aspetta qualche secondo
-
-### Segnalazione Bug
-
-Se trovi un problema non elencato qui:
-
-1. **Raccogli le informazioni**:
-   - Descrizione del problema
-   - Cosa stavi facendo
-   - Browser usato (Chrome, Firefox, Safari, etc.)
-   - Screenshot (se possibile)
-   - Data e ora
-
-2. **Contatta l'amministratore di sistema** via email o telefono
-
-3. L'amministratore analizzerà il problema e ti fornirà una soluzione
+### Cosa vedono i visitatori
+Nella pagina **Galleria** ci sono le copertine degli album. Aprendo un album si vede la griglia delle foto; cliccando una foto si apre a schermo intero, e si scorre con le frecce, con i tasti ← → della tastiera o col dito sul telefono.
 
 ---
 
-## 📞 Contatti e Supporto
+## 6. Messaggi di contatto
 
-### Supporto Tecnico
+I messaggi inviati dalla pagina **Contatti** arrivano nel pannello e, se l'email è configurata, anche per email agli amministratori. Dalla dashboard: **Vedi messaggi** (o **Leggi i nuovi messaggi**).
 
-Per assistenza sull'utilizzo del sito web:
+- I messaggi **non letti** sono evidenziati in arancione. Con il filtro **Non letti** vedi solo quelli.
+- **Aprire** un messaggio lo segna come letto.
+- Nel messaggio trovi:
+  - **Rispondi via email**: apre il tuo programma di posta con l'indirizzo del mittente e l'oggetto già compilati;
+  - **Segna come non letto**: per ricordarti di rispondere più tardi;
+  - **Elimina**: cancella il messaggio definitivamente.
 
-- **Email**: admin@ascai.it
-- **Telefono**: [Inserire numero]
+> 💡 I messaggi contengono dati personali: elimina quelli che non servono più.
 
-### Supporto ASCAI Bologna
-
-Per informazioni sull'associazione:
-
-- **Email**: info@ascai.it
-- **Linktree**: [Link nel footer]
-- **Social Media**: Facebook, Instagram, TikTok, X, WhatsApp
+Ogni visitatore può inviare al massimo **5 messaggi in 24 ore**: è una protezione contro lo spam.
 
 ---
 
-## 📚 Risorse Aggiuntive
+## 7. Staff
 
-### Link Utili
+Dalla dashboard: **Staff**. Qui si aggiorna la pagina **Lo staff** del sito, per esempio dopo le elezioni.
 
-- **Sito Pubblico**: https://ascai-bo.it
-- **Repository GitHub**: https://github.com/franksToscani/ascai_blog
-- **README Tecnico**: Vedi file `README.md` per dettagli sviluppo
+Ci sono due gruppi: **Consiglio direttivo** e **Collaboratori e comitati**.
 
-### Credenziali di Test (Solo Ambiente di Sviluppo)
-
-L'account admin di sviluppo si crea con `php artisan db:seed`, usando
-`ADMIN_EMAIL` e `ADMIN_PASSWORD` impostati nel file `.env`.
-
-⚠️ **Attenzione**: NON usare queste credenziali in produzione!
+- **+ Aggiungi**: inserisci **Ruolo o nome del comitato** (es. *Tesoriere*, *Comitato Culturale*), **Nome e cognome** (facoltativo), **Descrizione breve** e, se vuoi, una **foto** (meglio quadrata, del viso). Senza foto viene mostrata un'icona.
+- **↑ ↓**: cambiano l'ordine in cui le persone compaiono sul sito.
+- **Modifica** e **Rimuovi**.
 
 ---
 
-## 📝 Note Finali
+## 8. Dati associazione
 
-### Versione Manuale
-- **Versione**: 1.0
-- **Data**: Dicembre 2025
-- **Ultimo Aggiornamento**: 08/12/2025
+Dalla dashboard: **Dati associazione**. Questi dati compaiono nelle pagine **Associati** e **Statuto**.
 
-### Changelog
-- **v1.0** (08/12/2025): Versione iniziale del manuale con tutte le funzionalità Sprint 1
+| Campo | Dove appare |
+|---|---|
+| Link al modulo di iscrizione online | Pulsante "Compila il modulo di adesione" |
+| Quota associativa annuale | Es. *20 €* |
+| Intestatario del conto, IBAN, Causale | Sezione "Dati per il versamento" |
+| Statuto (PDF) | Pulsante "Scarica lo statuto (PDF)" |
 
-### Convenzioni Usate in Questo Manuale
+- L'**IBAN** puoi scriverlo con o senza spazi: il sito lo controlla e lo mostra in modo leggibile.
+- I campi lasciati vuoti **non vengono mostrati**. Se manca la quota, la pagina invita a contattare l'associazione; se manca l'IBAN, la sezione pagamento non compare.
+- Un nuovo PDF dello statuto **sostituisce** quello precedente.
 
-- 🔹 = Domanda frequente
-- 🔧 = Problema tecnico
-- ⚠️ = Attenzione / Avviso importante
-- **Grassetto** = Azioni / Pulsanti da cliccare
-- `Codice` = Valori da inserire / Formati
-- ☑️ = Checkbox da selezionare
-- ☐ = Checkbox non selezionata
+> ⚠️ Ricontrolla l'IBAN prima di salvare: è quello che i nuovi soci useranno per pagare.
 
 ---
 
-**© 2025 ASCAI Bologna - Tutti i diritti riservati**
+## 9. Bilanci
 
-*Questo manuale è stato creato per facilitare l'utilizzo del sito web dell'Associazione Camerun Ascai Italia. Per suggerimenti o correzioni, contatta l'amministratore di sistema.*
+Dalla dashboard: **Gestisci bilanci**.
+
+1. Clicca **Carica nuovo bilancio**.
+2. Inserisci l'**Anno**, un **Titolo** facoltativo e il **File PDF** (fino a 10 MB).
+3. Clicca **Carica bilancio**.
+
+Ogni anno può avere un solo bilancio: per sostituirlo, elimina quello esistente e caricalo di nuovo. I visitatori li scaricano dalla pagina **Bilancio sociale**.
+
+---
+
+## 10. Registro delle attività
+
+Dalla dashboard: **Visualizza registro di audit**. Mostra chi ha creato, modificato o eliminato news, eventi e foto, e quando, con i valori prima e dopo la modifica.
+
+Puoi filtrare per **Tipo di dato**, **Azione**, **Utente** e **periodo**. È utile per capire, ad esempio, chi ha modificato un evento o quando è stata eliminata una news.
+
+---
+
+## 11. Il tuo profilo e la password
+
+Menu con il tuo nome in alto a destra → **Profilo**. Puoi:
+- cambiare **nome** ed **email**;
+- **aggiornare la password**: serve la password attuale, la nuova deve avere almeno 8 caratteri;
+- eliminare il tuo account.
+
+> ⚠️ Usa una password lunga e diversa da quelle che usi altrove. Non condividere l'account: se una persona nuova deve gestire il sito, chiedi al responsabile tecnico di crearle un account suo.
+
+---
+
+## 12. Cosa vedono i visitatori
+
+| Pagina | Contenuto |
+|---|---|
+| **Home** | Immagini a scorrimento, ultime 3 news, prossimi 3 eventi, ultime foto |
+| **Chi siamo**, **Statuto** | Storia, missione e valori; statuto con PDF scaricabile |
+| **Lo staff** | Consiglio direttivo e comitati |
+| **Associati** | Come iscriversi, quota e dati per il versamento |
+| **Bilancio sociale** | Bilanci annuali in PDF |
+| **News** | Elenco con ricerca per parola e per date |
+| **Eventi** | Prossimi e passati, con ricerca per parola, date e luogo |
+| **Galleria** | Album e foto a schermo intero |
+| **Contatti** | Modulo per scrivere all'associazione |
+
+Il sito è in italiano, funziona su telefono, tablet e computer, ed è visibile su Google. Quando qualcuno condivide il link di una news o di un evento, l'anteprima mostra il titolo, una descrizione e la copertina o la locandina.
+
+---
+
+## 13. Domande frequenti
+
+**La news o l'evento non compare sul sito.**
+Controlla che lo stato sia **Pubblicato** e, per gli eventi, che ci sia la spunta su **Visibile sul sito pubblico**. Gli eventi già iniziati si trovano tra gli eventi passati.
+
+**Non riesco a creare un evento già avvenuto.**
+La data di inizio non può essere nel passato. Per documentare un evento passato, crea un **album** con le foto (con la sua data).
+
+**Una foto non si carica.**
+Passa il mouse sulla foto per leggere il motivo. Di solito il file supera 10 MB oppure è in un formato non supportato. Le foto **HEIC** dell'iPhone vanno bene se le carichi dal telefono; dal computer convertile prima in JPG.
+
+**La home non mostra subito le ultime foto o news.**
+La home si aggiorna da sola quando aggiungi o modifichi contenuti. Se non vedi il cambiamento, ricarica la pagina.
+
+**Non arrivano le email dei messaggi di contatto.**
+I messaggi vengono comunque salvati: li trovi sempre nel pannello, da **Vedi messaggi**. Se le email non arrivano, segnalalo al responsabile tecnico: va controllata la configurazione della posta.
+
+**Un visitatore dice di non riuscire a inviare un messaggio.**
+Ha probabilmente raggiunto il limite di 5 messaggi in 24 ore. Può scrivere direttamente all'indirizzo email dell'associazione.
+
+**Ho perso la password.**
+Usa **Password dimenticata?** nella pagina di accesso. Se non ricevi l'email, chiedi al responsabile tecnico di reimpostarla.
+
+**Vedo "403 – Accesso negato".**
+Il tuo account non ha i permessi di amministratore: chiedi al responsabile tecnico.
+
+**Vedo "Pagina scaduta".**
+Sei rimasto a lungo su un modulo senza inviarlo. Ricarica la pagina e reinserisci i dati.
+
+### Segnalare un problema
+Scrivi al responsabile tecnico indicando cosa stavi facendo, la pagina, la data e l'ora e, se puoi, uno screenshot.
+
+---
+
+*Versione 2.0 – ottobre 2026. Aggiornata con: galleria ad album e caricamento multiplo, gestione dei messaggi, Staff e Dati associazione modificabili, sito interamente in italiano.*
