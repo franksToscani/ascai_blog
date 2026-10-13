@@ -306,8 +306,8 @@
             <!-- Uniform preview: equal-size square tiles -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 @foreach ($galleryPhotos as $photo)
-                    <a href="{{ route('galleria') }}" class="group relative aspect-square rounded-2xl overflow-hidden ring-1 ring-slate-100 hover:ring-sky-200 shadow transition-all duration-300">
-                        <img src="{{ asset('storage/' . $photo->image_path) }}"
+                    <a href="{{ $photo->album?->is_visible ? route('galleria.album', $photo->album) : route('galleria') }}" class="group relative aspect-square rounded-2xl overflow-hidden ring-1 ring-slate-100 hover:ring-sky-200 shadow transition-all duration-300">
+                        <img src="{{ $photo->thumb_url }}"
                             alt="{{ $photo->title ?? 'Foto galleria' }}"
                             loading="lazy"
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">

@@ -13,7 +13,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-2">Immagine Attuale</label>
                 <div class="bg-slate-100 rounded p-2">
-                    <img src="{{ asset('storage/' . $galleryPhoto->image_path) }}"
+                    <img src="{{ $galleryPhoto->thumb_url }}"
                         alt="{{ $galleryPhoto->title }}"
                         class="w-full h-48 object-cover rounded">
                 </div>
@@ -30,6 +30,17 @@
                 @error('image')
                     <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <!-- Album -->
+            <div>
+                <label for="album_id" class="block text-sm font-medium mb-1">Album</label>
+                <select id="album_id" name="album_id" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <option value="">— Nessun album —</option>
+                    @foreach ($albums as $album)
+                        <option value="{{ $album->id }}" @selected((string) old('album_id', $galleryPhoto->album_id) === (string) $album->id)>{{ $album->title }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <!-- Titolo -->
@@ -75,7 +86,7 @@
                 <button type="submit" class="flex-1 bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 font-medium">
                     Salva Modifiche
                 </button>
-                <a href="{{ route('admin.gallery.index') }}" class="flex-1 bg-slate-300 text-slate-700 py-2 px-4 rounded-md hover:bg-slate-400 font-medium text-center">
+                <a href="{{ route('admin.gallery.index', $galleryPhoto->album_id ? ['album' => $galleryPhoto->album_id] : []) }}" class="flex-1 bg-slate-300 text-slate-700 py-2 px-4 rounded-md hover:bg-slate-400 font-medium text-center">
                     Annulla
                 </a>
             </div>

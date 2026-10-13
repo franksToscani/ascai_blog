@@ -212,7 +212,15 @@ class EventController extends Controller
     {
         abort_unless($event->is_public && $event->status === 'published', 404);
 
-        return view('events.show', compact('event'));
+        // Album fotografici collegati all'evento, con un'anteprima di 8 foto ciascuno
+        $albums = $event->albums()
+            ->published()
+            ->withCount(['photos as visible_photos_count' => fn ($photos) => $photos->where('is_visible', true)])
+            ->with(['photos' => fn ($photos) => $photos->where('is_visible', true)->orderBy('published_at')->orderBy('id')->limit(8)])
+            ->orderBy('date')
+            ->get();
+
+        return view('events.show', compact('event', 'albums'));
     }
 
     // Questi li useremo nella futura area admin

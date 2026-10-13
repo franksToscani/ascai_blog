@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album;
 use App\Models\Event;
 use App\Models\Post;
 use Illuminate\Http\Response;
@@ -9,7 +10,7 @@ use Illuminate\Http\Response;
 class SeoController extends Controller
 {
     /**
-     * Mappa del sito per i motori di ricerca: pagine statiche + news ed eventi pubblicati.
+     * Mappa del sito per i motori di ricerca: pagine statiche, news, eventi e album pubblicati.
      */
     public function sitemap(): Response
     {
@@ -51,10 +52,19 @@ class SeoController extends Controller
                 'changefreq' => 'monthly',
             ]);
 
+        $albums = Album::published()
+            ->latest('updated_at')
+            ->get(['id', 'slug', 'updated_at'])
+            ->map(fn (Album $album) => [
+                'loc' => route('galleria.album', $album),
+                'lastmod' => $album->updated_at,
+                'changefreq' => 'monthly',
+            ]);
+
         // Dichiarazione XML aggiunta qui e non nel template: "<?" in un file Blade
         // viene letto come tag PHP quando short_open_tag è attivo (default nell'immagine Docker)
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
-            . view('seo.sitemap', ['urls' => $urls->concat($posts)->concat($events)])->render();
+            . view('seo.sitemap', ['urls' => $urls->concat($posts)->concat($events)->concat($albums)])->render();
 
         return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
     }

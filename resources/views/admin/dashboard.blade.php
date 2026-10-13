@@ -57,8 +57,8 @@
                 <span class="text-3xl font-bold text-slate-800">{{ $stats['photos_count'] }}</span>
             </div>
             <p class="text-sm font-semibold text-slate-700 mb-2">Foto in galleria</p>
-            <a href="{{ route('admin.gallery.index') }}" class="inline-flex items-center text-xs text-purple-600 hover:text-purple-700 font-semibold">
-                Gestisci galleria
+            <a href="{{ route('admin.albums.index') }}" class="inline-flex items-center text-xs text-purple-600 hover:text-purple-700 font-semibold">
+                Gestisci album e foto
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
@@ -127,7 +127,7 @@
             <div>
                 <h2 class="font-semibold mb-1">Aggiungi foto</h2>
                 <p class="text-xs text-slate-500 mb-2">
-                    Carica nuove immagini nella galleria fotografica.
+                    Carica una o più foto, anche in un album.
                 </p>
             </div>
             <span class="text-sm text-sky-700 font-semibold">Carica foto →</span>

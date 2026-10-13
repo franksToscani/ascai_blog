@@ -13,9 +13,11 @@ class GalleryPhoto extends Model
         'title',
         'caption',
         'image_path',
+        'thumb_path',
         'published_at',
         'is_visible',
         'user_id',
+        'album_id',
     ];
 
     protected $casts = [
@@ -29,5 +31,22 @@ class GalleryPhoto extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function album()
+    {
+        return $this->belongsTo(Album::class);
+    }
+
+    /** URL della foto a piena risoluzione (max 2000px) */
+    public function getUrlAttribute(): string
+    {
+        return asset('storage/' . $this->image_path);
+    }
+
+    /** URL della miniatura leggera per le griglie; ripiega sulla foto intera se manca */
+    public function getThumbUrlAttribute(): string
+    {
+        return asset('storage/' . ($this->thumb_path ?: $this->image_path));
     }
 }

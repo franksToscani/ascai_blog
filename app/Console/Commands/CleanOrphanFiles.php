@@ -20,7 +20,7 @@ class CleanOrphanFiles extends Command
     protected $description = 'Elimina i file caricati non più collegati a foto, news, eventi o bilanci';
 
     /** Cartelle del disco "public" gestite dall'applicazione */
-    private const DIRECTORIES = ['gallery', 'posts/covers', 'events/flyers', 'bilanci'];
+    private const DIRECTORIES = ['gallery', 'gallery/thumbs', 'posts/covers', 'events/flyers', 'bilanci'];
 
     /** I file più recenti potrebbero appartenere a un upload ancora in corso */
     private const MIN_AGE_SECONDS = 3600;
@@ -32,6 +32,7 @@ class CleanOrphanFiles extends Command
         // Anche le righe nel cestino (soft delete) contano: potrebbero essere ripristinate
         $referenced = collect()
             ->concat(GalleryPhoto::withTrashed()->pluck('image_path'))
+            ->concat(GalleryPhoto::withTrashed()->pluck('thumb_path'))
             ->concat(Post::withTrashed()->pluck('cover_image'))
             ->concat(Event::withTrashed()->pluck('flyer_path'))
             ->concat(Bilancio::pluck('file_path'))

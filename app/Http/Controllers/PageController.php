@@ -30,6 +30,7 @@ class PageController extends Controller
     // Preview: show only the latest 4 photos on home
     $galleryPhotos = Cache::remember('home.gallery_photos_preview', 3600, function () {
         return GalleryPhoto::where('is_visible', true)
+            ->with('album:id,slug,is_visible')
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
             ->take(4)

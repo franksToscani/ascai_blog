@@ -126,6 +126,28 @@
         @endif
         </article>
 
+        {{-- Foto dell'evento (album collegati) --}}
+        @foreach ($albums as $album)
+            <section class="mt-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="flex flex-wrap items-baseline justify-between gap-2 mb-4">
+                    <h2 class="text-xl font-bold text-slate-800">
+                        {{ $albums->count() > 1 ? $album->title : 'Foto dell\'evento' }}
+                    </h2>
+                    <a href="{{ route('galleria.album', $album) }}" class="text-sm font-semibold text-purple-700 hover:underline">
+                        Vedi tutte le {{ $album->visible_photos_count }} foto →
+                    </a>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3">
+                    @foreach ($album->photos as $photo)
+                        <a href="{{ route('galleria.album', $album) }}" class="group block aspect-square rounded-lg overflow-hidden bg-slate-100">
+                            <img src="{{ $photo->thumb_url }}" alt="{{ $photo->title ?? $album->title }}" loading="lazy"
+                                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                        </a>
+                    @endforeach
+                </div>
+            </section>
+        @endforeach
+
         {{-- Flyer Modal/Lightbox --}}
         @if ($flyerPath)
             <div x-show="flyerModalOpen" x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" @click.self="flyerModalOpen = false" @keydown.escape="flyerModalOpen = false">

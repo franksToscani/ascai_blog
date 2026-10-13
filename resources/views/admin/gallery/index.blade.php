@@ -3,14 +3,30 @@
 @section('title', 'Gestione galleria')
 
 @section('content')
-    <div class="flex items-center justify-between mb-4 mt-12 md:mt-16">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4 mt-12 md:mt-16">
         <h1 class="text-2xl font-bold">Gestione galleria</h1>
 
-        <a href="{{ route('admin.gallery.create') }}"
-           class="text-sm bg-sky-700 text-white px-3 py-1 rounded">
-            Aggiungi foto
-        </a>
+        <div class="flex gap-2">
+            <a href="{{ route('admin.albums.index') }}" class="text-sm border border-slate-300 text-slate-700 px-3 py-1 rounded hover:bg-slate-50">Album</a>
+            <a href="{{ route('admin.gallery.create', is_numeric($albumFilter) ? ['album' => $albumFilter] : []) }}"
+               class="text-sm bg-sky-700 text-white px-3 py-1 rounded hover:bg-sky-800">
+                Carica foto
+            </a>
+        </div>
     </div>
+
+    {{-- Filtro per album --}}
+    <form method="GET" action="{{ route('admin.gallery.index') }}" class="mb-4 flex items-center gap-2 text-sm">
+        <label for="album" class="text-slate-600">Mostra:</label>
+        <select id="album" name="album" onchange="this.form.submit()" class="border border-slate-300 rounded px-2 py-1">
+            <option value="">Tutte le foto</option>
+            <option value="nessuno" @selected($albumFilter === 'nessuno')>Senza album</option>
+            @foreach ($albums as $album)
+                <option value="{{ $album->id }}" @selected((string) $albumFilter === (string) $album->id)>{{ $album->title }}</option>
+            @endforeach
+        </select>
+        <noscript><button type="submit" class="px-2 py-1 border rounded">Filtra</button></noscript>
+    </form>
 
     @if(session('success'))
         <div class="mb-4 bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded">
@@ -21,11 +37,11 @@
     @if ($photos->isEmpty())
         <p class="text-slate-600 text-sm">Nessuna foto ancora.</p>
     @else
-        <div class="grid md:grid-cols-3 gap-4">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($photos as $photo)
                 <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                     <div class="aspect-video bg-slate-100">
-                        <img src="{{ asset('storage/' . $photo->image_path) }}"
+                        <img src="{{ $photo->thumb_url }}"
                             alt="{{ $photo->title ?? 'Foto' }}"
                             loading="lazy"
                             class="w-full h-full object-cover">
@@ -33,6 +49,9 @@
                     <div class="p-3">
                         <p class="text-sm font-semibold mb-1">
                             {{ $photo->title ?? 'Senza titolo' }}
+                        </p>
+                        <p class="text-xs text-slate-500 mb-1">
+                            Album: {{ $photo->album?->title ?? '—' }}
                         </p>
                         @if ($photo->caption)
                             <p class="text-xs text-slate-500 mb-1">

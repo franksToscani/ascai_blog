@@ -46,4 +46,10 @@ class Event extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /** Album fotografici collegati all'evento */
+    public function albums()
+    {
+        return $this->hasMany(Album::class);
+    }
 }

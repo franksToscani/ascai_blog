@@ -48,6 +48,29 @@ class ImageResizer
     }
 
     /**
+     * Crea la miniatura (max $size px, JPEG) di un'immagine già salvata sul disco "public".
+     * Restituisce il percorso della miniatura, o null se non è stato possibile crearla.
+     */
+    public static function storeThumbnail(string $publicPath, string $directory, int $size = 600): ?string
+    {
+        try {
+            $data = self::standardize(Storage::disk('public')->path($publicPath), $size);
+        } catch (\Throwable $e) {
+            Log::warning('Thumbnail creation failed', ['path' => $publicPath, 'error' => $e->getMessage()]);
+            $data = null;
+        }
+
+        if ($data === null) {
+            return null;
+        }
+
+        $path = $directory . '/' . pathinfo($publicPath, PATHINFO_FILENAME) . '.jpg';
+        Storage::disk('public')->put($path, $data);
+
+        return $path;
+    }
+
+    /**
      * Converte un file immagine in un JPEG standard.
      *
      * @return string|null  contenuto JPEG, o null se il formato non è elaborabile

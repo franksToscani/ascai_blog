@@ -12,6 +12,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\BilancioController as PublicBilancioController;
 use App\Http\Controllers\Admin\BilancioController as AdminBilancioController;
+use App\Http\Controllers\Admin\AlbumController as AdminAlbumController;
+use App\Http\Controllers\AlbumController;
 
 // ======================
 // SITO PUBBLICO
@@ -41,6 +43,7 @@ Route::get('/news/{post:slug}', [PostController::class, 'show'])->name('posts.sh
 
 // Galleria pubblica
 Route::get('/galleria', [GalleryPhotoController::class, 'index'])->name('galleria');
+Route::get('/galleria/{album:slug}', [AlbumController::class, 'show'])->name('galleria.album');
 
 // SEO: sitemap per i motori di ricerca e robots.txt dinamico
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
@@ -112,6 +115,12 @@ Route::middleware(['auth', 'admin'])
         Route::get('galleria/{galleryPhoto}/modifica', [GalleryPhotoController::class, 'edit'])->name('gallery.edit');
         Route::put('galleria/{galleryPhoto}', [GalleryPhotoController::class, 'update'])->name('gallery.update');
         Route::delete('galleria/{galleryPhoto}', [GalleryPhotoController::class, 'destroy'])->name('gallery.destroy');
+
+        // Album fotografici
+        Route::resource('album', AdminAlbumController::class)
+            ->except(['show'])
+            ->parameters(['album' => 'album'])
+            ->names('albums');
 
         // Bilanci (PDF)
         Route::get('bilanci', [AdminBilancioController::class, 'index'])->name('bilanci.index');
