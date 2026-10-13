@@ -97,6 +97,8 @@ Route::middleware(['auth', 'admin'])
         // Messaggi contatti
         Route::get('messaggi', [ContactMessageController::class, 'index'])->name('messages.index');
         Route::get('messaggi/{contact_message}', [ContactMessageController::class, 'show'])->name('messages.show');
+        Route::patch('messaggi/{contact_message}/non-letto', [ContactMessageController::class, 'markUnread'])->name('messages.unread');
+        Route::delete('messaggi/{contact_message}', [ContactMessageController::class, 'destroy'])->name('messages.destroy');
 
         // Galleria foto
         Route::get('galleria', [GalleryPhotoController::class, 'adminIndex'])->name('gallery.index');

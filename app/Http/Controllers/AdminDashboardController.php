@@ -18,6 +18,7 @@ class AdminDashboardController extends Controller
             'events_count'   => Event::count(),
             'photos_count'   => GalleryPhoto::count(),
             'messages_count' => ContactMessage::count(),
+            'unread_messages_count' => ContactMessage::unread()->count(),
         ];
 
         $latestMessages = ContactMessage::latest()->take(5)->get();

@@ -74,9 +74,16 @@
                 </div>
                 <span class="text-3xl font-bold text-slate-800">{{ $stats['messages_count'] }}</span>
             </div>
-            <p class="text-sm font-semibold text-slate-700 mb-2">Messaggi ricevuti</p>
-            <a href="{{ route('admin.messages.index') }}" class="inline-flex items-center text-xs text-orange-600 hover:text-orange-700 font-semibold">
-                Vedi messaggi
+            <p class="text-sm font-semibold text-slate-700 mb-2">
+                Messaggi ricevuti
+                @if ($stats['unread_messages_count'] > 0)
+                    <span class="ml-1 text-xs font-semibold bg-orange-500 text-white px-2 py-0.5 rounded-full">
+                        {{ $stats['unread_messages_count'] }} da leggere
+                    </span>
+                @endif
+            </p>
+            <a href="{{ route('admin.messages.index', $stats['unread_messages_count'] > 0 ? ['filtro' => 'non-letti'] : []) }}" class="inline-flex items-center text-xs text-orange-600 hover:text-orange-700 font-semibold">
+                {{ $stats['unread_messages_count'] > 0 ? 'Leggi i nuovi messaggi' : 'Vedi messaggi' }}
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
@@ -181,9 +188,13 @@
             @else
                 <ul class="space-y-3">
                     @foreach ($latestMessages as $msg)
-                        <li class="border-l-2 border-orange-400 pl-3 py-2 hover:bg-slate-50 transition-colors">
-                            <p class="font-semibold text-slate-800 text-sm">
+                        <li class="border-l-2 {{ $msg->isRead() ? 'border-slate-200' : 'border-orange-500' }} pl-3 py-2 hover:bg-slate-50 transition-colors">
+                            <a href="{{ route('admin.messages.show', $msg) }}" class="block">
+                            <p class="{{ $msg->isRead() ? 'font-medium' : 'font-bold' }} text-slate-800 text-sm">
                                 {{ $msg->name }}
+                                @unless ($msg->isRead())
+                                    <span class="ml-1 text-[10px] font-semibold uppercase text-orange-600">nuovo</span>
+                                @endunless
                             </p>
                             <p class="text-xs text-slate-500 mt-1">
                                 <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -197,6 +208,7 @@
                             <p class="text-[11px] text-slate-400 mt-1">
                                 {{ $msg->created_at->format('d/m/Y H:i') }}
                             </p>
+                            </a>
                         </li>
                     @endforeach
                 </ul>

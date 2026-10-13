@@ -6,6 +6,7 @@ use App\Models\ContactMessage;
 use App\Models\User;
 use App\Mail\NewContactMessageNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Log;
@@ -65,19 +66,54 @@ class ContactMessageController extends Controller
         return back()->with('success', 'Messaggio inviato con successo!');
     }
 
-    // Lista messaggi (admin)
-    public function index()
+    // Lista messaggi (admin), con filtro "solo non letti"
+    public function index(Request $request)
     {
-        $messages = ContactMessage::latest()->get();
+        $onlyUnread = $request->query('filtro') === 'non-letti';
 
-        return view('admin.contact-messages.index', compact('messages'));
+        $messages = ContactMessage::query()
+            ->when($onlyUnread, fn ($query) => $query->unread())
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+
+        $unreadCount = ContactMessage::unread()->count();
+
+        return view('admin.contact-messages.index', compact('messages', 'unreadCount', 'onlyUnread'));
     }
 
-    // Dettaglio singolo messaggio (admin)
+    // Dettaglio singolo messaggio (admin): aprirlo lo segna come letto
     public function show(ContactMessage $contact_message)
     {
+        if (! $contact_message->isRead()) {
+            $contact_message->forceFill(['read_at' => now()])->save();
+        }
+
         return view('admin.contact-messages.show', [
             'msg' => $contact_message
         ]);
+    }
+
+    // Rimette il messaggio tra i non letti (es. per ricordarsi di rispondere)
+    public function markUnread(ContactMessage $contact_message)
+    {
+        $contact_message->forceFill(['read_at' => null])->save();
+
+        return redirect()->route('admin.messages.index')
+            ->with('success', 'Messaggio segnato come non letto.');
+    }
+
+    // Eliminazione definitiva: sono dati personali, non vanno tenuti più del necessario
+    public function destroy(ContactMessage $contact_message)
+    {
+        Log::warning('Contact message deleted', [
+            'message_id' => $contact_message->id,
+            'user_id' => Auth::id(),
+        ]);
+
+        $contact_message->delete();
+
+        return redirect()->route('admin.messages.index')
+            ->with('success', 'Messaggio eliminato.');
     }
 }
