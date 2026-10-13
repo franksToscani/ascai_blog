@@ -1,5 +1,5 @@
 # Build frontend assets
-FROM node:20 AS node_builder
+FROM node:22 AS node_builder
 WORKDIR /app
 COPY package*.json .
 RUN npm ci
@@ -13,7 +13,7 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --prefer-dist --no-progress --no-scripts --optimize-autoloader
 
 # Final runtime image
-FROM php:8.2-cli
+FROM php:8.4-cli
 ENV PORT=8000
 WORKDIR /app
 

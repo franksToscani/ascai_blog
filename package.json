@@ -27,5 +27,8 @@
     "optionalDependencies": {
         "@rollup/rollup-linux-x64-gnu": "4.9.5",
         "@rollup/rollup-win32-x64-msvc": "4.9.5"
+    },
+    "overrides": {
+        "postcss-selector-parser": "^7.1.6"
     }
 }
