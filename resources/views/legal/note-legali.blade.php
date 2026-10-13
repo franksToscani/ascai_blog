@@ -8,7 +8,7 @@
     @include('partials.page-header', [
         'title' => 'Note Legali',
         'subtitle' => 'Termini e condizioni d\'uso del sito web',
-        'note' => 'Ultimo aggiornamento: 16/10/2026',
+        'note' => 'Ultimo aggiornamento: 12/02/2025',
     ])
 
     <!-- Contenuto -->

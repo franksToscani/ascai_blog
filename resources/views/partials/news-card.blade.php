@@ -1,13 +1,14 @@
 {{-- Card di una news (home e pagina News). Parametro: $post --}}
 <article class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-    {{-- Copertina, oppure il logo su sfondo grigio chiaro se la news non ne ha una --}}
-    <div class="aspect-[16/9] overflow-hidden bg-slate-100">
+    {{-- Copertina, oppure il logo su sfondo verde se la news non ne ha una --}}
+    <div class="aspect-[16/9] overflow-hidden bg-gradient-to-br from-camerun-green to-slate-800">
         @if ($post->cover_image)
             <img src="{{ asset('storage/' . ltrim($post->cover_image, '/')) }}" alt="" loading="lazy"
                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
         @else
             <div class="w-full h-full flex items-center justify-center">
-                <span class="flex items-center justify-center w-24 h-24 rounded-full bg-white shadow-sm">
+                {{-- Disco bianco: la scritta scura del logo resta leggibile sullo sfondo verde --}}
+                <span class="flex items-center justify-center w-24 h-24 rounded-full bg-white shadow-lg">
                     <img src="{{ asset('images/logo-256.png') }}" alt="" class="h-16 w-16">
                 </span>
             </div>
