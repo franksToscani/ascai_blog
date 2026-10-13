@@ -29,30 +29,11 @@ services:
         value: "stderr"
       - key: LOG_LEVEL
         value: "info"
+      # Database SQLite sul disco persistente (montato su /app/storage): nessun Postgres a pagamento
       - key: DB_CONNECTION
-        value: "pgsql"
-      - key: DB_HOST
-        fromDatabase:
-          name: ascai-blog-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: ascai-blog-db
-          property: port
+        value: "sqlite"
       - key: DB_DATABASE
-        fromDatabase:
-          name: ascai-blog-db
-          property: database
-      - key: DB_USERNAME
-        fromDatabase:
-          name: ascai-blog-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: ascai-blog-db
-          property: password
-      - key: DB_SSLMODE
-        value: "require"
+        value: "/app/storage/database/database.sqlite"
       - key: SESSION_DRIVER
         value: "database"
       - key: CACHE_STORE
@@ -77,6 +58,3 @@ services:
       - key: MAIL_FROM_NAME
         value: "AS.CA.I Bologna"
     healthCheckPath: /up
-
-databases:
-  - name: ascai-blog-db

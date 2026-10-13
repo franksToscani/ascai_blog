@@ -66,8 +66,8 @@ La **registrazione pubblica è disabilitata**: gli account admin si creano dal s
 |---|---|
 | Backend | PHP **8.4** (produzione e CI), Laravel 12, Laravel Breeze (login/profilo in Blade) |
 | Frontend | Blade, Alpine.js 3, Tailwind CSS 3 + `@tailwindcss/forms`, build con Vite 7 |
-| Database | PostgreSQL in produzione, SQLite in locale |
-| Hosting | Render (Docker), disco persistente da 1 GB per i file caricati |
+| Database | **SQLite** (file sul disco persistente in produzione, `database/database.sqlite` in locale) |
+| Hosting | Render (Docker), disco persistente da 1 GB per database e file caricati |
 | Dominio | `ascai-bo.it` su Aruba (DNS verso Render) |
 | Email | SMTP Gmail dell'associazione (password per le app) |
 
@@ -252,12 +252,20 @@ Ogni push su `main` avvia il deploy automatico. Il `Dockerfile`:
 | `APP_KEY` | segreta, solo nella dashboard |
 | `APP_URL` | `https://ascai-bo.it` |
 | `APP_LOCALE` | `it` |
-| `DB_*` | dal database Postgres di Render |
+| `DB_CONNECTION` / `DB_DATABASE` | `sqlite` / `/app/storage/database/database.sqlite` |
 | `MAIL_HOST` / `MAIL_PORT` | `smtp.gmail.com` / `587` |
 | `MAIL_USERNAME` / `MAIL_PASSWORD` | account Gmail e password per le app (segrete) |
 | `MAIL_FROM_ADDRESS` / `MAIL_FROM_NAME` | indirizzo Gmail / `AS.CA.I Bologna` |
 
-Health check: `/up`. Il disco persistente è montato su `/app/storage`.
+Health check: `/up`. Il disco persistente è montato su `/app/storage` e contiene sia il database (`storage/database/database.sqlite`) sia i file caricati (`storage/app/public`).
+
+### Database e backup
+Il database è un file SQLite sul disco persistente (fino a ottobre 2026 era un Postgres di Render a pagamento, ~10,50 $/mese). È configurato in modalità WAL con `busy_timeout` di 5 s, perché il server PHP gira con 4 worker in parallelo; per questo il sito deve restare **su una sola istanza**.
+
+Il backup coincide con quello del disco: verificare nella dashboard di Render le istantanee automatiche del disco. Per una copia manuale coerente (anche con il sito in funzione), dalla Shell di Render:
+```bash
+php artisan tinker --execute="DB::statement(\"VACUUM INTO '/app/storage/database/backup-\".date('Y-m-d').\".sqlite'\");"
+```
 
 ### DNS su Aruba (non modificare)
 | Tipo | Nome | Valore |
@@ -280,6 +288,7 @@ Tutti i comandi distruttivi mostrano prima cosa farebbero.
 
 | Comando | Cosa fa |
 |---|---|
+| `php artisan db:copy-to-sqlite PATH [--force]` | Copia tutti i dati dal database attuale in un nuovo file SQLite e confronta i conteggi (usato per lasciare Postgres) |
 | `php artisan images:standardize [--dry-run]` | Converte nel formato standard le immagini caricate prima di `ImageResizer` |
 | `php artisan gallery:thumbnails` | Crea le miniature mancanti delle foto |
 | `php artisan storage:clean-orphans [--force]` | Elenca (e con `--force` elimina) i file non più collegati a nessun contenuto; ignora i file dell'ultima ora |
