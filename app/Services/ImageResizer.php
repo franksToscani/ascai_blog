@@ -8,50 +8,63 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * Salva un'immagine caricata sul disco "public", ridimensionandola se troppo grande.
+ * Salva un'immagine caricata sul disco "public" in un formato standard.
  *
- * Le foto da telefono (4000px+, 3-8 MB) vengono ridotte a $maxSide px sul lato lungo
- * e raddrizzate secondo l'orientamento EXIF. Se GD non riesce a elaborarla,
- * l'immagine viene salvata così com'è: l'upload non fallisce mai per colpa del resize.
+ * Qualunque sia l'origine (fotocamera, WhatsApp, screenshot, PNG/WebP), il file salvato è:
+ * - JPEG qualità 82, con al massimo $maxSide px sul lato lungo;
+ * - raddrizzato secondo l'orientamento EXIF (foto da telefono);
+ * - senza metadati (EXIF, coordinate GPS), che GD non riscrive;
+ * - con la trasparenza appiattita su sfondo bianco.
+ *
+ * Se GD non riesce a elaborarla, l'immagine viene salvata così com'è:
+ * l'upload non fallisce mai per colpa della conversione.
  */
 class ImageResizer
 {
+    private const JPEG_QUALITY = 82;
+
     public static function store(UploadedFile $file, string $directory, int $maxSide = 2000): string
     {
-        try {
-            $resized = self::resize($file, $maxSide);
-        } catch (\Throwable $e) {
-            Log::warning('Image resize failed, storing original', ['error' => $e->getMessage()]);
-            $resized = null;
+        // JPEG già conforme: lo salviamo com'è, ricomprimerlo peggiorerebbe solo la qualità
+        if (self::isAlreadyStandard($file->getRealPath(), $maxSide)) {
+            return $file->storeAs($directory, Str::random(40) . '.jpg', 'public');
         }
 
-        if ($resized === null) {
+        try {
+            $data = self::standardize($file->getRealPath(), $maxSide);
+        } catch (\Throwable $e) {
+            Log::warning('Image standardization failed, storing original', ['error' => $e->getMessage()]);
+            $data = null;
+        }
+
+        if ($data === null) {
             return $file->store($directory, 'public');
         }
 
-        [$data, $extension] = $resized;
-        $path = $directory . '/' . Str::random(40) . '.' . $extension;
+        $path = $directory . '/' . Str::random(40) . '.jpg';
         Storage::disk('public')->put($path, $data);
 
         return $path;
     }
 
     /**
-     * @return array{0: string, 1: string}|null  [contenuto binario, estensione] o null se non serve/non possibile
+     * Converte un file immagine in un JPEG standard.
+     *
+     * @return string|null  contenuto JPEG, o null se il formato non è elaborabile
      */
-    private static function resize(UploadedFile $file, int $maxSide): ?array
+    public static function standardize(string $sourcePath, int $maxSide = 2000): ?string
     {
-        $info = @getimagesize($file->getRealPath());
+        $info = @getimagesize($sourcePath);
         if (! $info) {
             return null;
         }
 
-        [$width, $height, $type] = $info;
+        $type = $info[2];
 
         $image = match ($type) {
-            IMAGETYPE_JPEG => function_exists('imagecreatefromjpeg') ? imagecreatefromjpeg($file->getRealPath()) : false,
-            IMAGETYPE_PNG => function_exists('imagecreatefrompng') ? imagecreatefrompng($file->getRealPath()) : false,
-            IMAGETYPE_WEBP => function_exists('imagecreatefromwebp') ? imagecreatefromwebp($file->getRealPath()) : false,
+            IMAGETYPE_JPEG => function_exists('imagecreatefromjpeg') ? @imagecreatefromjpeg($sourcePath) : false,
+            IMAGETYPE_PNG => function_exists('imagecreatefrompng') ? @imagecreatefrompng($sourcePath) : false,
+            IMAGETYPE_WEBP => function_exists('imagecreatefromwebp') ? @imagecreatefromwebp($sourcePath) : false,
             default => false,
         };
 
@@ -59,68 +72,76 @@ class ImageResizer
             return null;
         }
 
-        $rotated = false;
         if ($type === IMAGETYPE_JPEG) {
-            [$image, $rotated] = self::applyExifOrientation($image, $file->getRealPath());
-            $width = imagesx($image);
-            $height = imagesy($image);
+            $image = self::applyExifOrientation($image, $sourcePath);
         }
 
-        // Già piccola e dritta: teniamo il file originale, senza perdere qualità
-        if (! $rotated && max($width, $height) <= $maxSide) {
-            imagedestroy($image);
+        $width = imagesx($image);
+        $height = imagesy($image);
+        $scale = min(1, $maxSide / max($width, $height));
+        $targetWidth = max(1, (int) round($width * $scale));
+        $targetHeight = max(1, (int) round($height * $scale));
 
-            return null;
-        }
-
-        if (max($width, $height) > $maxSide) {
-            $scale = $maxSide / max($width, $height);
-            $scaled = imagescale($image, (int) round($width * $scale), (int) round($height * $scale), IMG_BICUBIC);
-            imagedestroy($image);
-            $image = $scaled;
-        }
-
-        // Mantiene la trasparenza di PNG e WebP
-        imagealphablending($image, false);
-        imagesavealpha($image, true);
-
-        ob_start();
-        $extension = match ($type) {
-            IMAGETYPE_PNG => imagepng($image, null, 6) ? 'png' : null,
-            IMAGETYPE_WEBP => imagewebp($image, null, 82) ? 'webp' : null,
-            default => imagejpeg($image, null, 82) ? 'jpg' : null,
-        };
-        $data = ob_get_clean();
+        // Tela bianca: appiattisce la trasparenza di PNG/WebP (il JPEG non la supporta)
+        $canvas = imagecreatetruecolor($targetWidth, $targetHeight);
+        imagefill($canvas, 0, 0, imagecolorallocate($canvas, 255, 255, 255));
+        imagecopyresampled($canvas, $image, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
         imagedestroy($image);
 
-        return $extension && $data ? [$data, $extension] : null;
+        imageinterlace($canvas, true); // JPEG progressivo: si vede subito anche su connessioni lente
+
+        ob_start();
+        $ok = imagejpeg($canvas, null, self::JPEG_QUALITY);
+        $data = ob_get_clean();
+        imagedestroy($canvas);
+
+        return $ok && $data ? $data : null;
     }
 
     /**
-     * @return array{0: \GdImage, 1: bool}  [immagine, è stata ruotata]
+     * True se il file è già un JPEG entro $maxSide px e senza metadati EXIF.
      */
-    private static function applyExifOrientation(\GdImage $image, string $path): array
+    public static function isAlreadyStandard(string $path, int $maxSide = 2000): bool
     {
-        if (! function_exists('exif_read_data')) {
-            return [$image, false];
+        $info = @getimagesize($path);
+
+        if (! $info || $info[2] !== IMAGETYPE_JPEG || max($info[0], $info[1]) > $maxSide) {
+            return false;
         }
 
-        $orientation = (@exif_read_data($path) ?: [])['Orientation'] ?? 1;
+        // L'EXIF (orientamento, GPS) sta nel segmento APP1, all'inizio del file
+        $head = (string) file_get_contents($path, false, null, 0, 65536);
 
-        $angle = match ((int) $orientation) {
-            3 => 180,
-            6 => -90,
-            8 => 90,
+        return ! str_contains($head, "Exif\x00\x00");
+    }
+
+    private static function applyExifOrientation(\GdImage $image, string $path): \GdImage
+    {
+        if (! function_exists('exif_read_data')) {
+            return $image;
+        }
+
+        $orientation = (int) ((@exif_read_data($path) ?: [])['Orientation'] ?? 1);
+
+        // 2, 4, 5, 7 sono le varianti specchiate (rare, ma alcuni telefoni le usano)
+        if (in_array($orientation, [2, 4, 5, 7], true)) {
+            imageflip($image, IMG_FLIP_HORIZONTAL);
+        }
+
+        $angle = match ($orientation) {
+            3, 4 => 180,
+            5, 6 => -90,
+            7, 8 => 90,
             default => 0,
         };
 
         if ($angle === 0) {
-            return [$image, false];
+            return $image;
         }
 
-        $rotatedImage = imagerotate($image, $angle, 0);
+        $rotated = imagerotate($image, $angle, 0);
         imagedestroy($image);
 
-        return [$rotatedImage, true];
+        return $rotated;
     }
 }
