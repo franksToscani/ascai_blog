@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Privacy Policy - ASCAI Bologna')
+@section('description', 'Informativa sul trattamento dei dati personali del sito di AS.CA.I Bologna.')
 
 @section('content')
 <div class="max-w-4xl mx-auto mt-12 md:mt-16">

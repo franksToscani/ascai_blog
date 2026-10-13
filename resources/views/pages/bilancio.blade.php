@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Bilancio sociale - ASCAI Bologna')
+@section('title', 'Bilanci - ASCAI Bologna')
+@section('description', 'Trasparenza e rendicontazione: consulta e scarica i bilanci annuali di AS.CA.I Bologna, associazione no-profit.')
 
 @section('content')
     {{-- Header --}}

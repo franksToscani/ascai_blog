@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Galleria foto - Associazione')
+@section('title', 'Galleria foto - ASCAI Bologna')
+@section('description', 'Le attività e i momenti speciali di AS.CA.I Bologna raccontati per immagini.')
 
 @section('content')
     {{-- Header --}}

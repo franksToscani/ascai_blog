@@ -9,6 +9,7 @@ use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\GalleryPhotoController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SeoController;
 use App\Http\Controllers\BilancioController as PublicBilancioController;
 use App\Http\Controllers\Admin\BilancioController as AdminBilancioController;
 
@@ -40,6 +41,10 @@ Route::get('/news/{post:slug}', [PostController::class, 'show'])->name('posts.sh
 
 // Galleria pubblica
 Route::get('/galleria', [GalleryPhotoController::class, 'index'])->name('galleria');
+
+// SEO: sitemap per i motori di ricerca e robots.txt dinamico
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 
 // ======================
 // PAGINE LEGALI

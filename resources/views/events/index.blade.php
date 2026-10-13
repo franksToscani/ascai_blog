@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Eventi - Associazione No-Profit')
+@section('title', 'Eventi - ASCAI Bologna')
+@section('description', 'Prossimi eventi e iniziative passate di AS.CA.I Bologna: incontri culturali, feste, workshop e attività per la comunità.')
 
 @section('content')
     {{-- Header --}}

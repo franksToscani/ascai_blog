@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Statuto - ASCAI Bologna')
+@section('description', 'Lo statuto di AS.CA.I Bologna: le norme che regolano organizzazione, funzionamento e attività dell\'associazione. Consultalo o scaricalo in PDF.')
 
 @section('content')
     {{-- Header --}}

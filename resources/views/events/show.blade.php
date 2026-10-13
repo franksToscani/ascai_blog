@@ -1,6 +1,34 @@
 @extends('layouts.public')
 
-@section('title', $event->title . ' - Eventi')
+@section('title', $event->title . ' - Eventi ASCAI Bologna')
+@section('description', \Illuminate\Support\Str::limit(
+    $event->starts_at->translatedFormat('j F Y') . ($event->location ? ', ' . $event->location : '') . '. '
+    . trim(preg_replace('/\s+/', ' ', strip_tags($event->description))), 155))
+@if ($event->flyer_path)
+    @section('og_image', asset('storage/' . ltrim($event->flyer_path, '/')))
+@endif
+
+@push('meta')
+    {{-- Dati strutturati: Google può mostrare data e luogo direttamente nei risultati --}}
+    <script type="application/ld+json">
+        {!! json_encode(array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => 'Event',
+            'name' => $event->title,
+            'description' => \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($event->description))), 300),
+            'startDate' => $event->starts_at->toIso8601String(),
+            'endDate' => $event->ends_at?->toIso8601String(),
+            'eventStatus' => 'https://schema.org/EventScheduled',
+            'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+            'location' => $event->location
+                ? ['@type' => 'Place', 'name' => $event->location, 'address' => $event->location]
+                : null,
+            'image' => $event->flyer_path ? [asset('storage/' . ltrim($event->flyer_path, '/'))] : [asset('images/og-default.jpg')],
+            'url' => url()->current(),
+            'organizer' => ['@type' => 'Organization', 'name' => 'AS.CA.I Bologna', 'url' => url('/')],
+        ]), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) !!}
+    </script>
+@endpush
 
 @section('content')
     @php

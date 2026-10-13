@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Contatti - Associazione No-Profit')
+@section('title', 'Contatti - ASCAI Bologna')
+@section('description', 'Contatta AS.CA.I Bologna per informazioni sull\'associazione, sulle attività o per proporre collaborazioni. Scrivici dal modulo online.')
 
 @section('content')
     {{-- Header --}}

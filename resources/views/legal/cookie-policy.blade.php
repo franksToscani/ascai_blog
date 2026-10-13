@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Cookie Policy - ASCAI Bologna')
+@section('description', 'Informativa sui cookie utilizzati dal sito di AS.CA.I Bologna.')
 
 @section('content')
 <div class="max-w-4xl mx-auto mt-12 md:mt-16">

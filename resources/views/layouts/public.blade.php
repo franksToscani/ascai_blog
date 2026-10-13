@@ -2,19 +2,30 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'AS.CA.I – Associazione dei Camerunesi a Bologna')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="AS.CA.I Bologna - Associazione dei Camerunesi a Bologna. Comunità, eventi, supporto e integrazione.">
+
+    {{-- SEO: ogni pagina può definire title, description, og_image e og_type --}}
+    <title>@yield('title', 'AS.CA.I – Associazione dei Camerunesi a Bologna')</title>
+    <meta name="description" content="@yield('description', 'AS.CA.I Bologna, Associazione dei Camerunesi a Bologna: comunità, eventi, cultura, supporto e integrazione.')">
     <meta name="author" content="Franks Toscani - Web Developer">
     <meta name="copyright" content="© {{ date('Y') }} AS.CA.I Bologna. Tutti i diritti riservati.">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="@yield('title', 'AS.CA.I Bologna')">
-    <meta property="og:description" content="Associazione dei Camerunesi a Bologna">
+    <meta name="robots" content="{{ app()->environment('production') ? 'index, follow' : 'noindex, nofollow' }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    {{-- Anteprima quando il link viene condiviso (WhatsApp, Facebook, Telegram, X) --}}
+    <meta property="og:site_name" content="AS.CA.I Bologna">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'AS.CA.I – Associazione dei Camerunesi a Bologna')">
+    <meta property="og:description" content="@yield('description', 'AS.CA.I Bologna, Associazione dei Camerunesi a Bologna: comunità, eventi, cultura, supporto e integrazione.')">
+    <meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
+    <meta name="twitter:card" content="summary_large_image">
+    @stack('meta')
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/logoAscai1.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logoAscai1.png') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ asset('images/favicon-64.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -31,7 +42,7 @@
                 <!-- Logo e Brand -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
                     <div class="relative">
-                        <img src="{{ asset('images/logoAscai1.png') }}" alt="Logo ASCAI Bologna" class="h-12 w-auto transition-transform duration-300 group-hover:scale-110">
+                        <img src="{{ asset('images/logo-256.png') }}" alt="Logo ASCAI Bologna" class="h-12 w-auto transition-transform duration-300 group-hover:scale-110">
                         <div class="absolute inset-0 bg-sky-400 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                     </div>
                     <div>

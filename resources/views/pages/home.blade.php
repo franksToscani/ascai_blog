@@ -1,6 +1,29 @@
 @extends('layouts.public')
 
-@section('title', 'Home - ASCAI Bologna')
+@section('title', 'AS.CA.I Bologna - Associazione dei Camerunesi a Bologna')
+@section('description', 'Associazione dei Camerunesi d\'Italia, sezione di Bologna: ponti tra culture, integrazione, eventi e solidarietà per la comunità camerunese.')
+
+@push('meta')
+    <script type="application/ld+json">
+        {!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'NGO',
+            'name' => 'AS.CA.I Bologna',
+            'alternateName' => 'Associazione dei Camerunesi d\'Italia - Bologna',
+            'url' => url('/'),
+            'logo' => asset('images/logo-256.png'),
+            'email' => 'associazione.camer.bologna@gmail.com',
+            'areaServed' => 'Bologna',
+            'sameAs' => [
+                'https://www.facebook.com/groups/ascai.bologna/',
+                'https://www.instagram.com/ascai2021/',
+                'https://www.tiktok.com/@ascai2021',
+                'https://www.whatsapp.com/channel/0029VawPvZ01t90iKspR1l0P',
+                'https://linktr.ee/ascai.bologna',
+            ],
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) !!}
+    </script>
+@endpush
 
 @section('content')
     {{-- HERO SLIDER --}}

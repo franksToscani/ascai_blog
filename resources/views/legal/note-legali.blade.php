@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Note Legali - ASCAI Bologna')
+@section('description', 'Note legali e condizioni d\'uso del sito di AS.CA.I Bologna.')
 
 @section('content')
 <div class="max-w-4xl mx-auto mt-12 md:mt-16">

@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Associati - Associazione No-Profit')
+@section('title', 'Diventa socio - ASCAI Bologna')
+@section('description', 'Unisciti ad AS.CA.I Bologna: come associarsi, quota associativa e modulo di iscrizione online per entrare nella comunità camerunese di Bologna.')
 
 @section('content')
     {{-- Header --}}

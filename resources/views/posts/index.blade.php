@@ -3,6 +3,9 @@
 @endphp
 @extends('layouts.public')
 
+@section('title', 'News - ASCAI Bologna')
+@section('description', 'Novità, comunicati e aggiornamenti da AS.CA.I Bologna, l\'Associazione dei Camerunesi a Bologna.')
+
 @section('content')
     {{-- Header --}}
     <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-10 md:mt-12">

@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Chi siamo - ASCAI Bologna')
+@section('description', 'AS.CA.I Bologna è un\'associazione no-profit nata negli anni 2000 per promuovere integrazione, solidarietà e scambio culturale tra la comunità camerunese e Bologna.')
 
 @section('content')
     {{-- Header --}}

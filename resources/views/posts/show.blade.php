@@ -1,6 +1,34 @@
 @extends('layouts.public')
 
-@section('title', $post->title . ' - News')
+@section('title', $post->title . ' - News ASCAI Bologna')
+@section('description', \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($post->content))), 155))
+@section('og_type', 'article')
+@if ($post->cover_image)
+    @section('og_image', asset('storage/' . ltrim($post->cover_image, '/')))
+@endif
+
+@push('meta')
+    <meta property="article:published_time" content="{{ $post->created_at->toIso8601String() }}">
+    <meta property="article:modified_time" content="{{ $post->updated_at->toIso8601String() }}">
+    <script type="application/ld+json">
+        {!! json_encode(array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => 'NewsArticle',
+            'headline' => \Illuminate\Support\Str::limit($post->title, 110),
+            'description' => \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($post->content))), 155),
+            'image' => $post->cover_image ? [asset('storage/' . ltrim($post->cover_image, '/'))] : null,
+            'datePublished' => $post->created_at->toIso8601String(),
+            'dateModified' => $post->updated_at->toIso8601String(),
+            'mainEntityOfPage' => url()->current(),
+            'author' => ['@type' => 'Organization', 'name' => 'AS.CA.I Bologna', 'url' => url('/')],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'AS.CA.I Bologna',
+                'logo' => ['@type' => 'ImageObject', 'url' => asset('images/logo-256.png')],
+            ],
+        ]), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) !!}
+    </script>
+@endpush
 
 @section('content')
     @php

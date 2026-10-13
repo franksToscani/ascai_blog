@@ -11,8 +11,8 @@
         <title>@yield('title', config('app.name', 'Laravel'))</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/png" href="{{ asset('images/logoAscai1.png') }}">
-        <link rel="apple-touch-icon" href="{{ asset('images/logoAscai1.png') }}">
+        <link rel="icon" type="image/png" sizes="64x64" href="{{ asset('images/favicon-64.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

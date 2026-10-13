@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Lo staff - ASCAI Bologna')
+@section('description', 'Il consiglio direttivo e i collaboratori di AS.CA.I Bologna: le persone che dedicano il loro tempo all\'associazione.')
 
 @section('content')
     {{-- Header --}}
