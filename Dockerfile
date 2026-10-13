@@ -21,11 +21,17 @@ WORKDIR /app
 RUN apt-get update \
  && apt-get install -y git unzip curl libpq-dev libzip-dev libpng-dev libjpeg62-turbo-dev libwebp-dev libonig-dev libxml2-dev \
  && docker-php-ext-configure gd --with-jpeg --with-webp \
- && docker-php-ext-install pdo_pgsql gd exif zip mbstring xml \
+ && docker-php-ext-install pdo_pgsql gd exif zip mbstring xml opcache \
  && rm -rf /var/lib/apt/lists/*
 
 # Upload fino a 10MB (foto da telefono, PDF bilanci); il default PHP è 2MB
 RUN printf "upload_max_filesize=12M\npost_max_size=14M\nmemory_limit=256M\n" > /usr/local/etc/php/conf.d/uploads.ini
+
+# OPcache: il codice compilato resta in memoria (php -S gira come CLI, serve enable_cli)
+RUN printf "opcache.enable=1\nopcache.enable_cli=1\nopcache.memory_consumption=128\nopcache.max_accelerated_files=20000\nopcache.revalidate_freq=60\n" > /usr/local/etc/php/conf.d/opcache.ini
+
+# Il server integrato di PHP gestisce più richieste in parallelo (default: una alla volta)
+ENV PHP_CLI_SERVER_WORKERS=4
 
 # Copy composer from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
