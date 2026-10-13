@@ -18,66 +18,32 @@
                 <div>
                     <h2 class="text-2xl font-bold text-slate-800 mb-6">Il consiglio direttivo</h2>
                     <div class="grid md:grid-cols-2 gap-6">
-                        {{-- Card Staff --}}
-                        <div class="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                            <div class="flex items-start gap-4">
-                                <div class="w-16 h-16 bg-sky-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-slate-800">Presidente</h3>
-                                    <p class="text-sm text-sky-600 font-semibold">Jemes Tonnang</p>
-                                    <p class="text-xs text-slate-600 mt-1">Rapresentante legale dell'associazione</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                            <div class="flex items-start gap-4">
-                                <div class="w-16 h-16 bg-sky-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-slate-800">Vicepresidente</h3>
-                                    <p class="text-sm text-sky-600 font-semibold">Loic Kamani</p>
-                                    <p class="text-xs text-slate-600 mt-1">Supporta il presidente</p>
+                        {{-- Card Staff: i dati si modificano da Admin → Staff --}}
+                        @foreach ($direttivo as $member)
+                            <div class="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                                <div class="flex items-start gap-4">
+                                    @if ($member->photo_url)
+                                        <img src="{{ $member->photo_url }}" alt="{{ $member->name ?? $member->role }}" loading="lazy"
+                                             class="w-16 h-16 rounded-full object-cover flex-shrink-0 ring-2 ring-sky-200">
+                                    @else
+                                        <div class="w-16 h-16 bg-sky-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    <div>
+                                        <h3 class="font-bold text-slate-800">{{ $member->role }}</h3>
+                                        @if ($member->name)
+                                            <p class="text-sm text-sky-600 font-semibold">{{ $member->name }}</p>
+                                        @endif
+                                        @if ($member->description)
+                                            <p class="text-xs text-slate-600 mt-1">{{ $member->description }}</p>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                            <div class="flex items-start gap-4">
-                                <div class="w-16 h-16 bg-sky-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-slate-800">Segretario generale</h3>
-                                    <p class="text-sm text-sky-600 font-semibold">Franks Toscani Koudja</p>
-                                    <p class="text-xs text-slate-600 mt-1">Gestisce la comunicazione</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                            <div class="flex items-start gap-4">
-                                <div class="w-16 h-16 bg-sky-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-slate-800">Tesoriere</h3>
-                                    <p class="text-sm text-sky-600 font-semibold">Leatitia Nichee Kentsa</p>
-                                    <p class="text-xs text-slate-600 mt-1">Gestisce le finanze</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -89,26 +55,17 @@
                         Accanto al consiglio direttivo, ASCAI Bologna ha una rete di collaboratori appassionati che dedicano il loro tempo alle attività dell'associazione.
                     </p>
                     <div class="grid md:grid-cols-3 gap-4">
-                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                            <p class="font-semibold text-slate-800">Comunicazione e relazioni esteri</p>
-                            <p class="text-sm text-slate-600 mt-1">Gestione media, social e relazioni esterne</p>
-                        </div>
-                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                            <p class="font-semibold text-slate-800">Comitato Accademico</p>
-                            <p class="text-sm text-slate-600 mt-1">Gestione studenti camerunensi dell'UNIBO</p>
-                        </div>
-                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                            <p class="font-semibold text-slate-800">Comitato Sociale</p>
-                            <p class="text-sm text-slate-600 mt-1">Gestione attività sociali</p>
-                        </div>
-                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                            <p class="font-semibold text-slate-800">Comitato Culturale</p>
-                            <p class="text-sm text-slate-600 mt-1">Gestione attività culturali</p>
-                        </div>
-                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                            <p class="font-semibold text-slate-800">Comitato Sportivo</p>
-                            <p class="text-sm text-slate-600 mt-1">Gestione attività sportive</p>
-                        </div>
+                        @foreach ($collaboratori as $member)
+                            <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                                <p class="font-semibold text-slate-800">{{ $member->role }}</p>
+                                @if ($member->name)
+                                    <p class="text-sm text-sky-600 font-semibold">{{ $member->name }}</p>
+                                @endif
+                                @if ($member->description)
+                                    <p class="text-sm text-slate-600 mt-1">{{ $member->description }}</p>
+                                @endif
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 

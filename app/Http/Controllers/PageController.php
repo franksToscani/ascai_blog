@@ -7,6 +7,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\GalleryPhoto;
 use App\Models\Bilancio;
+use App\Models\Setting;
+use App\Models\StaffMember;
 use Illuminate\Support\Facades\Cache;
 
 class PageController extends Controller
@@ -48,12 +50,17 @@ class PageController extends Controller
 
     public function statuto()
     {
-        return view('pages.statuto');
+        $statutoPdf = Setting::get('statuto_pdf_path');
+
+        return view('pages.statuto', compact('statutoPdf'));
     }
 
     public function staff()
     {
-        return view('pages.staff');
+        $direttivo = StaffMember::inGroup('direttivo')->get();
+        $collaboratori = StaffMember::inGroup('collaboratori')->get();
+
+        return view('pages.staff', compact('direttivo', 'collaboratori'));
     }
 
     public function bilancio()
@@ -74,6 +81,15 @@ class PageController extends Controller
 
     public function associati()
     {
-        return view('pages.associati');
+        $iban = Setting::get('payment_iban');
+
+        return view('pages.associati', [
+            'formUrl' => Setting::get('membership_form_url'),
+            'fee' => Setting::get('membership_fee'),
+            'holder' => Setting::get('payment_holder'),
+            // IBAN leggibile: gruppi di 4 caratteri
+            'iban' => $iban ? trim(chunk_split($iban, 4, ' ')) : null,
+            'reason' => Setting::get('payment_reason'),
+        ]);
     }
 }

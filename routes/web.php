@@ -13,6 +13,8 @@ use App\Http\Controllers\SeoController;
 use App\Http\Controllers\BilancioController as PublicBilancioController;
 use App\Http\Controllers\Admin\BilancioController as AdminBilancioController;
 use App\Http\Controllers\Admin\AlbumController as AdminAlbumController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\StaffMemberController;
 use App\Http\Controllers\AlbumController;
 
 // ======================
@@ -121,6 +123,14 @@ Route::middleware(['auth', 'admin'])
             ->except(['show'])
             ->parameters(['album' => 'album'])
             ->names('albums');
+
+        // Staff (consiglio direttivo e collaboratori)
+        Route::resource('staff', StaffMemberController::class)->except(['show']);
+        Route::patch('staff/{staff}/sposta', [StaffMemberController::class, 'move'])->name('staff.move');
+
+        // Dati dell'associazione (quota, IBAN, modulo, statuto)
+        Route::get('dati-associazione', [SettingsController::class, 'edit'])->name('settings.edit');
+        Route::put('dati-associazione', [SettingsController::class, 'update'])->name('settings.update');
 
         // Bilanci (PDF)
         Route::get('bilanci', [AdminBilancioController::class, 'index'])->name('bilanci.index');

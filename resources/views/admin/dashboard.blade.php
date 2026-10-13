@@ -141,6 +141,24 @@
             </div>
             <span class="text-sm text-sky-700 font-semibold">Apri bilanci →</span>
         </a>
+        <a href="{{ route('admin.staff.index') }}" class="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between">
+            <div>
+                <h2 class="font-semibold mb-1">Staff</h2>
+                <p class="text-xs text-slate-500 mb-2">
+                    Consiglio direttivo e collaboratori della pagina Staff.
+                </p>
+            </div>
+            <span class="text-sm text-sky-700 font-semibold">Gestisci staff →</span>
+        </a>
+        <a href="{{ route('admin.settings.edit') }}" class="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between">
+            <div>
+                <h2 class="font-semibold mb-1">Dati associazione</h2>
+                <p class="text-xs text-slate-500 mb-2">
+                    Quota, IBAN, modulo di iscrizione e PDF dello statuto.
+                </p>
+            </div>
+            <span class="text-sm text-sky-700 font-semibold">Modifica dati →</span>
+        </a>
     </div>
 
 
