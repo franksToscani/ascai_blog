@@ -50,7 +50,7 @@
                         </h3>
 
                         <p class="text-sm truncate {{ $msg->isRead() ? 'text-slate-600' : 'text-slate-900 font-semibold' }}">
-                            {{ $msg->subject }}
+                            {{ $msg->subject ?: '(senza oggetto)' }}
                         </p>
 
                         <p class="text-sm text-slate-500 truncate">

@@ -4,13 +4,12 @@
 @section('description', 'Note legali e condizioni d\'uso del sito di AS.CA.I Bologna.')
 
 @section('content')
-<div class="max-w-4xl mx-auto mt-12 md:mt-16">
-    <!-- Header -->
-    <div class="bg-gradient-to-br from-slate-700 to-slate-900 rounded-2xl shadow-xl p-8 mb-8 text-white">
-        <h1 class="text-3xl font-bold mb-3">Note Legali</h1>
-        <p class="text-slate-300">Termini e condizioni d'uso del sito web</p>
-        <p class="text-sm text-slate-400 mt-2">Ultimo aggiornamento: 16/10/2026</p>
-    </div>
+<div class="max-w-4xl mx-auto">
+    @include('partials.page-header', [
+        'title' => 'Note Legali',
+        'subtitle' => 'Termini e condizioni d\'uso del sito web',
+        'note' => 'Ultimo aggiornamento: 16/10/2026',
+    ])
 
     <!-- Contenuto -->
     <div class="bg-white rounded-xl shadow-md p-8 space-y-8">

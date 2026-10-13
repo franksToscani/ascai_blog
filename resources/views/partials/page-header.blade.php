@@ -1,7 +1,7 @@
 {{--
     Intestazione delle pagine interne: trattino tricolore discreto, titolo, sottotitolo
     e (solo per gli admin) un pulsante di azione.
-    Parametri: $title, $subtitle, facoltativi $actionUrl e $actionLabel.
+    Parametri: $title, facoltativi $subtitle, $note, $actionUrl e $actionLabel.
 --}}
 <header class="mb-8 pb-6 border-b border-slate-200 flex flex-wrap items-end justify-between gap-4">
     <div>
@@ -13,6 +13,9 @@
         <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">{{ $title }}</h1>
         @isset($subtitle)
             <p class="mt-2 text-slate-600">{{ $subtitle }}</p>
+        @endisset
+        @isset($note)
+            <p class="mt-1 text-sm text-slate-400">{{ $note }}</p>
         @endisset
     </div>
 

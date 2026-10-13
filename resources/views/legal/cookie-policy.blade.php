@@ -4,13 +4,12 @@
 @section('description', 'Informativa sui cookie utilizzati dal sito di AS.CA.I Bologna.')
 
 @section('content')
-<div class="max-w-4xl mx-auto mt-12 md:mt-16">
-    <!-- Header -->
-    <div class="bg-gradient-to-br from-purple-600 to-indigo-700 rounded-2xl shadow-xl p-8 mb-8 text-white">
-        <h1 class="text-3xl font-bold mb-3">Cookie Policy</h1>
-        <p class="text-purple-100">Informativa sull'uso dei cookie su questo sito web</p>
-        <p class="text-sm text-purple-200 mt-2">Ultimo aggiornamento: {{ date('d/m/Y') }}</p>
-    </div>
+<div class="max-w-4xl mx-auto">
+    @include('partials.page-header', [
+        'title' => 'Cookie Policy',
+        'subtitle' => 'Informativa sull\'uso dei cookie su questo sito web',
+        'note' => 'Ultimo aggiornamento: ' . date('d/m/Y'),
+    ])
 
     <!-- Contenuto -->
     <div class="bg-white rounded-xl shadow-md p-8 space-y-8">

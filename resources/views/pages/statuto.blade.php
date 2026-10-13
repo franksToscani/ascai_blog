@@ -4,18 +4,17 @@
 @section('description', 'Lo statuto di AS.CA.I Bologna: le norme che regolano organizzazione, funzionamento e attività dell\'associazione. Consultalo o scaricalo in PDF.')
 
 @section('content')
-    {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-10 md:mt-12">
-        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Statuto dell'associazione</h1>
-        <p class="text-slate-600 text-lg">Le norme e regolamenti AS.CA.I Bologna</p>
-    </div>
+    @include('partials.page-header', [
+        'title' => 'Statuto dell\'associazione',
+        'subtitle' => 'Le norme e regolamenti AS.CA.I Bologna',
+    ])
 
     {{-- Contenuto Principale --}}
     <div class="grid md:grid-cols-3 gap-6 mb-12">
         {{-- Statuto --}}
         <div class="md:col-span-2">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 space-y-6">
-                <div class="bg-sky-50 border border-sky-200 rounded-lg p-6 mb-6">
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-6 mb-6">
                     <p class="text-sm text-slate-600 mb-4">
                         Lo statuto è il documento fondamentale che regola l'organizzazione, il funzionamento e le attività di ASCAI Bologna.
                     </p>
@@ -124,7 +123,7 @@
 
         {{-- Sidebar --}}
         <div>
-            <div class="bg-sky-50 border border-sky-200 rounded-xl p-6 sticky top-24">
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 sticky top-24">
                 <h3 class="text-lg font-bold text-slate-800 mb-4">Sezioni correlate</h3>
                 <nav class="space-y-2">
                     <a href="{{ route('chi-siamo') }}" class="block px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-white transition-all {{ request()->routeIs('chi-siamo') ? 'text-sky-600 bg-white' : '' }}">

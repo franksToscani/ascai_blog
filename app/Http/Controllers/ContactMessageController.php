@@ -20,7 +20,7 @@ class ContactMessageController extends Controller
         $validated = $request->validate([
             'name'    => 'required|string|max:255',
             'email'   => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
+            'subject' => 'nullable|string|max:255', // il modulo lo indica come facoltativo
             'message' => 'required|string|min:10|max:5000',
         ]);
 
@@ -44,7 +44,7 @@ class ContactMessageController extends Controller
         Log::info('Contact message received', [
             'message_id' => $contactMessage->id,
             'email' => $validated['email'],
-            'subject' => $validated['subject'],
+            'subject' => $validated['subject'] ?? null,
             'ip' => $ip,
         ]);
 

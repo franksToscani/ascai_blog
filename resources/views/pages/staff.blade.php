@@ -4,14 +4,13 @@
 @section('description', 'Il consiglio direttivo e i collaboratori di AS.CA.I Bologna: le persone che dedicano il loro tempo all\'associazione.')
 
 @section('content')
-    {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-10 md:mt-12">
-        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Lo staff dell'AS.CA.I Bologna</h1>
-        <p class="text-slate-600 text-lg">Le persone che dedicano il loro tempo all'associazione</p>
-    </div>
+    @include('partials.page-header', [
+        'title' => 'Lo staff dell\'AS.CA.I Bologna',
+        'subtitle' => 'Le persone che dedicano il loro tempo all\'associazione',
+    ])
 
     {{-- Contenuto Principale --}}
-    <div class="grid md:grid-cols-3 gap-6 mb-12 mt-12 md:mt-16">
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
         {{-- Staff --}}
         <div class="md:col-span-2">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 space-y-8">
@@ -20,11 +19,11 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         {{-- Card Staff: i dati si modificano da Admin → Staff --}}
                         @foreach ($direttivo as $member)
-                            <div class="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                            <div class="bg-slate-50 border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow">
                                 <div class="flex items-start gap-4">
                                     @if ($member->photo_url)
                                         <img src="{{ $member->photo_url }}" alt="{{ $member->name ?? $member->role }}" loading="lazy"
-                                             class="w-16 h-16 rounded-full object-cover flex-shrink-0 ring-2 ring-sky-200">
+                                             class="w-16 h-16 rounded-full object-cover flex-shrink-0 ring-2 ring-slate-200">
                                     @else
                                         <div class="w-16 h-16 bg-sky-600 rounded-full flex items-center justify-center flex-shrink-0">
                                             <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -69,7 +68,7 @@
                     </div>
                 </div>
 
-                <div class="bg-sky-50 border border-sky-200 rounded-lg p-6 mt-8">
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-8">
                     <h3 class="font-bold text-slate-800 mb-2">Vuoi unirti al nostro team?</h3>
                     <p class="text-sm text-slate-600 mb-4">
                         Se sei interessato a collaborare con ASCAI Bologna, contattaci! Cerchiamo sempre persone motivate e disponibili.
@@ -86,7 +85,7 @@
 
         {{-- Sidebar --}}
         <div>
-            <div class="bg-sky-50 border border-sky-200 rounded-xl p-6 sticky top-24">
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 sticky top-24">
                 <h3 class="text-lg font-bold text-slate-800 mb-4">Sezioni correlate</h3>
                 <nav class="space-y-2">
                     <a href="{{ route('chi-siamo') }}" class="block px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-sky-600 hover:bg-white transition-all {{ request()->routeIs('chi-siamo') ? 'text-sky-600 bg-white' : '' }}">

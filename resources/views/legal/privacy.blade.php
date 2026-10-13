@@ -4,13 +4,12 @@
 @section('description', 'Informativa sul trattamento dei dati personali del sito di AS.CA.I Bologna.')
 
 @section('content')
-<div class="max-w-4xl mx-auto mt-12 md:mt-16">
-    <!-- Header -->
-    <div class="bg-gradient-to-br from-sky-600 to-blue-700 rounded-2xl shadow-xl p-8 mb-8 text-white">
-        <h1 class="text-3xl font-bold mb-3">Privacy Policy</h1>
-        <p class="text-sky-100">Informativa sul trattamento dei dati personali ai sensi del GDPR (Regolamento UE 2016/679)</p>
-        <p class="text-sm text-sky-200 mt-2">Ultimo aggiornamento: {{ date('d/m/Y') }}</p>
-    </div>
+<div class="max-w-4xl mx-auto">
+    @include('partials.page-header', [
+        'title' => 'Privacy Policy',
+        'subtitle' => 'Informativa sul trattamento dei dati personali ai sensi del GDPR (Regolamento UE 2016/679)',
+        'note' => 'Ultimo aggiornamento: ' . date('d/m/Y'),
+    ])
 
     <!-- Contenuto -->
     <div class="bg-white rounded-xl shadow-md p-8 space-y-8">

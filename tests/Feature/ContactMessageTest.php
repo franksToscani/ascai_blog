@@ -71,6 +71,17 @@ class ContactMessageTest extends TestCase
         $this->assertDatabaseCount('contact_messages', 5);
     }
 
+    public function test_subject_is_optional_as_the_form_says(): void
+    {
+        Mail::fake();
+        $payload = $this->validPayload();
+        unset($payload['subject']);
+
+        $this->post('/contatti', $payload)->assertSessionHasNoErrors()->assertSessionHas('success');
+
+        $this->assertDatabaseHas('contact_messages', ['email' => 'mario@example.com', 'subject' => null]);
+    }
+
     public function test_notification_email_renders(): void
     {
         $contactMessage = ContactMessage::create([

@@ -6,7 +6,7 @@
     <a href="{{ route('admin.messages.index') }}" class="text-sm text-sky-700 hover:underline mt-12 md:mt-16 inline-block">← Torna ai messaggi</a>
 
     <div class="bg-white p-6 rounded-xl shadow-sm mt-4">
-        <h1 class="text-xl font-bold mb-2">{{ $msg->subject }}</h1>
+        <h1 class="text-xl font-bold mb-2">{{ $msg->subject ?: '(senza oggetto)' }}</h1>
 
         <p class="text-sm text-slate-500 mb-4">
             Da: <strong>{{ $msg->name }}</strong> ({{ $msg->email }})<br>
@@ -16,7 +16,7 @@
         <p class="text-slate-800 whitespace-pre-line">{{ $msg->message }}</p>
 
         <div class="flex flex-wrap items-center gap-3 mt-6 pt-4 border-t border-slate-100">
-            <a href="mailto:{{ $msg->email }}?subject={{ rawurlencode('Re: ' . $msg->subject) }}"
+            <a href="mailto:{{ $msg->email }}?subject={{ rawurlencode('Re: ' . ($msg->subject ?: 'il tuo messaggio ad AS.CA.I Bologna')) }}"
                class="text-sm bg-sky-700 text-white px-4 py-2 rounded hover:bg-sky-800">
                 Rispondi via email
             </a>

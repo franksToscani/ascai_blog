@@ -4,14 +4,13 @@
 @section('description', 'Unisciti ad AS.CA.I Bologna: come associarsi, quota associativa e modulo di iscrizione online per entrare nella comunità camerunese di Bologna.')
 
 @section('content')
-    {{-- Header --}}
-    <div class="mb-8 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl border border-sky-100 p-8 mt-10 md:mt-12">
-        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Diventa parte della nostra comunità</h1>
-        <p class="text-slate-600 text-lg">La forza di una comunità nasce dalla partecipazione attiva e condivisa.</p>
-    </div>
+    @include('partials.page-header', [
+        'title' => 'Diventa parte della nostra comunità',
+        'subtitle' => 'La forza di una comunità nasce dalla partecipazione attiva e condivisa.',
+    ])
 
     {{-- Contenuto Principale --}}
-    <h2 class="text-1xl mb-4 mt-12 md:mt-16"> Entrare a far parte della nostra associazione significa condividere valori, cultura e solidarietà. ASCAI Bologna è uno spazio di incontro, supporto e crescita, dove ogni socio contribuisce attivamente alla vita della comunità camerunese e al dialogo interculturale sul territorio. Unisciti a noi per partecipare alle attività,
+    <h2 class="text-1xl mb-4"> Entrare a far parte della nostra associazione significa condividere valori, cultura e solidarietà. ASCAI Bologna è uno spazio di incontro, supporto e crescita, dove ogni socio contribuisce attivamente alla vita della comunità camerunese e al dialogo interculturale sul territorio. Unisciti a noi per partecipare alle attività,
         sostenere i nostri progetti e costruire insieme un futuro basato su inclusione, collaborazione e rispetto reciproco.</h2>
     @if ($formUrl)
         <p class="text-slate-600 mb-4">Compila il modulo online e unisciti all'associazione.</p>
