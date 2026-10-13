@@ -2,6 +2,12 @@
 
 Sito dell'**Associazione dei Camerunesi d'Italia – sezione di Bologna**, online su **https://ascai-bo.it**.
 
+<p align="center">
+  <a href="https://ascai-bo.it">
+    <img src="docs/screenshot-home.jpg" alt="Home page del sito AS.CA.I Bologna: banner a tutta larghezza e ultime news" width="900">
+  </a>
+</p>
+
 Applicazione **Laravel 12** renderizzata lato server con **Blade**, **Alpine.js** e **Tailwind CSS 3**: sito pubblico (news, eventi, galleria, pagine istituzionali, contatti) e pannello di amministrazione per gestire i contenuti.
 
 > Questo documento è per chi sviluppa il sito. Per l'uso del pannello admin vedi [MANUALE_UTENTE.md](MANUALE_UTENTE.md).
