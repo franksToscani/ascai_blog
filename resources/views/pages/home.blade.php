@@ -25,14 +25,14 @@
     </script>
 @endpush
 
-@section('content')
+@section('hero')
     {{-- HERO SLIDER --}}
     @php
         $heroSlides = [
             [
                 'image' => 'images/banner0.jpg',
                 'fallback' => 'linear-gradient(135deg, #0369a1 0%, #0f172a 100%)',
-                'subtitle' => 'Associazione dei Camerunesi in Italia - Sezione di Bologna',
+                'subtitle' => "Associazione dei Camerunesi d'Italia",
                 'title' => 'Benvenuti in AS.CA.I Bologna',
                 'description' => "Costruiamo ponti tra culture, promuoviamo l'integrazione e sosteniamo la comunità camerunense a Bologna.",
                 'cta' => 'Scopri chi siamo',
@@ -75,34 +75,34 @@
         unset($slide);
     @endphp
 
-    <section class="relative -mt-2 md:mt-0"
+    {{-- Stile "banner istituzionale": a tutta larghezza, testo grande a sinistra, frecce ai bordi, barre di avanzamento --}}
+    <section class="relative bg-slate-900"
              aria-roledescription="carousel" aria-label="In evidenza"
              x-data="{
                 current: 0,
                 total: {{ count($heroSlides) }},
                 timer: null,
+                paused: false,
                 touchStartX: null,
-                // Niente scorrimento automatico per chi ha chiesto meno animazioni nel sistema
                 reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-                start() { if (!this.reducedMotion) this.timer = setInterval(() => this.next(), 6000) },
+                start() { this.stop(); if (!this.reducedMotion && !this.paused) this.timer = setInterval(() => this.next(), 7000) },
                 stop() { clearInterval(this.timer) },
-                restart() { this.stop(); this.start() },
+                toggle() { this.paused = !this.paused; this.paused ? this.stop() : this.start() },
                 next() { this.current = (this.current + 1) % this.total },
                 prev() { this.current = (this.current - 1 + this.total) % this.total },
-                go(index) { this.current = index; this.restart() },
+                go(index) { this.current = index; this.start() },
                 swipeEnd(event) {
                     if (this.touchStartX === null) return;
                     const distance = event.changedTouches[0].clientX - this.touchStartX;
-                    if (Math.abs(distance) > 50) { distance < 0 ? this.next() : this.prev(); this.restart(); }
+                    if (Math.abs(distance) > 50) { distance < 0 ? this.next() : this.prev(); this.start(); }
                     this.touchStartX = null;
                 },
              }"
-             x-init="start()"
-             @mouseenter="stop()" @mouseleave="start()"
+             x-init="paused = reducedMotion; start()"
              @touchstart.passive="touchStartX = $event.changedTouches[0].clientX"
              @touchend="swipeEnd($event)">
 
-        <div class="relative h-[460px] sm:h-[420px] lg:h-[440px] overflow-hidden rounded-2xl shadow-xl bg-slate-900">
+        <div class="relative h-[520px] md:h-[500px] lg:h-[540px] overflow-hidden">
             @foreach ($heroSlides as $index => $slide)
                 <div x-show="current === {{ $index }}"
                      x-transition:enter="transition-opacity ease-out duration-700"
@@ -116,55 +116,65 @@
                      @if ($index > 0) style="display: none;" @endif>
 
                     <div class="absolute inset-0 bg-cover bg-center" style="{{ $slide['background'] }}"></div>
-                    {{-- Sfumatura dal basso (e da sinistra su schermi larghi): il testo resta leggibile su qualsiasi foto --}}
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/10"></div>
-                    <div class="absolute inset-0 hidden md:block bg-gradient-to-r from-black/50 to-transparent"></div>
+                    {{-- Telefono: scuro in basso dove sta il testo. Schermi larghi: pannello scuro a sinistra --}}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/10 md:hidden"></div>
+                    <div class="absolute inset-0 hidden md:block bg-gradient-to-r from-black/85 via-black/55 to-black/0"></div>
 
-                    <div class="relative h-full flex items-end">
-                        <div class="w-full px-6 pb-14 sm:px-10 sm:pb-12 lg:px-14 lg:pb-14 max-w-3xl text-white">
-                            <p class="inline-block px-3 py-1 mb-3 rounded-full bg-white/15 backdrop-blur-sm text-xs sm:text-sm font-semibold">
+                    <div class="relative h-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-8 flex items-end md:items-center pb-20 md:pb-0">
+                        <div class="max-w-xl text-white text-center md:text-left mx-auto md:mx-0">
+                            <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-white/80">
                                 {{ $slide['subtitle'] }}
                             </p>
                             @if ($index === 0)
-                                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight drop-shadow">{{ $slide['title'] }}</h1>
+                                <h1 class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">{{ $slide['title'] }}</h1>
                             @else
-                                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight drop-shadow">{{ $slide['title'] }}</h2>
+                                <h2 class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">{{ $slide['title'] }}</h2>
                             @endif
-                            <p class="mt-3 text-base sm:text-lg text-white/90 leading-relaxed line-clamp-4 sm:line-clamp-3">{{ $slide['description'] }}</p>
+                            <p class="mt-4 text-base sm:text-xl text-white/90 leading-relaxed">{{ $slide['description'] }}</p>
                             <a href="{{ $slide['link'] }}"
-                               class="mt-5 inline-flex items-center gap-2 px-6 py-3 bg-white text-sky-800 rounded-xl font-bold hover:bg-sky-50 hover:shadow-lg transition">
+                               class="mt-7 inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-sky-600 hover:bg-sky-500 text-white text-lg font-bold shadow-lg transition">
                                 {{ $slide['cta'] }}
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                </svg>
                             </a>
                         </div>
                     </div>
                 </div>
             @endforeach
 
-            {{-- Controlli: pallini al centro in basso, frecce in basso a destra (su telefono si scorre col dito) --}}
-            <div class="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2 sm:justify-end sm:right-6 sm:left-auto">
-                <button type="button" @click="prev(); restart()" aria-label="Slide precedente"
-                        class="hidden sm:flex w-9 h-9 mr-2 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-sm items-center justify-center text-white transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            {{-- Frecce sottili ai bordi dello schermo (su telefono si scorre col dito) --}}
+            <button type="button" @click="prev(); start()" aria-label="Slide precedente"
+                    class="hidden md:flex absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 p-2 text-white/80 hover:text-white transition">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button type="button" @click="next(); start()" aria-label="Slide successiva"
+                    class="hidden md:flex absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 p-2 text-white/80 hover:text-white transition">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+
+        {{-- Barra sotto il banner: pausa/riproduci e indicatori a trattino --}}
+        <div class="bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-8 h-12 flex items-center justify-center md:justify-start gap-4">
+                <button type="button" @click="toggle()" class="text-slate-700 hover:text-sky-700 transition"
+                        :aria-label="paused ? 'Riproduci' : 'Metti in pausa'">
+                    <svg x-show="!paused" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>
+                    <svg x-show="paused" style="display: none;" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                 </button>
-                @foreach ($heroSlides as $index => $slide)
-                    <button type="button" @click="go({{ $index }})" aria-label="Vai alla slide {{ $index + 1 }}"
-                            :aria-current="current === {{ $index }} ? 'true' : 'false'"
-                            :class="current === {{ $index }} ? 'w-7 bg-white' : 'w-2.5 bg-white/50 hover:bg-white/80'"
-                            class="h-2.5 rounded-full transition-all duration-300"></button>
-                @endforeach
-                <button type="button" @click="next(); restart()" aria-label="Slide successiva"
-                        class="hidden sm:flex w-9 h-9 ml-2 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-sm items-center justify-center text-white transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </button>
+                <div class="flex items-center gap-2">
+                    @foreach ($heroSlides as $index => $slide)
+                        <button type="button" @click="go({{ $index }})" aria-label="Vai alla slide {{ $index + 1 }}: {{ $slide['title'] }}"
+                                :aria-current="current === {{ $index }} ? 'true' : 'false'"
+                                class="h-1.5 w-10 rounded-full transition-colors duration-300 {{ $index === 0 ? 'bg-sky-600' : 'bg-slate-300' }}"
+                                :class="current === {{ $index }} ? '!bg-sky-600' : '!bg-slate-300 hover:!bg-slate-400'"></button>
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>
+@endsection
 
+@section('content')
     {{-- ULTIME NEWS --}}
-    <section class="mb-12 mt-12 md:mt-16">
+    <section class="mb-12">
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Ultime news</h2>
