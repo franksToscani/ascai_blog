@@ -94,7 +94,7 @@
                             <div class="bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-bold">
                                 NEWS
                             </div>
-                            <time class="text-xs text-slate-500 font-medium">{{ $post->created_at->format('d M Y') }}</time>
+                            <time class="text-xs text-slate-500 font-medium">{{ $post->created_at->translatedFormat('d M Y') }}</time>
                         </div>
                         
                         <h2 class="text-xl font-bold mb-3 line-clamp-2">

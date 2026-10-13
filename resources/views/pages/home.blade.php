@@ -27,153 +27,138 @@
 
 @section('content')
     {{-- HERO SLIDER --}}
-    <section class="mt-10 md:mt-12 relative" x-data="{
-        currentSlide: 0, 
-        slides: [
-            {
-                background: @if(file_exists(public_path('images/banner0.jpg'))) '{{ asset('images/banner0.jpg') }}' @else 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' @endif,
-                title: 'Benvenuti in AS.CA.I Bologna',
-                subtitle: 'Associazione dei Camerunesi in Italia - Sezione di Bologna',
-                description: 'Costruiamo ponti tra culture, promuoviamo l\'integrazione e sosteniamo la comunità camerunense a Bologna.',
-                cta: 'Scopri chi siamo',
-                ctaLink: '{{ route('chi-siamo') }}'
-            },
-            {
-                background: @if(file_exists(public_path('images/banner1.jpg'))) '{{ asset('images/banner1.jpg') }}' @else 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' @endif,
-                title: 'Eventi e Attività',
-                subtitle: 'Partecipa alle nostre iniziative',
-                description: 'Organizziamo eventi culturali, workshop e attività ricreative per tutta la comunità.',
-                cta: 'Vedi gli eventi',
-                ctaLink: '{{ route('eventi.index') }}'
-            },
-            {
-                background: @if(file_exists(public_path('images/banner2.jpg'))) '{{ asset('images/banner2.jpg') }}' @else 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' @endif,
-                title: 'Unisciti a Noi',
-                subtitle: 'Diventa parte della famiglia AS.CA.I Bologna',
-                description: 'Sostieni la nostra missione e contribuisci a creare una comunità più inclusiva e solidale.',
-                cta: 'Contattaci',
-                ctaLink: '{{ route('contatti') }}'
-            },
-            {
-                background: @if(file_exists(public_path('images/banner3.jpg'))) '{{ asset('images/banner3.jpg') }}' @else 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)' @endif,
-                title: 'Calendario Eventi 2025',
-                subtitle: 'Scopri tutti gli eventi in programma',
-                description: 'Partecipa ai nostri eventi culturali, formativi e ricreativi. Resta aggiornato su tutte le iniziative della comunità AS.CA.I Bologna.',
-                cta: 'Vedi il calendario',
-                ctaLink: '{{ route('eventi.index') }}'
-            }
-        ],
-        autoplay: null,
-        init() {
-            this.startAutoplay();
-        },
-        startAutoplay() {
-            this.autoplay = setInterval(() => {
-                this.next();
-            }, 5000);
-        },
-        stopAutoplay() {
-            clearInterval(this.autoplay);
-        },
-        next() {
-            this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-        },
-        prev() {
-            this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-        },
-        goToSlide(index) {
-            this.currentSlide = index;
-            this.stopAutoplay();
-            this.startAutoplay();
+    @php
+        $heroSlides = [
+            [
+                'image' => 'images/banner0.jpg',
+                'fallback' => 'linear-gradient(135deg, #0369a1 0%, #0f172a 100%)',
+                'subtitle' => 'Associazione dei Camerunesi in Italia - Sezione di Bologna',
+                'title' => 'Benvenuti in AS.CA.I Bologna',
+                'description' => "Costruiamo ponti tra culture, promuoviamo l'integrazione e sosteniamo la comunità camerunense a Bologna.",
+                'cta' => 'Scopri chi siamo',
+                'link' => route('chi-siamo'),
+            ],
+            [
+                'image' => 'images/banner1.jpg',
+                'fallback' => 'linear-gradient(135deg, #15803d 0%, #0f172a 100%)',
+                'subtitle' => 'Partecipa alle nostre iniziative',
+                'title' => 'Eventi e attività',
+                'description' => 'Organizziamo eventi culturali, workshop e attività ricreative per tutta la comunità.',
+                'cta' => 'Vedi gli eventi',
+                'link' => route('eventi.index'),
+            ],
+            [
+                'image' => 'images/banner2.jpg',
+                'fallback' => 'linear-gradient(135deg, #b91c1c 0%, #0f172a 100%)',
+                'subtitle' => 'Diventa parte della famiglia AS.CA.I Bologna',
+                'title' => 'Unisciti a noi',
+                'description' => 'Sostieni la nostra missione e contribuisci a creare una comunità più inclusiva e solidale.',
+                'cta' => 'Diventa socio',
+                'link' => route('associati'),
+            ],
+            [
+                'image' => 'images/banner3.jpg',
+                'fallback' => 'linear-gradient(135deg, #a16207 0%, #0f172a 100%)',
+                'subtitle' => 'Scopri tutti gli eventi in programma',
+                'title' => 'Calendario eventi',
+                'description' => 'Resta aggiornato sulle iniziative culturali, formative e ricreative della comunità AS.CA.I Bologna.',
+                'cta' => 'Vedi il calendario',
+                'link' => route('eventi.index'),
+            ],
+        ];
+
+        foreach ($heroSlides as &$slide) {
+            $slide['background'] = file_exists(public_path($slide['image']))
+                ? "background-image: url('" . asset($slide['image']) . "')"
+                : 'background: ' . $slide['fallback'];
         }
-    }">
-        <div class="relative h-[380px] overflow-hidden shadow-2xl">
-            <!-- Slides -->
-            <template x-for="(slide, index) in slides" :key="index">
-                <div x-show="currentSlide === index"
-                    x-transition:enter="transition ease-out duration-500"
-                    x-transition:enter-start="opacity-0 transform translate-x-full"
-                    x-transition:enter-end="opacity-100 transform translate-x-0"
-                    x-transition:leave="transition ease-in duration-500"
-                    x-transition:leave-start="opacity-100 transform translate-x-0"
-                    x-transition:leave-end="opacity-0 transform -translate-x-full"
-                    class="absolute inset-0">
-                    
-                    <!-- Background Image or Gradient Fallback -->
-                    <div class="absolute inset-0 bg-cover bg-center" 
-                        :style="slide.background.startsWith('linear-gradient') ? 
-                                `background: ${slide.background};` : 
-                                `background-image: url('${slide.background}');`">
-                        <!-- Dark Overlay for Text Readability -->
-                        <div class="absolute inset-0 bg-black/50"></div>
-                    </div>
+        unset($slide);
+    @endphp
 
-                    <!-- Content -->
-                    <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-                        <div class="grid lg:grid-cols-2 gap-12 items-center w-full">
-                            <!-- Text Content -->
-                            <div class="text-white space-y-6" 
-                                x-show="currentSlide === index"
-                                x-transition:enter="transition ease-out duration-700 delay-300"
-                                x-transition:enter-start="opacity-0 transform -translate-y-4"
-                                x-transition:enter-end="opacity-100 transform translate-y-0">
-                                
-                                <div class="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold mb-2">
-                                    <span x-text="slide.subtitle"></span>
-                                </div>
-                                
-                                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-                                    <span x-text="slide.title"></span>
-                                </h1>
-                                
-                                <p class="text-lg md:text-xl text-blue-100 leading-relaxed max-w-xl">
-                                    <span x-text="slide.description"></span>
-                                </p>
-                                
-                                <a :href="slide.ctaLink" 
-                                class="inline-flex items-center gap-2 px-8 py-4 bg-white text-sky-700 rounded-xl font-bold text-lg hover:bg-sky-50 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-                                    <span x-text="slide.cta"></span>
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                    </svg>
-                                </a>
-                            </div>
+    <section class="relative -mt-2 md:mt-0"
+             aria-roledescription="carousel" aria-label="In evidenza"
+             x-data="{
+                current: 0,
+                total: {{ count($heroSlides) }},
+                timer: null,
+                touchStartX: null,
+                // Niente scorrimento automatico per chi ha chiesto meno animazioni nel sistema
+                reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+                start() { if (!this.reducedMotion) this.timer = setInterval(() => this.next(), 6000) },
+                stop() { clearInterval(this.timer) },
+                restart() { this.stop(); this.start() },
+                next() { this.current = (this.current + 1) % this.total },
+                prev() { this.current = (this.current - 1 + this.total) % this.total },
+                go(index) { this.current = index; this.restart() },
+                swipeEnd(event) {
+                    if (this.touchStartX === null) return;
+                    const distance = event.changedTouches[0].clientX - this.touchStartX;
+                    if (Math.abs(distance) > 50) { distance < 0 ? this.next() : this.prev(); this.restart(); }
+                    this.touchStartX = null;
+                },
+             }"
+             x-init="start()"
+             @mouseenter="stop()" @mouseleave="start()"
+             @touchstart.passive="touchStartX = $event.changedTouches[0].clientX"
+             @touchend="swipeEnd($event)">
 
-                            <!-- Image/Logo -->
-                            <div class="hidden lg:flex items-center justify-center"
-                                x-show="currentSlide === index"
-                                x-transition:enter="transition ease-out duration-700 delay-500"
-                                x-transition:enter-start="opacity-0 transform translate-x-8"
-                                x-transition:enter-end="opacity-100 transform translate-x-0">
-                                <!-- Logo is hidden since background images are full-width -->
-                            </div>
+        <div class="relative h-[460px] sm:h-[420px] lg:h-[440px] overflow-hidden rounded-2xl shadow-xl bg-slate-900">
+            @foreach ($heroSlides as $index => $slide)
+                <div x-show="current === {{ $index }}"
+                     x-transition:enter="transition-opacity ease-out duration-700"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition-opacity ease-in duration-500"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     class="absolute inset-0"
+                     role="group" aria-roledescription="slide" aria-label="{{ $index + 1 }} di {{ count($heroSlides) }}"
+                     @if ($index > 0) style="display: none;" @endif>
+
+                    <div class="absolute inset-0 bg-cover bg-center" style="{{ $slide['background'] }}"></div>
+                    {{-- Sfumatura dal basso (e da sinistra su schermi larghi): il testo resta leggibile su qualsiasi foto --}}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/10"></div>
+                    <div class="absolute inset-0 hidden md:block bg-gradient-to-r from-black/50 to-transparent"></div>
+
+                    <div class="relative h-full flex items-end">
+                        <div class="w-full px-6 pb-14 sm:px-10 sm:pb-12 lg:px-14 lg:pb-14 max-w-3xl text-white">
+                            <p class="inline-block px-3 py-1 mb-3 rounded-full bg-white/15 backdrop-blur-sm text-xs sm:text-sm font-semibold">
+                                {{ $slide['subtitle'] }}
+                            </p>
+                            @if ($index === 0)
+                                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight drop-shadow">{{ $slide['title'] }}</h1>
+                            @else
+                                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight drop-shadow">{{ $slide['title'] }}</h2>
+                            @endif
+                            <p class="mt-3 text-base sm:text-lg text-white/90 leading-relaxed line-clamp-4 sm:line-clamp-3">{{ $slide['description'] }}</p>
+                            <a href="{{ $slide['link'] }}"
+                               class="mt-5 inline-flex items-center gap-2 px-6 py-3 bg-white text-sky-800 rounded-xl font-bold hover:bg-sky-50 hover:shadow-lg transition">
+                                {{ $slide['cta'] }}
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </template>
+            @endforeach
 
-            <!-- Navigation Arrows -->
-            <button @click="prev(); stopAutoplay(); startAutoplay();" 
-                    class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-            </button>
-            <button @click="next(); stopAutoplay(); startAutoplay();" 
-                    class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </button>
-
-            <!-- Dots Indicator -->
-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                <template x-for="(slide, index) in slides" :key="index">
-                    <button @click="goToSlide(index)" 
-                            :class="currentSlide === index ? 'w-8 bg-white' : 'w-3 bg-white/50 hover:bg-white/75'"
-                            class="h-3 rounded-full transition-all duration-300">
-                    </button>
-                </template>
+            {{-- Controlli: pallini al centro in basso, frecce in basso a destra (su telefono si scorre col dito) --}}
+            <div class="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2 sm:justify-end sm:right-6 sm:left-auto">
+                <button type="button" @click="prev(); restart()" aria-label="Slide precedente"
+                        class="hidden sm:flex w-9 h-9 mr-2 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-sm items-center justify-center text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                @foreach ($heroSlides as $index => $slide)
+                    <button type="button" @click="go({{ $index }})" aria-label="Vai alla slide {{ $index + 1 }}"
+                            :aria-current="current === {{ $index }} ? 'true' : 'false'"
+                            :class="current === {{ $index }} ? 'w-7 bg-white' : 'w-2.5 bg-white/50 hover:bg-white/80'"
+                            class="h-2.5 rounded-full transition-all duration-300"></button>
+                @endforeach
+                <button type="button" @click="next(); restart()" aria-label="Slide successiva"
+                        class="hidden sm:flex w-9 h-9 ml-2 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-sm items-center justify-center text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
             </div>
         </div>
     </section>
@@ -203,7 +188,7 @@
                             <div class="bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-semibold">
                                 News
                             </div>
-                            <time class="text-xs text-slate-500 font-medium">{{ $post->created_at->format('d M Y') }}</time>
+                            <time class="text-xs text-slate-500 font-medium">{{ $post->created_at->translatedFormat('d M Y') }}</time>
                         </div>
                         <h3 class="font-bold text-lg mb-3 line-clamp-2">
                             <a href="{{ route('posts.show', $post) }}" class="text-slate-800 group-hover:text-sky-700 transition-colors">
@@ -252,7 +237,7 @@
                             <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                 Evento
                             </div>
-                            <time class="text-xs text-slate-500 font-medium">{{ $event->starts_at->format('d M Y') }}</time>
+                            <time class="text-xs text-slate-500 font-medium">{{ $event->starts_at->translatedFormat('d M Y') }}</time>
                         </div>
                         <h3 class="font-bold text-lg mb-3 line-clamp-2">
                             <a href="{{ route('eventi.show', $event) }}" class="text-slate-800 group-hover:text-green-700 transition-colors">
@@ -311,10 +296,13 @@
                             alt="{{ $photo->title ?? 'Foto galleria' }}"
                             loading="lazy"
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-3">
-                            <p class="text-white text-sm font-semibold line-clamp-1">{{ $photo->title ?? 'Foto' }}</p>
-                        </div>
+                        @if ($photo->title)
+                            {{-- Titolo visibile al passaggio del mouse, sopra una sfumatura scura che lo rende leggibile --}}
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white text-sm font-semibold line-clamp-1">{{ $photo->title }}</p>
+                            </div>
+                        @endif
                     </a>
                 @endforeach
             </div>

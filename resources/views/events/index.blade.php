@@ -90,7 +90,7 @@
                                 <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
                                     PROSSIMO
                                 </div>
-                                <time class="text-xs text-slate-500 font-medium">{{ $event->starts_at->format('d M Y') }}</time>
+                                <time class="text-xs text-slate-500 font-medium">{{ $event->starts_at->translatedFormat('d M Y') }}</time>
                             </div>
                             
                             <h3 class="text-xl font-bold mb-3 line-clamp-2">
@@ -181,7 +181,7 @@
                                     <div class="bg-slate-200 text-slate-600 px-2 py-1 rounded text-xs font-semibold">
                                         CONCLUSO
                                     </div>
-                                    <time class="text-xs text-slate-500">{{ $event->starts_at->format('d M Y') }}</time>
+                                    <time class="text-xs text-slate-500">{{ $event->starts_at->translatedFormat('d M Y') }}</time>
                                 </div>
                                 <h3 class="font-bold text-slate-700 mb-1">
                                     <a href="{{ route('eventi.show', $event) }}" class="hover:text-green-700 transition-colors">

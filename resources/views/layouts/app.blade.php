@@ -8,7 +8,7 @@
         <meta name="copyright" content="© {{ date('Y') }} ASCAI Bologna. Sviluppato da Franks Toscani.">
         <meta name="robots" content="noindex, nofollow">
 
-        <title>@yield('title', config('app.name', 'Laravel'))</title>
+        <title>@yield('title', 'Pannello admin') - {{ config('app.name') }}</title>
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" sizes="64x64" href="{{ asset('images/favicon-64.png') }}">

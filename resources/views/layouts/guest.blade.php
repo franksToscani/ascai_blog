@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>Area riservata - {{ config('app.name') }}</title>
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" sizes="64x64" href="{{ asset('images/favicon-64.png') }}" />

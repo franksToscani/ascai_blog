@@ -23,6 +23,8 @@ services:
         value: https://ascai-bo.it
       - key: APP_LOCALE
         value: "it"
+      - key: APP_NAME
+        value: "AS.CA.I Bologna"
       - key: LOG_CHANNEL
         value: "stderr"
       - key: LOG_LEVEL
