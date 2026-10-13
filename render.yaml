@@ -20,6 +20,8 @@ services:
         sync: false
       - key: APP_URL
         value: https://ascai-blog.onrender.com
+      - key: APP_LOCALE
+        value: "it"
       - key: LOG_CHANNEL
         value: "stderr"
       - key: LOG_LEVEL
