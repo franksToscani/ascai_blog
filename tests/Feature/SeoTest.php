@@ -129,6 +129,15 @@ class SeoTest extends TestCase
         $this->assertSame('Evento "speciale" </script><script>alert(1)</script>', $this->jsonLd($html)['headline']);
     }
 
+    public function test_google_verification_tag_appears_only_when_configured(): void
+    {
+        $this->get('/')->assertDontSee('google-site-verification', false);
+
+        config(['services.google.site_verification' => 'codice-di-prova']);
+
+        $this->get('/')->assertSee('<meta name="google-site-verification" content="codice-di-prova">', false);
+    }
+
     public function test_home_has_organization_data(): void
     {
         $data = $this->jsonLd($this->get('/')->assertOk()->getContent());

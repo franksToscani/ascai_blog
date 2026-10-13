@@ -21,6 +21,9 @@
     <meta property="og:description" content="@yield('description', 'AS.CA.I Bologna, Associazione dei Camerunesi a Bologna: comunità, eventi, cultura, supporto e integrazione.')">
     <meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
     <meta name="twitter:card" content="summary_large_image">
+    @if (config('services.google.site_verification'))
+        <meta name="google-site-verification" content="{{ config('services.google.site_verification') }}">
+    @endif
     @stack('meta')
 
     <!-- Favicon -->
